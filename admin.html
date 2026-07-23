@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard Slot | Kalaila Photography</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        body {
+            background: #17110e;
+            color: var(--white);
+            min-height: 100vh;
+        }
+
+        .admin-nav {
+            background: var(--primary-dark);
+            border-bottom: 1px solid var(--border-dark);
+            padding: 18px 0;
+        }
+
+        .admin-nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .admin-logo h2 {
+            font-family: var(--font-serif);
+            font-size: 1.6rem;
+            color: var(--white);
+            display: inline-block;
+        }
+
+        .admin-logo span {
+            font-size: 0.72rem;
+            color: var(--gold-accent);
+            letter-spacing: 2px;
+            margin-left: 10px;
+            text-transform: uppercase;
+        }
+
+        .admin-user-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .btn-admin-logout {
+            background: rgba(231, 76, 60, 0.15);
+            color: #ff6b6b;
+            border: 1px solid #e74c3c;
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .btn-admin-logout:hover {
+            background: #e74c3c;
+            color: #fff;
+        }
+
+        .admin-main {
+            padding: 48px 0;
+        }
+
+        .admin-grid-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 36px;
+        }
+
+        .stat-card-admin {
+            background: rgba(35, 26, 22, 0.8);
+            border: 1px solid var(--border-dark);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .stat-card-admin i {
+            font-size: 2.2rem;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stat-card-admin.booked i {
+            background: rgba(231, 76, 60, 0.15);
+            color: #e74c3c;
+        }
+
+        .stat-card-admin.limited i {
+            background: rgba(241, 196, 15, 0.15);
+            color: #f1c40f;
+        }
+
+        .stat-card-admin.available i {
+            background: rgba(46, 204, 113, 0.15);
+            color: #2ecc71;
+        }
+
+        .stat-info h4 {
+            font-size: 1.8rem;
+            font-family: var(--font-serif);
+            color: var(--white);
+        }
+
+        .stat-info p {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .admin-slot-card {
+            background: rgba(35, 26, 22, 0.9);
+            border: 1px solid var(--border-dark);
+            border-radius: var(--radius-lg);
+            padding: 36px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+        }
+
+        .admin-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 24px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-dark);
+        }
+
+        .admin-card-header h3 {
+            font-family: var(--font-serif);
+            font-size: 1.6rem;
+            color: var(--gold-accent);
+        }
+
+        .admin-notice {
+            background: rgba(212, 163, 89, 0.1);
+            border: 1px solid var(--gold-accent);
+            color: var(--gold-accent);
+            padding: 14px 20px;
+            border-radius: var(--radius-sm);
+            font-size: 0.9rem;
+            margin-bottom: 28px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .calendar-dates-grid-admin {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 12px;
+        }
+
+        .date-chip-admin {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-dark);
+            border-radius: var(--radius-sm);
+            padding: 14px 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+
+        .date-chip-admin:hover {
+            transform: scale(1.04);
+            border-color: var(--gold-accent);
+        }
+
+        .date-chip-admin .day-num {
+            font-weight: 700;
+            font-size: 1.2rem;
+            display: block;
+            margin: 2px 0;
+            color: var(--white);
+        }
+
+        .date-chip-admin .day-name {
+            font-size: 0.72rem;
+            color: rgba(255, 255, 255, 0.5);
+            display: block;
+            text-transform: uppercase;
+        }
+
+        .date-chip-admin .status-badge-admin {
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 50px;
+            display: inline-block;
+            margin-top: 4px;
+        }
+
+        .date-chip-admin.status-available .status-badge-admin {
+            background: rgba(46, 204, 113, 0.2);
+            color: #2ecc71;
+            border: 1px solid #2ecc71;
+        }
+
+        .date-chip-admin.status-limited .status-badge-admin {
+            background: rgba(241, 196, 15, 0.2);
+            color: #f1c40f;
+            border: 1px solid #f1c40f;
+        }
+
+        .date-chip-admin.status-booked {
+            background: rgba(231, 76, 60, 0.15);
+            border-color: #e74c3c;
+        }
+
+        .date-chip-admin.status-booked .status-badge-admin {
+            background: rgba(231, 76, 60, 0.3);
+            color: #ff6b6b;
+            border: 1px solid #e74c3c;
+        }
+
+        .btn-reset-slots {
+            background: rgba(255, 255, 255, 0.08);
+            color: rgba(255, 255, 255, 0.8);
+            border: 1px solid var(--border-dark);
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-reset-slots:hover {
+            background: rgba(255, 255, 255, 0.18);
+            color: var(--white);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Auth Guard Check -->
+    <script>
+        if (sessionStorage.getItem('kalaila_admin_logged_in') !== 'true') {
+            window.location.href = 'admin-login.html';
+        }
+    </script>
+
+    <!-- Admin Navbar -->
+    <nav class="admin-nav">
+        <div class="container admin-nav-container">
+            <div class="admin-logo">
+                <h2>KALAILA</h2>
+                <span>ADMIN PANEL</span>
+            </div>
+            <div class="admin-user-info">
+                <span><i class="fas fa-user-circle" style="color: var(--gold-accent);"></i> Owner/Admin Logged In</span>
+                <a href="availability.html" target="_blank" style="color: var(--gold-accent); font-size: 0.88rem; text-decoration: underline;"><i class="fas fa-external-link-alt"></i> Lihat Halaman Klien</a>
+                <button onclick="logoutAdmin()" class="btn-admin-logout"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Admin Content -->
+    <main class="admin-main">
+        <div class="container">
+
+            <!-- Stats Overview -->
+            <div class="admin-grid-stats">
+                <div class="stat-card-admin booked">
+                    <i class="fas fa-times-circle"></i>
+                    <div class="stat-info">
+                        <h4 id="cntBooked">0</h4>
+                        <p>Tanggal Full Booked</p>
+                    </div>
+                </div>
+
+                <div class="stat-card-admin limited">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <div class="stat-info">
+                        <h4 id="cntLimited">0</h4>
+                        <p>Tanggal Sisa 1 Slot</p>
+                    </div>
+                </div>
+
+                <div class="stat-card-admin available">
+                    <i class="fas fa-check-circle"></i>
+                    <div class="stat-info">
+                        <h4 id="cntAvailable">0</h4>
+                        <p>Tanggal Masih Tersedia</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slot Manager Card -->
+            <div class="admin-slot-card">
+                <div class="admin-card-header">
+                    <h3><i class="far fa-calendar-alt"></i> Pengaturan Ketersediaan Slot Bulan Ini</h3>
+                    <button onclick="resetDefaultSlots()" class="btn-reset-slots">
+                        <i class="fas fa-undo"></i> Reset Ke Default
+                    </button>
+                </div>
+
+                <div class="admin-notice">
+                    <i class="fas fa-mouse-pointer" style="font-size: 1.2rem;"></i>
+                    <span><strong>CARA MENGUBAH TANGGAL:</strong> Klik kotak tanggal mana saja pada kalender di bawah untuk mengganti statusnya: <strong>TERSEDIA ➔ SISA 1 SLOT ➔ FULL BOOKED ➔ TERSEDIA</strong>. Perubahan langsung tersimpan otomatis!</span>
+                </div>
+
+                <!-- Admin Interactive Calendar Grid -->
+                <div class="calendar-dates-grid-admin" id="adminCalendarGrid"></div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        // Slot Data Manager
+        let defaultBooked = [6, 12, 18, 25];
+        let defaultLimited = [7, 19, 26];
+
+        let savedBooked = localStorage.getItem('kalaila_booked_days');
+        let savedLimited = localStorage.getItem('kalaila_limited_days');
+
+        let bookedDays = savedBooked ? JSON.parse(savedBooked) : defaultBooked;
+        let limitedDays = savedLimited ? JSON.parse(savedLimited) : defaultLimited;
+
+        function renderAdminGrid() {
+            const grid = document.getElementById('adminCalendarGrid');
+            if (!grid) return;
+
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = today.getMonth();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const dayNames = ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'];
+
+            let html = '';
+            let cntA = 0, cntL = 0, cntB = 0;
+
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dateObj = new Date(year, month, day);
+                const dayName = dayNames[dateObj.getDay()];
+
+                let statusClass = 'status-available';
+                let badgeText = 'TERSEDIA';
+
+                if (bookedDays.includes(day)) {
+                    statusClass = 'status-booked';
+                    badgeText = 'FULL';
+                    cntB++;
+                } else if (limitedDays.includes(day)) {
+                    statusClass = 'status-limited';
+                    badgeText = 'SISA 1';
+                    cntL++;
+                } else {
+                    cntA++;
+                }
+
+                html += `
+                    <div class="date-chip-admin ${statusClass}" data-day="${day}">
+                        <span class="day-name">${dayName}</span>
+                        <span class="day-num">${day}</span>
+                        <span class="status-badge-admin">${badgeText}</span>
+                    </div>
+                `;
+            }
+
+            grid.innerHTML = html;
+
+            document.getElementById('cntBooked').textContent = cntB;
+            document.getElementById('cntLimited').textContent = cntL;
+            document.getElementById('cntAvailable').textContent = cntA;
+
+            document.querySelectorAll('.date-chip-admin').forEach(chip => {
+                chip.addEventListener('click', function () {
+                    const dayNum = parseInt(this.getAttribute('data-day'));
+
+                    if (bookedDays.includes(dayNum)) {
+                        // Change from Booked to Available
+                        bookedDays = bookedDays.filter(d => d !== dayNum);
+                    } else if (limitedDays.includes(dayNum)) {
+                        // Change from Limited to Booked
+                        limitedDays = limitedDays.filter(d => d !== dayNum);
+                        bookedDays.push(dayNum);
+                    } else {
+                        // Change from Available to Limited
+                        limitedDays.push(dayNum);
+                    }
+
+                    localStorage.setItem('kalaila_booked_days', JSON.stringify(bookedDays));
+                    localStorage.setItem('kalaila_limited_days', JSON.stringify(limitedDays));
+
+                    renderAdminGrid();
+                });
+            });
+        }
+
+        function resetDefaultSlots() {
+            if (confirm('Apakah Anda yakin ingin mengembalikan pengaturan slot ke awal?')) {
+                bookedDays = [6, 12, 18, 25];
+                limitedDays = [7, 19, 26];
+                localStorage.setItem('kalaila_booked_days', JSON.stringify(bookedDays));
+                localStorage.setItem('kalaila_limited_days', JSON.stringify(limitedDays));
+                renderAdminGrid();
+            }
+        }
+
+        function logoutAdmin() {
+            sessionStorage.removeItem('kalaila_admin_logged_in');
+            window.location.href = 'admin-login.html';
+        }
+
+        document.addEventListener('DOMContentLoaded', renderAdminGrid);
+    </script>
+</body>
+</html>

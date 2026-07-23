@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login | Kalaila Photography</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        body {
+            background: var(--primary-dark);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .admin-login-card {
+            background: rgba(35, 26, 22, 0.95);
+            border: 1px solid var(--border-dark);
+            border-radius: var(--radius-lg);
+            padding: 48px;
+            width: 100%;
+            max-width: 440px;
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        .admin-logo h2 {
+            font-family: var(--font-serif);
+            font-size: 2.2rem;
+            color: var(--white);
+            letter-spacing: 2px;
+            margin-bottom: 2px;
+        }
+
+        .admin-logo span {
+            font-size: 0.75rem;
+            color: var(--gold-accent);
+            letter-spacing: 3px;
+            display: block;
+            margin-bottom: 32px;
+        }
+
+        .login-title {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            color: var(--white);
+            margin-bottom: 24px;
+        }
+
+        .form-group-admin {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .form-group-admin label {
+            display: block;
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 0.88rem;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .form-group-admin input {
+            width: 100%;
+            padding: 14px 18px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-dark);
+            border-radius: var(--radius-md);
+            color: var(--white);
+            font-size: 0.95rem;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .form-group-admin input:focus {
+            border-color: var(--gold-accent);
+            background: rgba(212, 163, 89, 0.08);
+            box-shadow: 0 0 0 3px rgba(212, 163, 89, 0.2);
+        }
+
+        .btn-admin-login {
+            width: 100%;
+            padding: 16px;
+            background: var(--accent-color);
+            color: var(--white);
+            border: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 12px;
+        }
+
+        .btn-admin-login:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(200, 109, 81, 0.35);
+        }
+
+        .login-error {
+            background: rgba(231, 76, 60, 0.15);
+            border: 1px solid #e74c3c;
+            color: #ff6b6b;
+            padding: 12px;
+            border-radius: var(--radius-sm);
+            font-size: 0.88rem;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .login-demo-hint {
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-dark);
+            font-size: 0.82rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="admin-login-card">
+        <div class="admin-logo">
+            <h2>KALAILA</h2>
+            <span>PHOTOGRAPHY ADMIN PANEL</span>
+        </div>
+
+        <h3 class="login-title"><i class="fas fa-lock" style="color: var(--gold-accent);"></i> Masuk Ke Portal Admin</h3>
+
+        <div class="login-error" id="loginError">
+            <i class="fas fa-exclamation-circle"></i> Username atau Password salah!
+        </div>
+
+        <form id="adminLoginForm">
+            <div class="form-group-admin">
+                <label for="adminUser"><i class="fas fa-user"></i> Username Admin</label>
+                <input type="text" id="adminUser" placeholder="Masukkan username" required autocomplete="username">
+            </div>
+
+            <div class="form-group-admin">
+                <label for="adminPass"><i class="fas fa-key"></i> Password</label>
+                <input type="password" id="adminPass" placeholder="Masukkan password" required autocomplete="current-password">
+            </div>
+
+            <button type="submit" class="btn-admin-login">
+                <i class="fas fa-sign-in-alt"></i> Masuk Ke Dashboard
+            </button>
+        </form>
+
+        <div class="login-demo-hint">
+            <p><i class="fas fa-info-circle" style="color: var(--gold-accent);"></i> <strong>Akses Admin Demo:</strong></p>
+            <p style="margin-top: 4px;">Username: <strong>admin</strong> | Password: <strong>kalaila123</strong></p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('adminLoginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const user = document.getElementById('adminUser').value;
+            const pass = document.getElementById('adminPass').value;
+            const errorBox = document.getElementById('loginError');
+
+            if (user === 'admin' && pass === 'kalaila123') {
+                sessionStorage.setItem('kalaila_admin_logged_in', 'true');
+                window.location.href = 'admin.html';
+            } else {
+                errorBox.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>

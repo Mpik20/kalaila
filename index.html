@@ -41,8 +41,13 @@
                     <li><a href="index.html" class="active">Beranda</a></li>
                     <li><a href="about.html">Tentang</a></li>
                     <li><a href="portfolio.html">Portofolio</a></li>
-                    <li><a href="availability.html">Cek Jadwal</a></li>
-                    <li><a href="packages.html">Paket & Harga</a></li>
+                    <li class="nav-dropdown">
+                        <a href="#" class="dropdown-toggle">Jadwal & Paket <i class="fas fa-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="availability.html"><i class="far fa-calendar-check"></i> Cek Slot Jadwal</a></li>
+                            <li><a href="packages.html"><i class="fas fa-tags"></i> Paket & Harga</a></li>
+                        </ul>
+                    </li>
                     <li><a href="stories.html">Cerita Klien</a></li>
                     <li><a href="testimonials.html">Testimoni</a></li>
                     <li><a href="faq.html">FAQ</a></li>
@@ -109,7 +114,7 @@
             <div class="section-header text-center">
                 <span class="sub-heading">Kuis Interaktif 10 Detik</span>
                 <h2 class="section-title">Bingung Memilih Konsep & Moodboard Foto?</h2>
-                <p class="section-description">Jawab 3 pertanyaan sederhana untuk menemukan gaya dokumentasi foto dan klaim Voucher Potongan Rp 300.000!</p>
+                <p class="section-description">Jawab 3 pertanyaan sederhana untuk menemukan referensi konsep foto, panduan moodboard kustom, dan paket yang paling sesuai dengan impian Anda!</p>
             </div>
 
             <div class="quiz-card">
@@ -188,18 +193,21 @@
                 <!-- Step 4: Result -->
                 <div class="quiz-step-content" data-step="4">
                     <div class="quiz-result-box">
-                        <span class="quiz-result-badge"><i class="fas fa-gift"></i> Voucher Khusus Anda Siap!</span>
-                        <h3 class="quiz-result-title">Konsep Foto & Moodboard Anda Ditemukan!</h3>
+                        <span class="quiz-result-badge"><i class="fas fa-lightbulb"></i> Solusi & Referensi Konsep Ditemukan!</span>
+                        <h3 class="quiz-result-title">Rekomendasi Panduan Konsep & Moodboard Anda</h3>
                         <div id="quizResultSummary"></div>
 
-                        <div class="voucher-card">
-                            <p style="font-size: 0.9rem; opacity: 0.85;">Gunakan Kode Voucher Khusus Ini Saat Booking:</p>
-                            <div class="voucher-code">KALAILA300K</div>
-                            <p style="font-size: 0.85rem; color: var(--gold-accent);">Potongan Langsung Rp 300.000 + Free Printed Canvas 40x60cm</p>
+                        <div class="solution-card">
+                            <h4 style="color: var(--gold-accent); margin-bottom: 12px; font-size: 1.1rem;"><i class="fas fa-clipboard-check"></i> Panduan Solusi & Referensi Kustom:</h4>
+                            <div style="display: grid; gap: 10px; text-align: left; max-width: 520px; margin: 0 auto; font-size: 0.95rem;">
+                                <div style="display: flex; gap: 10px; align-items: flex-start;"><i class="fas fa-check-circle" style="color: var(--gold-accent); margin-top: 4px;"></i> <span><strong>Panduan Warna & Busana:</strong> Kombinasi outfit yang paling serasi dengan tone foto impian Anda.</span></div>
+                                <div style="display: flex; gap: 10px; align-items: flex-start;"><i class="fas fa-check-circle" style="color: var(--gold-accent); margin-top: 4px;"></i> <span><strong>Referensi Direction & Lighting:</strong> Pengarahan pose candid alami tanpa kaku di lokasi pilihan.</span></div>
+                                <div style="display: flex; gap: 10px; align-items: flex-start;"><i class="fas fa-check-circle" style="color: var(--gold-accent); margin-top: 4px;"></i> <span><strong>PDF Moodboard Kustom:</strong> Katalog inspirasi foto khusus berdasarkan gaya pilihan Anda.</span></div>
+                            </div>
                         </div>
 
                         <button id="btnClaimQuiz" class="cta-button primary" style="font-size: 1.05rem; padding: 16px 36px;">
-                            <i class="fab fa-whatsapp"></i> Klaim Voucher & Konsultasi Moodboard via WA
+                            <i class="fab fa-whatsapp"></i> Dapatkan Panduan Moodboard & Konsultasi Gratis
                         </button>
                     </div>
                 </div>
@@ -285,135 +293,7 @@
         </div>
     </section>
 
-    <!-- Packages Section & Transparancy DP Split Calculator -->
-    <section class="packages-section" id="packages">
-        <div class="container">
-            <div class="section-header text-center">
-                <span class="sub-heading">Investasi Dokumentasi</span>
-                <h2 class="section-title">Pilihan Paket & Transparansi DP 30%</h2>
-                <p class="section-description">Nikmati transparansi biaya tanpa biaya tersembunyi dengan skema cicilan pembayaran yang fleksibel.</p>
-            </div>
 
-            <div class="packages-grid">
-                <!-- Package 1: Essential -->
-                <div class="package-card">
-                    <div class="package-badge">Intimate Choice</div>
-                    <h3 class="package-title">Essential Package</h3>
-                    <p class="package-desc">Cocok untuk acara Akad Nikah / Intimate Wedding / Lamaran.</p>
-                    <div class="package-price">
-                        <span class="currency">Rp</span>
-                        <span class="amount">2.999.000</span>
-                    </div>
-                    <ul class="package-features">
-                        <li><i class="fas fa-check"></i> 1 Main Photographer</li>
-                        <li><i class="fas fa-check"></i> Up to 4-5 Jam Liputan</li>
-                        <li><i class="fas fa-check"></i> All High-Res Edited Files (Cloud)</li>
-                        <li><i class="fas fa-check"></i> 50 Selected Color Graded Photos</li>
-                        <li><i class="fas fa-check"></i> Flashdisk Wooden Box 32GB</li>
-                        <li class="disabled"><i class="fas fa-times"></i> Printed Photo Album</li>
-                    </ul>
-                    <a href="#calculator" class="btn-package select-pkg" data-pkg="Essential Package - Rp 2.999.000">Pilih Paket Ini</a>
-                </div>
-
-                <!-- Package 2: Signature -->
-                <div class="package-card featured">
-                    <div class="package-badge featured-badge"><i class="fas fa-crown"></i> Terfavorit</div>
-                    <h3 class="package-title">Signature Package</h3>
-                    <p class="package-desc">Paket paling diminati untuk dokumentasi lengkap Akad & Resepsi.</p>
-                    <div class="package-price">
-                        <span class="currency">Rp</span>
-                        <span class="amount">4.999.000</span>
-                    </div>
-                    <ul class="package-features">
-                        <li><i class="fas fa-check"></i> 2 Professional Photographers</li>
-                        <li><i class="fas fa-check"></i> 1 Videographer (Cinematic Video)</li>
-                        <li><i class="fas fa-check"></i> Up to 8 Jam Liputan (Akad + Resepsi)</li>
-                        <li><i class="fas fa-check"></i> All Edited Files in Google Drive & USB</li>
-                        <li><i class="fas fa-check"></i> 1 Premium Photobook Album 20x30cm</li>
-                        <li><i class="fas fa-check"></i> 1 Printed Canvas 40x60cm + Frame</li>
-                    </ul>
-                    <a href="#calculator" class="btn-package featured-btn select-pkg" data-pkg="Signature Package - Rp 4.999.000">Pilih Paket Ini</a>
-                </div>
-
-                <!-- Package 3: Royal Luxury -->
-                <div class="package-card">
-                    <div class="package-badge">Full Coverage</div>
-                    <h3 class="package-title">Royal Luxury Package</h3>
-                    <p class="package-desc">Layanan eksklusif tingkat tertinggi untuk pengalaman dokumentasi mewah.</p>
-                    <div class="package-price">
-                        <span class="currency">Rp</span>
-                        <span class="amount">7.999.000</span>
-                    </div>
-                    <ul class="package-features">
-                        <li><i class="fas fa-check"></i> 3 Photographers + 2 Videographers</li>
-                        <li><i class="fas fa-check"></i> Full Day Unlimited Coverage</li>
-                        <li><i class="fas fa-check"></i> Aerial Drone Pilot Video Coverage</li>
-                        <li><i class="fas fa-check"></i> 2 Premium Leather Albums 20x30cm</li>
-                        <li><i class="fas fa-check"></i> 2 Printed Canvas 40x60cm + Luxury Frame</li>
-                    </ul>
-                    <a href="#calculator" class="btn-package select-pkg" data-pkg="Royal Luxury Package - Rp 7.999.000">Pilih Paket Ini</a>
-                </div>
-            </div>
-
-            <!-- Calculator & DP Split Box -->
-            <div class="calculator-box" id="calculator">
-                <div class="calc-header text-center">
-                    <h3><i class="fas fa-calculator"></i> Kalkulator Estimasi & Simulasi Pembayaran DP 30%</h3>
-                    <p>Pilih paket dan add-on untuk melihat skema DP amankan tanggal serta sisa pelunasan H-7 acara.</p>
-                </div>
-                
-                <div class="calc-body">
-                    <div class="calc-column">
-                        <label class="calc-label">Pilih Paket Utama:</label>
-                        <select id="calcBasePackage">
-                            <option value="2999000" data-name="Essential Package">Essential Package - Rp 2.999.000</option>
-                            <option value="4999000" data-name="Signature Package" selected>Signature Package - Rp 4.999.000 (Terfavorit)</option>
-                            <option value="7999000" data-name="Royal Luxury Package">Royal Luxury Package - Rp 7.999.000</option>
-                        </select>
-
-                        <label class="calc-label">Pilih Add-on Tambahan (Opsional):</label>
-                        <div class="addon-list">
-                            <label class="addon-item">
-                                <input type="checkbox" class="addon-checkbox" value="750000" data-name="Drone Aerial Footage">
-                                <span><i class="fas fa-paper-plane"></i> Drone Aerial Video Coverage (+Rp 750.000)</span>
-                            </label>
-                            <label class="addon-item">
-                                <input type="checkbox" class="addon-checkbox" value="1000000" data-name="Same Day Edit Video">
-                                <span><i class="fas fa-film"></i> Same Day Edit (SDE) Video Teaser (+Rp 1.000.000)</span>
-                            </label>
-                            <label class="addon-item">
-                                <input type="checkbox" class="addon-checkbox" value="500000" data-name="Extra Magazine Album">
-                                <span><i class="fas fa-book-open"></i> Tambahan 1 Album Photobook (+Rp 500.000)</span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="calc-column calc-summary-box">
-                        <h4>Ringkasan Biaya & Skema DP</h4>
-                        <div class="summary-details" id="summaryDetails"></div>
-
-                        <div style="background: rgba(255,255,255,0.08); padding: 16px; border-radius: 8px; margin-bottom: 20px;">
-                            <div style="display:flex; justify-content:space-between; margin-bottom: 6px; font-size: 0.95rem;">
-                                <span><i class="fas fa-lock"></i> DP 30% (Amankan Tanggal):</span>
-                                <strong id="dpAmountDisplay" style="color: var(--gold-accent);">Rp 1.499.700</strong>
-                            </div>
-                            <div style="display:flex; justify-content:space-between; font-size: 0.95rem; opacity: 0.85;">
-                                <span>Pelunasan 70% (H-7 Acara):</span>
-                                <span id="finalAmountDisplay">Rp 3.499.300</span>
-                            </div>
-                        </div>
-
-                        <div class="summary-total">
-                            <span>Total Investasi:</span>
-                            <span id="calcTotalDisplay">Rp 4.999.000</span>
-                        </div>
-
-                        <button class="btn-send-calc" id="btnSendCalc"><i class="fab fa-whatsapp"></i> Konsultasi & Amankan DP via WA</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <!-- Virtual Photobook Album Showcase Section -->
     <section class="album-showcase-section" id="albums">

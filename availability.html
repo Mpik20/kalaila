@@ -40,8 +40,13 @@
                     <li><a href="index.html">Beranda</a></li>
                     <li><a href="about.html">Tentang</a></li>
                     <li><a href="portfolio.html">Portofolio</a></li>
-                    <li><a href="availability.html" class="active">Cek Jadwal</a></li>
-                    <li><a href="packages.html">Paket & Harga</a></li>
+                    <li class="nav-dropdown active">
+                        <a href="#" class="dropdown-toggle active">Jadwal & Paket <i class="fas fa-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="availability.html" class="active"><i class="far fa-calendar-check"></i> Cek Slot Jadwal</a></li>
+                            <li><a href="packages.html"><i class="fas fa-tags"></i> Paket & Harga</a></li>
+                        </ul>
+                    </li>
                     <li><a href="stories.html">Cerita Klien</a></li>
                     <li><a href="testimonials.html">Testimoni</a></li>
                     <li><a href="faq.html">FAQ</a></li>
@@ -100,6 +105,23 @@
                 </form>
 
                 <div class="availability-result" id="availabilityResult"></div>
+
+                <!-- Monthly Calendar Availability Legend & Overview -->
+                <div class="calendar-status-overview">
+                    <div class="calendar-status-header">
+                        <h3><i class="far fa-calendar-alt"></i> Kalender Ringkasan Slot Bulan Ini</h3>
+                        <div class="calendar-legend">
+                            <span class="legend-item available"><i class="fas fa-circle"></i> Tersedia</span>
+                            <span class="legend-item limited"><i class="fas fa-circle"></i> Sisa 1 Slot</span>
+                            <span class="legend-item booked"><i class="fas fa-circle"></i> Full Booked</span>
+                            <a href="admin.html" class="btn-admin-slot">
+                                <i class="fas fa-user-shield"></i> Portal Admin Slot
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="calendar-dates-grid" id="calendarDatesGrid"></div>
+                </div>
             </div>
         </div>
     </section>

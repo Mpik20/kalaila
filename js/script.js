@@ -120,15 +120,18 @@ document.addEventListener('DOMContentLoaded', () => {
             const quizResultSummary = document.getElementById('quizResultSummary');
             if (quizResultSummary) {
                 quizResultSummary.innerHTML = `
-                    <p style="font-size: 1.05rem; margin-bottom: 12px; color: var(--primary-color);">
-                        Rekomendasi Konsep Foto Anda: <strong>${quizData.event}</strong> dengan Nuansa <strong>${quizData.tone}</strong> di <strong>${quizData.location}</strong>.
+                    <p style="font-size: 1.05rem; margin-bottom: 16px; color: var(--primary-color); line-height: 1.6;">
+                        Berdasarkan kuis, solusi konsep foto ideal Anda adalah <strong>${quizData.event}</strong> dengan nuansa <strong>${quizData.tone}</strong> di lokasi <strong>${quizData.location}</strong>.
                     </p>
                 `;
             }
 
             if (btnClaimQuiz) {
-                const message = `Halo Kalaila Photography, saya telah mengisi Kuis Concept Matcher:\n- Acara: ${quizData.event}\n- Tone Foto: ${quizData.tone}\n- Lokasi: ${quizData.location}\n\nSaya ingin mengklaim Voucher Cashback Rp 300.000 (Kode: KALAILA300K) dan konsultasi moodboard!`;
+                const message = `Halo Kalaila Photography, saya telah mengisi Kuis Solusi Konsep Foto:\n- Acara: ${quizData.event}\n- Tone Foto: ${quizData.tone}\n- Lokasi: ${quizData.location}\n\nSaya ingin mendapatkan Panduan PDF Moodboard & Referensi Konsep Kustom beserta konsultasi gratis!`;
                 btnClaimQuiz.onclick = () => {
+                    if (typeof window.showBookingToast === 'function') {
+                        window.showBookingToast('Konsep Foto Terkonfirmasi!', `${quizData.event} • ${quizData.tone}`, 'Menghubungkan ke WA Admin');
+                    }
                     window.open(`https://wa.me/6282318928400?text=${encodeURIComponent(message)}`, '_blank');
                 };
             }
@@ -168,45 +171,26 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ========== RECENT CLIENT BOOKING TOAST NOTIFICATIONS ==========
-    const recentBookings = [
-        { name: 'Rian & Maya', event: 'Signature Package • Bandung', time: '8 menit lalu' },
-        { name: 'Fikri & Annisa', event: 'Royal Luxury Package • Jakarta', time: '18 menit lalu' },
-        { name: 'Dion & Bella', event: 'Prewedding Outdoor • Ciwidey', time: '35 menit lalu' },
-        { name: 'Bagas & Clara', event: 'Essential Package • Cimahi', time: '1 jam lalu' }
-    ];
-
+    // ========== REAL-TIME ACTION BOOKING TOAST NOTIFICATION ==========
     const bookingToast = document.getElementById('bookingToast');
     const toastName = document.getElementById('toastName');
     const toastEvent = document.getElementById('toastEvent');
     const toastTime = document.getElementById('toastTime');
 
-    if (bookingToast && toastName && toastEvent && toastTime) {
-        let toastIdx = 0;
-
-        function showNextToast() {
-            const booking = recentBookings[toastIdx];
-            toastName.textContent = `${booking.name} baru mengamankan slot!`;
-            toastEvent.textContent = booking.event;
-            toastTime.textContent = booking.time;
+    window.showBookingToast = function(title, eventDetail, timeText = 'Baru saja terkonfirmasi') {
+        if (bookingToast && toastName && toastEvent && toastTime) {
+            toastName.textContent = title;
+            toastEvent.textContent = eventDetail;
+            toastTime.textContent = timeText;
 
             bookingToast.classList.add('show');
-
             setTimeout(() => {
                 bookingToast.classList.remove('show');
-            }, 4500);
-
-            toastIdx = (toastIdx + 1) % recentBookings.length;
+            }, 5000);
         }
+    };
 
-        // Show first toast after 4 seconds, then repeat every 12 seconds
-        setTimeout(() => {
-            showNextToast();
-            setInterval(showNextToast, 12000);
-        }, 4000);
-    }
-
-    // ========== MOBILE MENU TOGGLE ==========
+    // ========== MOBILE MENU TOGGLE & DROPDOWN ==========
     const hamburger = document.querySelector('.hamburger');
     const navMenu = document.querySelector('.nav-menu');
 
@@ -216,13 +200,31 @@ document.addEventListener('DOMContentLoaded', () => {
             navMenu.classList.toggle('active');
         });
 
-        document.querySelectorAll('.nav-menu a').forEach(link => {
+        document.querySelectorAll('.nav-menu a:not(.dropdown-toggle)').forEach(link => {
             link.addEventListener('click', () => {
                 hamburger.classList.remove('active');
                 navMenu.classList.remove('active');
             });
         });
     }
+
+    const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+    dropdownToggles.forEach(toggle => {
+        toggle.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            const parent = this.closest('.nav-dropdown');
+            if (parent) {
+                parent.classList.toggle('open');
+            }
+        });
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.nav-dropdown')) {
+            document.querySelectorAll('.nav-dropdown').forEach(d => d.classList.remove('open'));
+        }
+    });
 
     // ========== NAVBAR BACKGROUND ON SCROLL ==========
     const navbar = document.querySelector('.navbar');
@@ -336,9 +338,123 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // ========== AVAILABILITY DATE CHECKER ==========
+    // ========== AVAILABILITY DATE CHECKER & CALENDAR OVERVIEW ==========
     const availabilityForm = document.getElementById('availabilityForm');
     const availabilityResult = document.getElementById('availabilityResult');
+    const calendarDatesGrid = document.getElementById('calendarDatesGrid');
+    const toggleAdminSlotBtn = document.getElementById('toggleAdminSlotMode');
+
+    // =========================================================================
+    // KALAILA PHOTOGRAPHY - PENGATURAN TANGGAL FULL BOOKED & SLOT TERBATAS
+    // Anda bisa mengubah angka tanggal (1-31) di bawah ini secara manual:
+    // =========================================================================
+    let defaultBooked = [6, 12, 18, 25];  // Angka tanggal yang Full Booked
+    let defaultLimited = [7, 19, 26];    // Angka tanggal yang Sisa 1 Slot
+
+    // Ambil data dari penyimpanan browser (jika ada editan dari tombol Admin)
+    let savedBooked = localStorage.getItem('kalaila_booked_days');
+    let savedLimited = localStorage.getItem('kalaila_limited_days');
+
+    let bookedDays = savedBooked ? JSON.parse(savedBooked) : defaultBooked;
+    let limitedDays = savedLimited ? JSON.parse(savedLimited) : defaultLimited;
+
+    let isAdminSlotMode = false;
+
+    function renderCalendarGrid() {
+        if (!calendarDatesGrid) return;
+
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = today.getMonth();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        const dayNames = ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'];
+
+        let gridHTML = '';
+        for (let day = 1; day <= daysInMonth; day++) {
+            const dateObj = new Date(year, month, day);
+            const dayName = dayNames[dateObj.getDay()];
+
+            let statusClass = 'status-available';
+            let badgeText = 'TERSEDIA';
+
+            if (bookedDays.includes(day)) {
+                statusClass = 'status-booked';
+                badgeText = 'FULL';
+            } else if (limitedDays.includes(day)) {
+                statusClass = 'status-limited';
+                badgeText = 'SISA 1';
+            }
+
+            const formattedDateISO = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+
+            gridHTML += `
+                <div class="date-chip ${statusClass}" data-day="${day}" data-date="${formattedDateISO}">
+                    <span class="day-name">${dayName}</span>
+                    <span class="day-num">${day}</span>
+                    <span class="status-badge">${badgeText}</span>
+                </div>
+            `;
+        }
+        calendarDatesGrid.innerHTML = gridHTML;
+
+        // Click date chip listener
+        document.querySelectorAll('.date-chip').forEach(chip => {
+            chip.addEventListener('click', function () {
+                const dayNum = parseInt(this.getAttribute('data-day'));
+                const selectedISO = this.getAttribute('data-date');
+
+                if (isAdminSlotMode) {
+                    // Rotate status: Available -> Limited -> Booked -> Available
+                    if (bookedDays.includes(dayNum)) {
+                        // Change from Booked to Available
+                        bookedDays = bookedDays.filter(d => d !== dayNum);
+                    } else if (limitedDays.includes(dayNum)) {
+                        // Change from Limited to Booked
+                        limitedDays = limitedDays.filter(d => d !== dayNum);
+                        bookedDays.push(dayNum);
+                    } else {
+                        // Change from Available to Limited
+                        limitedDays.push(dayNum);
+                    }
+
+                    // Save to localStorage
+                    localStorage.setItem('kalaila_booked_days', JSON.stringify(bookedDays));
+                    localStorage.setItem('kalaila_limited_days', JSON.stringify(limitedDays));
+
+                    // Re-render
+                    renderCalendarGrid();
+
+                    if (typeof window.showBookingToast === 'function') {
+                        window.showBookingToast('Status Slot Diperbarui!', `Tanggal ${dayNum} berhasil diubah statusnya`, 'Disimpan di browser');
+                    }
+                } else {
+                    // Client Mode: Autofill date input
+                    const eventDateInput = document.getElementById('eventDate');
+                    if (eventDateInput && selectedISO) {
+                        eventDateInput.value = selectedISO;
+                        eventDateInput.focus();
+                    }
+                }
+            });
+        });
+    }
+
+    if (calendarDatesGrid) {
+        renderCalendarGrid();
+    }
+
+    if (toggleAdminSlotBtn) {
+        toggleAdminSlotBtn.addEventListener('click', () => {
+            isAdminSlotMode = !isAdminSlotMode;
+            toggleAdminSlotBtn.classList.toggle('active', isAdminSlotMode);
+            if (isAdminSlotMode) {
+                toggleAdminSlotBtn.innerHTML = `<i class="fas fa-check-circle"></i> Mode Edit AKTIF (Klik Tanggal)`;
+                alert('MODE EDIT ADMIN AKTIF!\n\nKlik tanggal mana saja pada kalender untuk mengubah statusnya:\nTERSEDIA -> SISA 1 SLOT -> FULL BOOKED -> TERSEDIA.');
+            } else {
+                toggleAdminSlotBtn.innerHTML = `<i class="fas fa-edit"></i> Edit Status Tanggal`;
+            }
+        });
+    }
 
     if (availabilityForm && availabilityResult) {
         availabilityForm.addEventListener('submit', (e) => {
@@ -352,29 +468,61 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            const formattedDate = new Date(dateVal).toLocaleDateString('id-ID', {
+            const inputDate = new Date(dateVal);
+            const dayNumber = inputDate.getDate();
+            const formattedDate = inputDate.toLocaleDateString('id-ID', {
                 weekday: 'long',
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric'
             });
 
-            availabilityResult.className = 'availability-result success';
-            availabilityResult.innerHTML = `
-                <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
-                    <div>
-                        <span style="font-size: 1.1rem; color: #2ecc71;"><i class="fas fa-check-circle"></i> Slot Masih Tersedia!</span>
-                        <p style="font-weight: 400; font-size: 0.92rem; margin-top: 4px; color: #fff;">
-                            Kabar baik! Tanggal <strong>${formattedDate}</strong> di <strong>${cityVal}</strong> untuk <strong>${typeVal}</strong> masih buka untuk booking.
-                        </p>
+            // Check if date is full booked
+            const isBooked = bookedDays.includes(dayNumber);
+
+            if (isBooked) {
+                if (typeof window.showBookingToast === 'function') {
+                    window.showBookingToast('Pengecekan Slot: FULL BOOKED', `${formattedDate}`, 'Slot Liputan Terisi Penuh');
+                }
+
+                availabilityResult.className = 'availability-result error';
+                availabilityResult.innerHTML = `
+                    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+                        <div>
+                            <span style="font-size: 1.1rem; color: #e74c3c;"><i class="fas fa-times-circle"></i> Slot Terisi Penuh (Full Booked)!</span>
+                            <p style="font-weight: 400; font-size: 0.92rem; margin-top: 4px; color: #fff;">
+                                Mohon maaf, pada tanggal <strong>${formattedDate}</strong> di <strong>${cityVal}</strong> slot tim liputan Kalaila Photography sudah <strong>TERISI PENUH</strong>.
+                            </p>
+                        </div>
+                        <a href="https://wa.me/6282318928400?text=${encodeURIComponent(`Halo Kalaila Photography, saya telah mengecek ketersediaan tanggal ${formattedDate} di ${cityVal} dan hasilnya Full Booked. Bisakah konsultasi tanggal alternatif?`)}" 
+                           target="_blank" 
+                           style="background: var(--gold-accent); color: var(--primary-color); text-decoration: none; padding: 10px 20px; border-radius: 8px; font-weight: 700; font-size: 0.88rem;">
+                           <i class="fab fa-whatsapp"></i> Tanya Tanggal Alternatif via WA
+                        </a>
                     </div>
-                    <a href="https://wa.me/6282318928400?text=${encodeURIComponent(`Halo Kalaila Photography, saya telah mengecek ketersediaan tanggal ${formattedDate} di ${cityVal} untuk ${typeVal} dan statusnya tersedia. Saya ingin mengamankan slot ini!`)}" 
-                       target="_blank" 
-                       style="background: #25d366; color: #fff; text-decoration: none; padding: 10px 20px; border-radius: 8px; font-weight: 700; font-size: 0.88rem;">
-                       <i class="fab fa-whatsapp"></i> Amankan Slot Sekarang
-                    </a>
-                </div>
-            `;
+                `;
+            } else {
+                if (typeof window.showBookingToast === 'function') {
+                    window.showBookingToast('Pengecekan Slot Terverifikasi!', `${typeVal} • ${cityVal}`, 'Slot Tersedia untuk Booking');
+                }
+
+                availabilityResult.className = 'availability-result success';
+                availabilityResult.innerHTML = `
+                    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+                        <div>
+                            <span style="font-size: 1.1rem; color: #2ecc71;"><i class="fas fa-check-circle"></i> Slot Masih Tersedia!</span>
+                            <p style="font-weight: 400; font-size: 0.92rem; margin-top: 4px; color: #fff;">
+                                Kabar baik! Tanggal <strong>${formattedDate}</strong> di <strong>${cityVal}</strong> untuk <strong>${typeVal}</strong> masih buka untuk booking.
+                            </p>
+                        </div>
+                        <a href="https://wa.me/6282318928400?text=${encodeURIComponent(`Halo Kalaila Photography, saya telah mengecek ketersediaan tanggal ${formattedDate} di ${cityVal} untuk ${typeVal} dan statusnya tersedia. Saya ingin mengamankan slot ini!`)}" 
+                           target="_blank" 
+                           style="background: #25d366; color: #fff; text-decoration: none; padding: 10px 20px; border-radius: 8px; font-weight: 700; font-size: 0.88rem;">
+                           <i class="fab fa-whatsapp"></i> Amankan Slot Sekarang
+                        </a>
+                    </div>
+                `;
+            }
         });
     }
 
@@ -422,6 +570,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const addonText = selectedAddons.length > 0 ? `\nAdd-on: ${selectedAddons.join(', ')}` : '';
             const message = `Halo Kalaila Photography, saya berminat memesan paket:\n- ${baseName}${addonText}\n- Total Estimasi: Rp ${total.toLocaleString('id-ID')}\n- Skema DP 30%: Rp ${dp30.toLocaleString('id-ID')}\n\nSaya ingin langsung konsultasi jadwal!`;
             btnSendCalc.onclick = () => {
+                if (typeof window.showBookingToast === 'function') {
+                    window.showBookingToast('Simulasi DP 30% Terkalkulasi!', baseName, 'Menghubungkan ke WA Admin');
+                }
                 window.open(`https://wa.me/6282318928400?text=${encodeURIComponent(message)}`, '_blank');
             };
         }
@@ -495,6 +646,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!name || !email || !phone || !message) {
                 alert('Mohon lengkapi semua kolom pesan!');
                 return;
+            }
+
+            if (typeof window.showBookingToast === 'function') {
+                window.showBookingToast('Pesan Booking Terkirim!', `Konsultasi dari ${name}`, 'Menghubungkan ke WA Admin');
             }
 
             const waText = `Halo Kalaila Photography, saya ingin berkonsultasi mengenai jasa foto:
