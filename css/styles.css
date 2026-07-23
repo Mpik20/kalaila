@@ -7,22 +7,29 @@
 
 /* ========== COLOR PALETTE & DESIGN TOKENS ========== */
 :root {
-    --primary-color: #231a16;      /* Deep Espresso Coffee */
-    --primary-dark: #16100d;       /* Rich Dark Chocolate */
-    --primary-light: #362923;      /* Soft Muted Espresso */
-    --accent-color: #c86d51;       /* Warm Terracotta Rose */
+    --primary-color: #231a16;
+    /* Deep Espresso Coffee */
+    --primary-dark: #16100d;
+    /* Rich Dark Chocolate */
+    --primary-light: #362923;
+    /* Soft Muted Espresso */
+    --accent-color: #c86d51;
+    /* Warm Terracotta Rose */
     --accent-hover: #b3593e;
-    --gold-accent: #d4a359;        /* Warm Champagne Gold */
+    --gold-accent: #d4a359;
+    /* Warm Champagne Gold */
     --gold-light: #f7ebd0;
     --gold-glow: rgba(212, 163, 89, 0.3);
-    --bg-warm: #faf6f0;           /* Soft Warm Cream / Ivory */
-    --card-bg-warm: #f3ece1;      /* Warm Sand Card Background */
+    --bg-warm: #faf6f0;
+    /* Soft Warm Cream / Ivory */
+    --card-bg-warm: #f3ece1;
+    /* Warm Sand Card Background */
     --white: #ffffff;
     --border-color: #ebdcca;
     --border-dark: rgba(212, 163, 89, 0.25);
     --text-color: #2c231e;
     --light-text: #6e625a;
-    
+
     --shadow-sm: 0 4px 12px rgba(35, 26, 22, 0.04);
     --shadow-md: 0 10px 30px rgba(35, 26, 22, 0.08);
     --shadow-lg: 0 20px 40px rgba(35, 26, 22, 0.12);
@@ -32,7 +39,7 @@
     --radius-md: 16px;
     --radius-lg: 24px;
     --transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-    
+
     --font-serif: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
     --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
 }
@@ -161,13 +168,28 @@ body {
 }
 
 @keyframes cameraPulse {
-    0%, 100% { transform: scale(1); opacity: 0.8; }
-    50% { transform: scale(1.15); opacity: 1; filter: drop-shadow(0 0 12px var(--gold-accent)); }
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+
+    50% {
+        transform: scale(1.15);
+        opacity: 1;
+        filter: drop-shadow(0 0 12px var(--gold-accent));
+    }
 }
 
 @keyframes loaderFill {
-    0% { width: 0%; }
-    100% { width: 100%; }
+    0% {
+        width: 0%;
+    }
+
+    100% {
+        width: 100%;
+    }
 }
 
 /* ========== TOP PROMO COUNTDOWN BAR ========== */
@@ -374,7 +396,7 @@ body {
     line-height: 1.12;
     margin-bottom: 24px;
     color: #fff;
-    text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
 .hero-subtitle {
@@ -689,7 +711,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
 }
 
 .ba-label {
@@ -704,8 +726,14 @@ body {
     z-index: 5;
 }
 
-.ba-label.before { left: 20px; }
-.ba-label.after { right: 20px; color: var(--gold-accent); }
+.ba-label.before {
+    left: 20px;
+}
+
+.ba-label.after {
+    right: 20px;
+    color: var(--gold-accent);
+}
 
 /* ========== PORTFOLIO GRID & FILTERS ========== */
 .portfolio {
@@ -2024,9 +2052,18 @@ body {
     transition: var(--transition);
 }
 
-.lightbox-close { top: -60px; right: 0; }
-.lightbox-prev { left: -70px; }
-.lightbox-next { right: -70px; }
+.lightbox-close {
+    top: -60px;
+    right: 0;
+}
+
+.lightbox-prev {
+    left: -70px;
+}
+
+.lightbox-next {
+    right: -70px;
+}
 
 .lightbox-close:hover,
 .lightbox-prev:hover,
@@ -2119,9 +2156,20 @@ body {
 }
 
 @keyframes waPulse {
-    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
-    70% { transform: scale(1.05); box-shadow: 0 0 0 16px rgba(37, 211, 102, 0); }
-    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
+    }
+
+    70% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 16px rgba(37, 211, 102, 0);
+    }
+
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+    }
 }
 
 .wa-badge {
@@ -2176,9 +2224,19 @@ body {
     justify-content: center;
 }
 
-.wa-info h4 { font-size: 0.95rem; }
-.wa-info span { font-size: 0.75rem; opacity: 0.85; }
-.wa-info span i { color: #2ecc71; font-size: 0.6rem; }
+.wa-info h4 {
+    font-size: 0.95rem;
+}
+
+.wa-info span {
+    font-size: 0.75rem;
+    opacity: 0.85;
+}
+
+.wa-info span i {
+    color: #2ecc71;
+    font-size: 0.6rem;
+}
 
 .wa-close-btn {
     margin-left: auto;
@@ -2199,7 +2257,7 @@ body {
     background: var(--white);
     padding: 12px 14px;
     border-radius: 0 12px 12px 12px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .wa-popup-footer {
@@ -2221,6 +2279,7 @@ body {
 
 /* ========== RESPONSIVE MEDIA QUERIES ========== */
 @media (max-width: 992px) {
+
     .stats-grid,
     .portfolio-grid,
     .packages-grid,
@@ -2238,11 +2297,25 @@ body {
         grid-template-columns: 1fr;
     }
 
-    .hero-title { font-size: 3rem; }
-    .availability-form { grid-template-columns: 1fr 1fr; }
-    .btn-check-availability { grid-column: span 2; }
-    .lightbox-prev { left: 10px; }
-    .lightbox-next { right: 10px; }
+    .hero-title {
+        font-size: 3rem;
+    }
+
+    .availability-form {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .btn-check-availability {
+        grid-column: span 2;
+    }
+
+    .lightbox-prev {
+        left: 10px;
+    }
+
+    .lightbox-next {
+        right: 10px;
+    }
 }
 
 @media (max-width: 768px) {
@@ -2258,8 +2331,13 @@ body {
         gap: 16px;
     }
 
-    .nav-menu.active { display: flex; }
-    .hamburger { display: flex; }
+    .nav-menu.active {
+        display: flex;
+    }
+
+    .hamburger {
+        display: flex;
+    }
 
     .stats-grid,
     .portfolio-grid,
@@ -2272,10 +2350,33 @@ body {
         grid-template-columns: 1fr;
     }
 
-    .hero-title { font-size: 2.3rem; }
-    .availability-form { grid-template-columns: 1fr; }
-    .btn-check-availability { grid-column: span 1; }
-    .availability-card, .calculator-box, .quiz-card, .pre-footer-card { padding: 24px; }
-    .booking-toast { left: 16px; right: 16px; max-width: none; }
-    .footer-middle-bar { flex-direction: column; text-align: center; }
+    .hero-title {
+        font-size: 2.3rem;
+    }
+
+    .availability-form {
+        grid-template-columns: 1fr;
+    }
+
+    .btn-check-availability {
+        grid-column: span 1;
+    }
+
+    .availability-card,
+    .calculator-box,
+    .quiz-card,
+    .pre-footer-card {
+        padding: 24px;
+    }
+
+    .booking-toast {
+        left: 16px;
+        right: 16px;
+        max-width: none;
+    }
+
+    .footer-middle-bar {
+        flex-direction: column;
+        text-align: center;
+    }
 }
