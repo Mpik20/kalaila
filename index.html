@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalaila Photography | Professional Wedding & Event Photography</title>
+    <meta name="description" content="Jasa Fotografi Profesional Bandung. Abadikan momen spesial Wedding, Pre-Wedding, Engagement, dan Personal photoshoot bersama Kalaila Photography.">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Fullscreen Page Transition Loader -->
+    <div id="pageLoader" class="page-loader">
+        <div class="loader-content">
+            <div class="loader-icon"><i class="fas fa-camera-retro"></i></div>
+            <h2 class="loader-logo">kalaila.photography</h2>
+            <div class="loader-bar"><div class="loader-progress"></div></div>
+        </div>
+    </div>
+
+    <!-- Top Promo Countdown Bar -->
+    <div class="top-bar">
+        <div class="container">
+            <div class="top-bar-content">
+                <span><i class="fas fa-sparkles"></i> <strong>Promo Musim Nikah:</strong> Free Printed Canvas 40x60cm + Frame & Wooden USB untuk Booking Bulan Ini!</span>
+                <span class="top-bar-timer"><i class="far fa-clock"></i> Berakhir dalam: <span id="promoTimer">02j 45m 12d</span></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <a href="index.html" class="logo">
+                    <h1>KALAILA</h1>
+                    <span>PHOTOGRAPHY</span>
+                </a>
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="active">Beranda</a></li>
+                    <li><a href="about.html">Tentang</a></li>
+                    <li><a href="portfolio.html">Portofolio</a></li>
+                    <li><a href="availability.html">Cek Jadwal</a></li>
+                    <li><a href="packages.html">Paket & Harga</a></li>
+                    <li><a href="stories.html">Cerita Klien</a></li>
+                    <li><a href="testimonials.html">Testimoni</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="contact.html" class="nav-cta">Hubungi Kami</a></li>
+                </ul>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-badge"><i class="fas fa-camera"></i> Professional Photography Studio • Bandung</div>
+            <h2 class="hero-title">Mengabadikan Kisah Cinta & Momen Berharga Anda</h2>
+            <p class="hero-subtitle">Sentuhan kehangatan, estetik, dan emosi yang jujur dalam setiap jepretan foto dokumentasi pernikahan Anda.</p>
+            <div class="hero-buttons">
+                <a href="#concept-quiz" class="cta-button primary"><i class="fas fa-magic"></i> Kuis Temukan Konsep Foto Anda</a>
+                <a href="availability.html" class="cta-button secondary"><i class="far fa-calendar-check"></i> Cek Tanggal & Slot</a>
+            </div>
+            <div class="hero-trust">
+                <span><i class="fas fa-star"></i> 4.9/5 Rating dari 500+ Pasangan</span>
+                <span><i class="fas fa-shield-alt"></i> Garansi Kepuasan & Ketepatan Waktu</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Stats Bar -->
+    <section class="stats-bar">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <i class="fas fa-heart"></i>
+                    <h3>500+</h3>
+                    <p>Momen Bahagia Terabadikan</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-award"></i>
+                    <h3>6+ Tahun</h3>
+                    <p>Pengalaman Profesional</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-plane-departure"></i>
+                    <h3>15+ Kota</h3>
+                    <p>Layanan Luar Kota & Destination</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-smile"></i>
+                    <h3>99%</h3>
+                    <p>Tingkat Kepuasan Klien</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Concept & Moodboard Matcher Quiz Section -->
+    <section class="concept-quiz-section" id="concept-quiz">
+        <div class="container">
+            <div class="section-header text-center">
+                <span class="sub-heading">Kuis Interaktif 10 Detik</span>
+                <h2 class="section-title">Bingung Memilih Konsep & Moodboard Foto?</h2>
+                <p class="section-description">Jawab 3 pertanyaan sederhana untuk menemukan gaya dokumentasi foto dan klaim Voucher Potongan Rp 300.000!</p>
+            </div>
+
+            <div class="quiz-card">
+                <div class="quiz-steps">
+                    <div class="quiz-step-indicator active">1</div>
+                    <div class="quiz-step-indicator">2</div>
+                    <div class="quiz-step-indicator">3</div>
+                </div>
+
+                <!-- Step 1: Event Type -->
+                <div class="quiz-step-content active" data-step="1">
+                    <h3 class="text-center" style="font-family: var(--font-serif); font-size: 1.6rem; color: var(--primary-color);">Langkah 1: Pilih Jenis Acara Anda</h3>
+                    <div class="quiz-options-grid">
+                        <div class="quiz-option-card selected" data-type="event" data-val="Wedding Day (Akad & Resepsi)">
+                            <i class="fas fa-ring"></i>
+                            <h4>Wedding Day</h4>
+                            <p>Akad Nikah, Pemberkatan, & Resepsi Pernikahan</p>
+                        </div>
+                        <div class="quiz-option-card" data-type="event" data-val="Pre-Wedding Photoshoot">
+                            <i class="fas fa-heart"></i>
+                            <h4>Pre-Wedding</h4>
+                            <p>Sesi Foto Romantis Outdoor / Indoor Studio</p>
+                        </div>
+                        <div class="quiz-option-card" data-type="event" data-val="Engagement & Sangjit">
+                            <i class="fas fa-gem"></i>
+                            <h4>Lamaran / Sangjit</h4>
+                            <p>Momen Momen Sakral Pertunangan Keluarga</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: Tone & Vibe -->
+                <div class="quiz-step-content" data-step="2">
+                    <h3 class="text-center" style="font-family: var(--font-serif); font-size: 1.6rem; color: var(--primary-color);">Langkah 2: Pilih Nuansa Warna / Tone Foto Favorit</h3>
+                    <div class="quiz-options-grid">
+                        <div class="quiz-option-card selected" data-type="tone" data-val="Warm Vintage & Tone Hangat">
+                            <i class="fas fa-sun"></i>
+                            <h4>Warm Vintage</h4>
+                            <p>Warna Hangat, Golden Hour, & Sentuhan Classic</p>
+                        </div>
+                        <div class="quiz-option-card" data-type="tone" data-val="Candid Emotional Natural">
+                            <i class="fas fa-smile-beam"></i>
+                            <h4>Candid Emotional</h4>
+                            <p>Ekspresi Alami, Tawa Jujur, & Tanpa Pose Kaku</p>
+                        </div>
+                        <div class="quiz-option-card" data-type="tone" data-val="Bold High Fashion Editorial">
+                            <i class="fas fa-camera"></i>
+                            <h4>Editorial Luxury</h4>
+                            <p>Pencahayaan Estetik, Elegant, & High Fashion</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3: Location -->
+                <div class="quiz-step-content" data-step="3">
+                    <h3 class="text-center" style="font-family: var(--font-serif); font-size: 1.6rem; color: var(--primary-color);">Langkah 3: Pilih Suasana Lokasi Impian</h3>
+                    <div class="quiz-options-grid">
+                        <div class="quiz-option-card selected" data-type="location" data-val="Outdoor Nature & Garden">
+                            <i class="fas fa-tree"></i>
+                            <h4>Outdoor & Nature</h4>
+                            <p>Pegunungan, Taman, Hutan Pinus, atau Pantai</p>
+                        </div>
+                        <div class="quiz-option-card" data-type="location" data-val="Luxury Hotel Ballroom / Indoor">
+                            <i class="fas fa-building"></i>
+                            <h4>Hotel / Ballroom</h4>
+                            <p>Gedung Mewah, Luxury Indoor, & Lighting Megah</p>
+                        </div>
+                        <div class="quiz-option-card" data-type="location" data-val="Heritage & Aesthetic Studio">
+                            <i class="fas fa-archway"></i>
+                            <h4>Heritage / Studio</h4>
+                            <p>Bangunan Bersejarah, Resto Estetik, & Studio</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4: Result -->
+                <div class="quiz-step-content" data-step="4">
+                    <div class="quiz-result-box">
+                        <span class="quiz-result-badge"><i class="fas fa-gift"></i> Voucher Khusus Anda Siap!</span>
+                        <h3 class="quiz-result-title">Konsep Foto & Moodboard Anda Ditemukan!</h3>
+                        <div id="quizResultSummary"></div>
+
+                        <div class="voucher-card">
+                            <p style="font-size: 0.9rem; opacity: 0.85;">Gunakan Kode Voucher Khusus Ini Saat Booking:</p>
+                            <div class="voucher-code">KALAILA300K</div>
+                            <p style="font-size: 0.85rem; color: var(--gold-accent);">Potongan Langsung Rp 300.000 + Free Printed Canvas 40x60cm</p>
+                        </div>
+
+                        <button id="btnClaimQuiz" class="cta-button primary" style="font-size: 1.05rem; padding: 16px 36px;">
+                            <i class="fab fa-whatsapp"></i> Klaim Voucher & Konsultasi Moodboard via WA
+                        </button>
+                    </div>
+                </div>
+
+                <div class="text-center" style="margin-top: 32px;">
+                    <button id="btnNextQuiz" class="cta-button primary">Lanjut Ke Langkah Berikutnya <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Before/After Color Grading Slider Section -->
+    <section class="before-after-section" id="color-grading">
+        <div class="container">
+            <div class="section-header text-center">
+                <span class="sub-heading">Kualitas Olah Warna</span>
+                <h2 class="section-title">Sentuhan Tone Warna Warm & Timeless</h2>
+                <p class="section-description">Geser slider di bawah ini untuk melihat perbedaan foto mentah (*Original Camera*) vs pengolahan warna khas Kalaila Photography (*Edited Color Grading*).</p>
+            </div>
+
+            <div class="ba-container">
+                <img src="images/profile.jpg" alt="Foto Mentah Camera" class="ba-img ba-img-before">
+                <img src="images/prewed.jpg" alt="Hasil Color Grading Kalaila" class="ba-img ba-img-after">
+
+                <div class="ba-slider-line">
+                    <div class="ba-slider-button"><i class="fas fa-arrows-alt-h"></i></div>
+                </div>
+
+                <span class="ba-label before">Sebelum (RAW)</span>
+                <span class="ba-label after">Sesudah (Edited Warm Tone)</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Featured Preview -->
+    <section class="portfolio" style="padding: 96px 0;">
+        <div class="container">
+            <div class="section-header text-center">
+                <span class="sub-heading">Galeri Karya</span>
+                <h2 class="section-title">Portofolio Pilihan Klien</h2>
+                <p class="section-description">Dokumentasi momen manis nan timeless dari pasangan teristimewa yang mempercayai Kalaila Photography.</p>
+            </div>
+            
+            <div class="portfolio-grid">
+                <div class="portfolio-item" data-category="prewedding">
+                    <div class="portfolio-image">
+                        <img src="images/profile.jpg" alt="Pre Wedding Romantis">
+                        <div class="portfolio-overlay">
+                            <span class="category-tag">Pre-Wedding</span>
+                            <h4>Romantisme Pasangan di Bandung</h4>
+                            <p>Outdoor Session • Bandung</p>
+                            <button class="lightbox-trigger" data-fullsrc="images/profile.jpg" data-title="Romantisme Pasangan di Bandung" data-sub="Outdoor Prewedding Session"><i class="fas fa-search-plus"></i> Lihat Foto</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="wedding">
+                    <div class="portfolio-image">
+                        <img src="images/wedding.jpg" alt="Akad Nikah Sakral">
+                        <div class="portfolio-overlay">
+                            <span class="category-tag">Wedding</span>
+                            <h4>Prosesi Sakral Akad Nikah</h4>
+                            <p>Holy Matrimony & Resepsi</p>
+                            <button class="lightbox-trigger" data-fullsrc="images/wedding.jpg" data-title="Prosesi Sakral Akad Nikah" data-sub="Holy Matrimony & Resepsi"><i class="fas fa-search-plus"></i> Lihat Foto</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="wedding">
+                    <div class="portfolio-image">
+                        <img src="images/wedding1.jpg" alt="Resepsi Pernikahan">
+                        <div class="portfolio-overlay">
+                            <span class="category-tag">Wedding</span>
+                            <h4>Senyum Bahagia Di Pelaminan</h4>
+                            <p>Traditional & Modern Wedding</p>
+                            <button class="lightbox-trigger" data-fullsrc="images/wedding1.jpg" data-title="Senyum Bahagia Di Pelaminan" data-sub="Traditional & Modern Wedding"><i class="fas fa-search-plus"></i> Lihat Foto</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center" style="margin-top: 40px;">
+                <a href="portfolio.html" class="cta-button primary">Lihat Seluruh Portofolio <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Packages Section & Transparancy DP Split Calculator -->
+    <section class="packages-section" id="packages">
+        <div class="container">
+            <div class="section-header text-center">
+                <span class="sub-heading">Investasi Dokumentasi</span>
+                <h2 class="section-title">Pilihan Paket & Transparansi DP 30%</h2>
+                <p class="section-description">Nikmati transparansi biaya tanpa biaya tersembunyi dengan skema cicilan pembayaran yang fleksibel.</p>
+            </div>
+
+            <div class="packages-grid">
+                <!-- Package 1: Essential -->
+                <div class="package-card">
+                    <div class="package-badge">Intimate Choice</div>
+                    <h3 class="package-title">Essential Package</h3>
+                    <p class="package-desc">Cocok untuk acara Akad Nikah / Intimate Wedding / Lamaran.</p>
+                    <div class="package-price">
+                        <span class="currency">Rp</span>
+                        <span class="amount">2.999.000</span>
+                    </div>
+                    <ul class="package-features">
+                        <li><i class="fas fa-check"></i> 1 Main Photographer</li>
+                        <li><i class="fas fa-check"></i> Up to 4-5 Jam Liputan</li>
+                        <li><i class="fas fa-check"></i> All High-Res Edited Files (Cloud)</li>
+                        <li><i class="fas fa-check"></i> 50 Selected Color Graded Photos</li>
+                        <li><i class="fas fa-check"></i> Flashdisk Wooden Box 32GB</li>
+                        <li class="disabled"><i class="fas fa-times"></i> Printed Photo Album</li>
+                    </ul>
+                    <a href="#calculator" class="btn-package select-pkg" data-pkg="Essential Package - Rp 2.999.000">Pilih Paket Ini</a>
+                </div>
+
+                <!-- Package 2: Signature -->
+                <div class="package-card featured">
+                    <div class="package-badge featured-badge"><i class="fas fa-crown"></i> Terfavorit</div>
+                    <h3 class="package-title">Signature Package</h3>
+                    <p class="package-desc">Paket paling diminati untuk dokumentasi lengkap Akad & Resepsi.</p>
+                    <div class="package-price">
+                        <span class="currency">Rp</span>
+                        <span class="amount">4.999.000</span>
+                    </div>
+                    <ul class="package-features">
+                        <li><i class="fas fa-check"></i> 2 Professional Photographers</li>
+                        <li><i class="fas fa-check"></i> 1 Videographer (Cinematic Video)</li>
+                        <li><i class="fas fa-check"></i> Up to 8 Jam Liputan (Akad + Resepsi)</li>
+                        <li><i class="fas fa-check"></i> All Edited Files in Google Drive & USB</li>
+                        <li><i class="fas fa-check"></i> 1 Premium Photobook Album 20x30cm</li>
+                        <li><i class="fas fa-check"></i> 1 Printed Canvas 40x60cm + Frame</li>
+                    </ul>
+                    <a href="#calculator" class="btn-package featured-btn select-pkg" data-pkg="Signature Package - Rp 4.999.000">Pilih Paket Ini</a>
+                </div>
+
+                <!-- Package 3: Royal Luxury -->
+                <div class="package-card">
+                    <div class="package-badge">Full Coverage</div>
+                    <h3 class="package-title">Royal Luxury Package</h3>
+                    <p class="package-desc">Layanan eksklusif tingkat tertinggi untuk pengalaman dokumentasi mewah.</p>
+                    <div class="package-price">
+                        <span class="currency">Rp</span>
+                        <span class="amount">7.999.000</span>
+                    </div>
+                    <ul class="package-features">
+                        <li><i class="fas fa-check"></i> 3 Photographers + 2 Videographers</li>
+                        <li><i class="fas fa-check"></i> Full Day Unlimited Coverage</li>
+                        <li><i class="fas fa-check"></i> Aerial Drone Pilot Video Coverage</li>
+                        <li><i class="fas fa-check"></i> 2 Premium Leather Albums 20x30cm</li>
+                        <li><i class="fas fa-check"></i> 2 Printed Canvas 40x60cm + Luxury Frame</li>
+                    </ul>
+                    <a href="#calculator" class="btn-package select-pkg" data-pkg="Royal Luxury Package - Rp 7.999.000">Pilih Paket Ini</a>
+                </div>
+            </div>
+
+            <!-- Calculator & DP Split Box -->
+            <div class="calculator-box" id="calculator">
+                <div class="calc-header text-center">
+                    <h3><i class="fas fa-calculator"></i> Kalkulator Estimasi & Simulasi Pembayaran DP 30%</h3>
+                    <p>Pilih paket dan add-on untuk melihat skema DP amankan tanggal serta sisa pelunasan H-7 acara.</p>
+                </div>
+                
+                <div class="calc-body">
+                    <div class="calc-column">
+                        <label class="calc-label">Pilih Paket Utama:</label>
+                        <select id="calcBasePackage">
+                            <option value="2999000" data-name="Essential Package">Essential Package - Rp 2.999.000</option>
+                            <option value="4999000" data-name="Signature Package" selected>Signature Package - Rp 4.999.000 (Terfavorit)</option>
+                            <option value="7999000" data-name="Royal Luxury Package">Royal Luxury Package - Rp 7.999.000</option>
+                        </select>
+
+                        <label class="calc-label">Pilih Add-on Tambahan (Opsional):</label>
+                        <div class="addon-list">
+                            <label class="addon-item">
+                                <input type="checkbox" class="addon-checkbox" value="750000" data-name="Drone Aerial Footage">
+                                <span><i class="fas fa-paper-plane"></i> Drone Aerial Video Coverage (+Rp 750.000)</span>
+                            </label>
+                            <label class="addon-item">
+                                <input type="checkbox" class="addon-checkbox" value="1000000" data-name="Same Day Edit Video">
+                                <span><i class="fas fa-film"></i> Same Day Edit (SDE) Video Teaser (+Rp 1.000.000)</span>
+                            </label>
+                            <label class="addon-item">
+                                <input type="checkbox" class="addon-checkbox" value="500000" data-name="Extra Magazine Album">
+                                <span><i class="fas fa-book-open"></i> Tambahan 1 Album Photobook (+Rp 500.000)</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="calc-column calc-summary-box">
+                        <h4>Ringkasan Biaya & Skema DP</h4>
+                        <div class="summary-details" id="summaryDetails"></div>
+
+                        <div style="background: rgba(255,255,255,0.08); padding: 16px; border-radius: 8px; margin-bottom: 20px;">
+                            <div style="display:flex; justify-content:space-between; margin-bottom: 6px; font-size: 0.95rem;">
+                                <span><i class="fas fa-lock"></i> DP 30% (Amankan Tanggal):</span>
+                                <strong id="dpAmountDisplay" style="color: var(--gold-accent);">Rp 1.499.700</strong>
+                            </div>
+                            <div style="display:flex; justify-content:space-between; font-size: 0.95rem; opacity: 0.85;">
+                                <span>Pelunasan 70% (H-7 Acara):</span>
+                                <span id="finalAmountDisplay">Rp 3.499.300</span>
+                            </div>
+                        </div>
+
+                        <div class="summary-total">
+                            <span>Total Investasi:</span>
+                            <span id="calcTotalDisplay">Rp 4.999.000</span>
+                        </div>
+
+                        <button class="btn-send-calc" id="btnSendCalc"><i class="fab fa-whatsapp"></i> Konsultasi & Amankan DP via WA</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Virtual Photobook Album Showcase Section -->
+    <section class="album-showcase-section" id="albums">
+        <div class="container">
+            <div class="section-header text-center">
+                <span class="sub-heading">Produk Cetak Fisik</span>
+                <h2 class="section-title">Kualitas Album & Wooden Box Mewah</h2>
+                <p class="section-description">Setiap paket Kalaila dilengkapi produk fisik berkualitas tinggi untuk menyimpan memori Anda selamanya.</p>
+            </div>
+
+            <div class="album-grid">
+                <div class="album-card">
+                    <div class="album-img-holder">
+                        <img src="images/wedding.jpg" alt="Premium Photobook Album">
+                    </div>
+                    <div class="album-body">
+                        <h3>Premium Photobook Album</h3>
+                        <p>Cetak kertas foto tebal premium anti-luntur dengan cover kulit / velvet elegan ukuran 20x30cm.</p>
+                    </div>
+                </div>
+
+                <div class="album-card">
+                    <div class="album-img-holder">
+                        <img src="images/prewed.jpg" alt="Printed Canvas & Frame Emas">
+                    </div>
+                    <div class="album-body">
+                        <h3>Canvas 40x60cm + Frame Emas</h3>
+                        <p>Cetak kanvas bertekstur artistik resolusi tinggi lengkap dengan bingkai frame kayu ukir modern.</p>
+                    </div>
+                </div>
+
+                <div class="album-card">
+                    <div class="album-img-holder">
+                        <img src="images/wedding1.jpg" alt="Custom Engraved Wooden USB Box">
+                    </div>
+                    <div class="album-body">
+                        <h3>Engraved Wooden USB Drive</h3>
+                        <p>Flashdisk kayu eksklusif 32GB dengan grafir ukiran nama pasangan dalam kotak kayu estetik.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pre-Footer VIP Call to Action Banner -->
+    <section class="pre-footer-cta">
+        <div class="container">
+            <div class="pre-footer-card">
+                <div class="pre-footer-badge"><i class="fas fa-crown"></i> Amankan Slot Anda</div>
+                <h2>Siap Mengabadikan Hari Istimewa Anda Bersama Kalaila Photography?</h2>
+                <p>Slot booking harian sangat terbatas untuk menjaga kualitas foto terbaik. Dapatkan konsultasi gratis, moodboard kustom, & promo khusus hari ini!</p>
+                <div class="pre-footer-buttons">
+                    <a href="https://wa.me/6282318928400?text=Halo%20Kalaila%20Photography,%20saya%20tertarik%20berkonsultasi%20mengenai%20paket%20foto%20dan%20promo%20terbaru." target="_blank" class="cta-button primary">
+                        <i class="fab fa-whatsapp"></i> Konsultasi Gratis via WhatsApp
+                    </a>
+                    <a href="availability.html" class="cta-button secondary">
+                        <i class="far fa-calendar-check"></i> Cek Ketersediaan Slot Tanggal
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Multi-Column Footer -->
+    <footer class="footer-main">
+        <div class="container">
+            <div class="footer-grid">
+                <!-- Col 1: Brand & Bio -->
+                <div class="footer-col footer-brand">
+                    <a href="index.html" class="footer-logo">
+                        <h2>KALAILA</h2>
+                        <span>PHOTOGRAPHY STUDIO</span>
+                    </a>
+                    <p class="footer-bio">Studio fotografi profesional berbasis di Bandung. Mendedikasikan kehangatan, keanggunan estetik, dan emosi jujur di setiap momen hari pernikahan & acara spesial Anda.</p>
+                    <div class="footer-trust-pills">
+                        <span><i class="fas fa-star"></i> 4.9/5 Client Rating</span>
+                        <span><i class="fas fa-heart"></i> 500+ Happy Couples</span>
+                    </div>
+                </div>
+
+                <!-- Col 2: Quick Links -->
+                <div class="footer-col">
+                    <h4 class="footer-col-title">Navigasi Utama</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html"><i class="fas fa-chevron-right"></i> Beranda</a></li>
+                        <li><a href="about.html"><i class="fas fa-chevron-right"></i> Tentang Kami</a></li>
+                        <li><a href="portfolio.html"><i class="fas fa-chevron-right"></i> Portofolio Foto</a></li>
+                        <li><a href="packages.html"><i class="fas fa-chevron-right"></i> Paket & Pricelist</a></li>
+                        <li><a href="availability.html"><i class="fas fa-chevron-right"></i> Cek Slot Tanggal</a></li>
+                        <li><a href="stories.html"><i class="fas fa-chevron-right"></i> Cerita Klien</a></li>
+                        <li><a href="testimonials.html"><i class="fas fa-chevron-right"></i> Testimoni</a></li>
+                        <li><a href="faq.html"><i class="fas fa-chevron-right"></i> Pertanyaan FAQ</a></li>
+                        <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Kontak Studio</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 3: Services -->
+                <div class="footer-col">
+                    <h4 class="footer-col-title">Spesialisasi Layanan</h4>
+                    <ul class="footer-services">
+                        <li><i class="fas fa-ring"></i> Wedding Day Photography</li>
+                        <li><i class="fas fa-heart"></i> Outdoor Pre-Wedding</li>
+                        <li><i class="fas fa-gem"></i> Engagement & Sangjit</li>
+                        <li><i class="fas fa-baby"></i> Maternity & Family Shoot</li>
+                        <li><i class="fas fa-video"></i> Cinematic Wedding Video</li>
+                        <li><i class="fas fa-paper-plane"></i> Drone Aerial Footage</li>
+                    </ul>
+                </div>
+
+                <!-- Col 4: Contact & Catalog PDF Subscription -->
+                <div class="footer-col">
+                    <h4 class="footer-col-title">Hubungi Studio</h4>
+                    <div class="footer-contact-list">
+                        <p><i class="fas fa-map-marker-alt"></i> Bandung, Jawa Barat, Indonesia</p>
+                        <p><i class="fab fa-whatsapp"></i> <a href="https://wa.me/6282318928400" target="_blank">+62 823 1892 8400</a></p>
+                        <p><i class="fas fa-envelope"></i> kalaila.photography@gmail.com</p>
+                        <p><i class="fas fa-clock"></i> Senin - Minggu (24/7 Fast Response)</p>
+                    </div>
+
+                    <div class="footer-newsletter">
+                        <h5>Dapatkan Pricelist PDF Terbaru</h5>
+                        <form class="newsletter-form" id="newsletterForm">
+                            <input type="email" placeholder="Masukkan Email Anda" required>
+                            <button type="submit" title="Kirim"><i class="fas fa-paper-plane"></i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Social Media & Guarantee Bar -->
+            <div class="footer-middle-bar">
+                <div class="footer-guarantees">
+                    <span><i class="fas fa-shield-alt"></i> Garansi Ketepatan Waktu</span>
+                    <span><i class="fas fa-bolt"></i> 48H Fast Sneak Peek</span>
+                    <span><i class="fas fa-cloud-download-alt"></i> All High-Res Master Files</span>
+                </div>
+                <div class="footer-social-links">
+                    <a href="https://www.instagram.com/kalaila.photography/" title="Instagram" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.tiktok.com/@kalaila.photo?is_from_webapp=1&sender_device=pc" title="TikTok" target="_blank"><i class="fab fa-tiktok"></i></a>
+                    <a href="https://wa.me/6282318928400" title="WhatsApp" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+
+            <!-- Bottom Copyright -->
+            <div class="footer-bottom">
+                <p>&copy; 2024 Kalaila Photography Studio. All Rights Reserved. Crafted with passion for timeless romantic moments.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Lightbox Modal -->
+    <div class="lightbox-modal" id="lightboxModal">
+        <div class="lightbox-overlay"></div>
+        <div class="lightbox-content">
+            <button class="lightbox-close" id="lightboxClose">&times;</button>
+            <button class="lightbox-prev" id="lightboxPrev"><i class="fas fa-chevron-left"></i></button>
+            <div class="lightbox-img-container">
+                <img src="" alt="Full Preview" id="lightboxImg">
+                <div class="lightbox-caption">
+                    <h4 id="lightboxTitle"></h4>
+                    <p id="lightboxSub"></p>
+                </div>
+            </div>
+            <button class="lightbox-next" id="lightboxNext"><i class="fas fa-chevron-right"></i></button>
+        </div>
+    </div>
+
+    <!-- Recent Client Booking Toast Notification -->
+    <div class="booking-toast" id="bookingToast">
+        <div class="toast-icon"><i class="fas fa-check"></i></div>
+        <div class="toast-text">
+            <h5 id="toastName">Rian & Maya baru mengamankan slot!</h5>
+            <p id="toastEvent">Signature Package • Bandung</p>
+            <div class="toast-time" id="toastTime">8 menit lalu</div>
+        </div>
+    </div>
+
+    <!-- Floating WhatsApp CTA Widget -->
+    <div class="floating-wa-container">
+        <div class="wa-chat-popup" id="waChatPopup">
+            <div class="wa-popup-header">
+                <div class="wa-avatar"><i class="fas fa-camera"></i></div>
+                <div class="wa-info">
+                    <h4>Kalaila Admin</h4>
+                    <span><i class="fas fa-circle"></i> Online • Siap Membantu</span>
+                </div>
+                <button class="wa-close-btn" id="waClosePopup">&times;</button>
+            </div>
+            <div class="wa-popup-body">
+                <p>Halo! 👋 Terima kasih sudah berkunjung ke Kalaila Photography. Ada yang bisa kami bantu mengenai paket foto pernikahan atau jadwal slot acara Anda?</p>
+            </div>
+            <div class="wa-popup-footer">
+                <a href="https://wa.me/6282318928400?text=Halo%20Kalaila%20Photography,%20saya%20tertarik%20bertanya%20mengenai%20paket%20foto." target="_blank" class="wa-btn-start"><i class="fab fa-whatsapp"></i> Chat WhatsApp Sekarang</a>
+            </div>
+        </div>
+        <button class="wa-floating-btn" id="waFloatingBtn" title="Tanya Admin via WhatsApp">
+            <i class="fab fa-whatsapp"></i>
+            <span class="wa-badge">1</span>
+        </button>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

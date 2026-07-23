@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portofolio Karya | Kalaila Photography</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Fullscreen Page Transition Loader -->
+    <div id="pageLoader" class="page-loader">
+        <div class="loader-content">
+            <div class="loader-icon"><i class="fas fa-camera-retro"></i></div>
+            <h2 class="loader-logo">kalaila.photography</h2>
+            <div class="loader-bar"><div class="loader-progress"></div></div>
+        </div>
+    </div>
+
+    <!-- Top Promo Countdown Bar -->
+    <div class="top-bar">
+        <div class="container">
+            <div class="top-bar-content">
+                <span><i class="fas fa-sparkles"></i> <strong>Promo Musim Nikah:</strong> Free Printed Canvas 40x60cm + Frame & Wooden USB untuk Booking Bulan Ini!</span>
+                <span class="top-bar-timer"><i class="far fa-clock"></i> Berakhir dalam: <span id="promoTimer">02j 45m 12d</span></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <a href="index.html" class="logo">
+                    <h1>KALAILA</h1>
+                    <span>PHOTOGRAPHY</span>
+                </a>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Beranda</a></li>
+                    <li><a href="about.html">Tentang</a></li>
+                    <li><a href="portfolio.html" class="active">Portofolio</a></li>
+                    <li><a href="availability.html">Cek Jadwal</a></li>
+                    <li><a href="packages.html">Paket & Harga</a></li>
+                    <li><a href="stories.html">Cerita Klien</a></li>
+                    <li><a href="testimonials.html">Testimoni</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="contact.html" class="nav-cta">Hubungi Kami</a></li>
+                </ul>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Banner -->
+    <header class="page-header-banner">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-badge"><i class="fas fa-images"></i> Galeri Foto</div>
+            <h1>Portofolio Pilihan Kami</h1>
+            <p>Jelajahi karya dokumentasi fotografi terbaik kami dari berbagai momen kebahagiaan.</p>
+        </div>
+    </header>
+
+    <!-- Portfolio Section with Interactive Filters & Lightbox -->
+    <section class="portfolio" id="portfolio">
+        <div class="container">
+            <div class="portfolio-filters">
+                <button class="filter-btn active" data-filter="all">Semua Momen</button>
+                <button class="filter-btn" data-filter="wedding">Pernikahan (Wedding)</button>
+                <button class="filter-btn" data-filter="prewedding">Pre-Wedding</button>
+                <button class="filter-btn" data-filter="engagement">Engagement & Sangjit</button>
+                <button class="filter-btn" data-filter="maternity">Maternity & Family</button>
+            </div>
+
+            <div class="portfolio-grid" id="portfolioGrid">
+                <div class="portfolio-item" data-category="prewedding">
+                    <div class="portfolio-image">
+                        <img src="images/profile.jpg" alt="Pre Wedding Romantis Di Bandung" loading="lazy">
+                        <div class="portfolio-overlay">
+                            <span class="category-tag">Pre-Wedding</span>
+                            <h4>Romantisme Pasangan di Bandung</h4>
+                            <p>Outdoor Session • Bandung</p>
+                            <button class="lightbox-trigger" data-fullsrc="images/profile.jpg" data-title="Romantisme Pasangan di Bandung" data-sub="Outdoor Prewedding Session"><i class="fas fa-search-plus"></i> Lihat Foto</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item" data-category="prewedding">
+                    <div class="portfolio-image">
+                        <img src="images/prewed.jpg" alt="Pre Wedding Elegant Studio" loading="lazy">
+                        <div class="portfolio-overlay">
+                            <span class="category-tag">Pre-Wedding</span>
+                            <h4>Kehangatan Cinta Berdua</h4>
+                            <p>Warm Concept Photoshoot</p>
+                            <button class="lightbox-trigger" data-fullsrc="images/prewed.jpg" data-title="Kehangatan Cinta Berdua" data-sub="Warm Concept Photoshoot"><i class="fas fa-search-plus"></i> Lihat Foto</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item" data-category="prewedding">
+                    <div class="portfolio-image">
+                        <img src="images/prewed1.jpg" alt="Intimate Prewedding Shoot" loading="lazy">
+                        <div class="portfolio-overlay">
+                            <span class="category-tag">Pre-Wedding</span>
+                            <h4>Momen Manis Sebelum Hari H</h4>
+                            <p>Nature & Scenic Concept</p>
+                            <button class="lightbox-trigger" data-fullsrc="images/prewed1.jpg" data-title="Momen Manis Sebelum Hari H" data-sub="Nature & Scenic Concept"><i class="fas fa-search-plus"></i> Lihat Foto</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item" data-category="wedding">
+                    <div class="portfolio-image">
+                        <img src="images/wedding.jpg" alt="Akad Nikah Sakral" loading="lazy">
+                        <div class="portfolio-overlay">
+                            <span class="category-tag">Wedding</span>
+                            <h4>Prosesi Sakral Akad Nikah</h4>
+                            <p>Holy Matrimony & Resepsi</p>
+                            <button class="lightbox-trigger" data-fullsrc="images/wedding.jpg" data-title="Prosesi Sakral Akad Nikah" data-sub="Holy Matrimony & Resepsi"><i class="fas fa-search-plus"></i> Lihat Foto</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item" data-category="wedding">
+                    <div class="portfolio-image">
+                        <img src="images/wedding1.jpg" alt="Resepsi Pernikahan Megah" loading="lazy">
+                        <div class="portfolio-overlay">
+                            <span class="category-tag">Wedding</span>
+                            <h4>Senyum Bahagia Di Pelaminan</h4>
+                            <p>Traditional & Modern Wedding</p>
+                            <button class="lightbox-trigger" data-fullsrc="images/wedding1.jpg" data-title="Senyum Bahagia Di Pelaminan" data-sub="Traditional & Modern Wedding"><i class="fas fa-search-plus"></i> Lihat Foto</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item" data-category="wedding">
+                    <div class="portfolio-image">
+                        <img src="images/wedding2.jpg" alt="Momen Haru Pernikahan" loading="lazy">
+                        <div class="portfolio-overlay">
+                            <span class="category-tag">Wedding</span>
+                            <h4>Sentuhan Haru Bersama Keluarga</h4>
+                            <p>Family & Candid Moments</p>
+                            <button class="lightbox-trigger" data-fullsrc="images/wedding2.jpg" data-title="Sentuhan Haru Bersama Keluarga" data-sub="Family & Candid Moments"><i class="fas fa-search-plus"></i> Lihat Foto</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pre-Footer VIP Call to Action Banner -->
+    <section class="pre-footer-cta">
+        <div class="container">
+            <div class="pre-footer-card">
+                <div class="pre-footer-badge"><i class="fas fa-crown"></i> Amankan Slot Anda</div>
+                <h2>Siap Mengabadikan Hari Istimewa Anda Bersama Kalaila Photography?</h2>
+                <p>Slot booking harian sangat terbatas untuk menjaga kualitas foto terbaik. Dapatkan konsultasi gratis, moodboard kustom, & promo khusus hari ini!</p>
+                <div class="pre-footer-buttons">
+                    <a href="https://wa.me/6282318928400?text=Halo%20Kalaila%20Photography,%20saya%20tertarik%20berkonsultasi%20mengenai%20paket%20foto%20dan%20promo%20terbaru." target="_blank" class="cta-button primary">
+                        <i class="fab fa-whatsapp"></i> Konsultasi Gratis via WhatsApp
+                    </a>
+                    <a href="availability.html" class="cta-button secondary">
+                        <i class="far fa-calendar-check"></i> Cek Ketersediaan Slot Tanggal
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Multi-Column Footer -->
+    <footer class="footer-main">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col footer-brand">
+                    <a href="index.html" class="footer-logo">
+                        <h2>KALAILA</h2>
+                        <span>PHOTOGRAPHY STUDIO</span>
+                    </a>
+                    <p class="footer-bio">Studio fotografi profesional berbasis di Bandung. Mendedikasikan kehangatan, keanggunan estetik, dan emosi jujur di setiap momen hari pernikahan & acara spesial Anda.</p>
+                    <div class="footer-trust-pills">
+                        <span><i class="fas fa-star"></i> 4.9/5 Client Rating</span>
+                        <span><i class="fas fa-heart"></i> 500+ Happy Couples</span>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h4 class="footer-col-title">Navigasi Utama</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html"><i class="fas fa-chevron-right"></i> Beranda</a></li>
+                        <li><a href="about.html"><i class="fas fa-chevron-right"></i> Tentang Kami</a></li>
+                        <li><a href="portfolio.html"><i class="fas fa-chevron-right"></i> Portofolio Foto</a></li>
+                        <li><a href="packages.html"><i class="fas fa-chevron-right"></i> Paket & Pricelist</a></li>
+                        <li><a href="availability.html"><i class="fas fa-chevron-right"></i> Cek Slot Tanggal</a></li>
+                        <li><a href="stories.html"><i class="fas fa-chevron-right"></i> Cerita Klien</a></li>
+                        <li><a href="testimonials.html"><i class="fas fa-chevron-right"></i> Testimoni</a></li>
+                        <li><a href="faq.html"><i class="fas fa-chevron-right"></i> Pertanyaan FAQ</a></li>
+                        <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Kontak Studio</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4 class="footer-col-title">Spesialisasi Layanan</h4>
+                    <ul class="footer-services">
+                        <li><i class="fas fa-ring"></i> Wedding Day Photography</li>
+                        <li><i class="fas fa-heart"></i> Outdoor Pre-Wedding</li>
+                        <li><i class="fas fa-gem"></i> Engagement & Sangjit</li>
+                        <li><i class="fas fa-baby"></i> Maternity & Family Shoot</li>
+                        <li><i class="fas fa-video"></i> Cinematic Wedding Video</li>
+                        <li><i class="fas fa-paper-plane"></i> Drone Aerial Footage</li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4 class="footer-col-title">Hubungi Studio</h4>
+                    <div class="footer-contact-list">
+                        <p><i class="fas fa-map-marker-alt"></i> Bandung, Jawa Barat, Indonesia</p>
+                        <p><i class="fab fa-whatsapp"></i> <a href="https://wa.me/6282318928400" target="_blank">+62 823 1892 8400</a></p>
+                        <p><i class="fas fa-envelope"></i> kalaila.photography@gmail.com</p>
+                        <p><i class="fas fa-clock"></i> Senin - Minggu (24/7 Fast Response)</p>
+                    </div>
+
+                    <div class="footer-newsletter">
+                        <h5>Dapatkan Pricelist PDF Terbaru</h5>
+                        <form class="newsletter-form" id="newsletterForm">
+                            <input type="email" placeholder="Masukkan Email Anda" required>
+                            <button type="submit" title="Kirim"><i class="fas fa-paper-plane"></i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-middle-bar">
+                <div class="footer-guarantees">
+                    <span><i class="fas fa-shield-alt"></i> Garansi Ketepatan Waktu</span>
+                    <span><i class="fas fa-bolt"></i> 48H Fast Sneak Peek</span>
+                    <span><i class="fas fa-cloud-download-alt"></i> All High-Res Master Files</span>
+                </div>
+                <div class="footer-social-links">
+                    <a href="https://www.instagram.com/kalaila.photography/" title="Instagram" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.tiktok.com/@kalaila.photo?is_from_webapp=1&sender_device=pc" title="TikTok" target="_blank"><i class="fab fa-tiktok"></i></a>
+                    <a href="https://wa.me/6282318928400" title="WhatsApp" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2024 Kalaila Photography Studio. All Rights Reserved. Crafted with passion for timeless romantic moments.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Lightbox Modal -->
+    <div class="lightbox-modal" id="lightboxModal">
+        <div class="lightbox-overlay"></div>
+        <div class="lightbox-content">
+            <button class="lightbox-close" id="lightboxClose">&times;</button>
+            <button class="lightbox-prev" id="lightboxPrev"><i class="fas fa-chevron-left"></i></button>
+            <div class="lightbox-img-container">
+                <img src="" alt="Full Preview" id="lightboxImg">
+                <div class="lightbox-caption">
+                    <h4 id="lightboxTitle"></h4>
+                    <p id="lightboxSub"></p>
+                </div>
+            </div>
+            <button class="lightbox-next" id="lightboxNext"><i class="fas fa-chevron-right"></i></button>
+        </div>
+    </div>
+
+    <!-- Recent Client Booking Toast Notification -->
+    <div class="booking-toast" id="bookingToast">
+        <div class="toast-icon"><i class="fas fa-check"></i></div>
+        <div class="toast-text">
+            <h5 id="toastName">Rian & Maya baru mengamankan slot!</h5>
+            <p id="toastEvent">Signature Package • Bandung</p>
+            <div class="toast-time" id="toastTime">8 menit lalu</div>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
