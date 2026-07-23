@@ -345,18 +345,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const toggleAdminSlotBtn = document.getElementById('toggleAdminSlotMode');
 
     // =========================================================================
-    // KALAILA PHOTOGRAPHY - PENGATURAN TANGGAL FULL BOOKED & SLOT TERBATAS
-    // Anda bisa mengubah angka tanggal (1-31) di bawah ini secara manual:
+    // KALAILA PHOTOGRAPHY - PENGATURAN TANGGAL FULL BOOKED (SIMPLE 2 STATUS)
+    // Anda bisa mengubah angka tanggal (1-31) yang Full Booked di bawah ini:
     // =========================================================================
     let defaultBooked = [6, 12, 18, 25];  // Angka tanggal yang Full Booked
-    let defaultLimited = [7, 19, 26];    // Angka tanggal yang Sisa 1 Slot
 
-    // Ambil data dari penyimpanan browser (jika ada editan dari tombol Admin)
+    // Ambil data dari penyimpanan browser (jika ada editan dari Admin)
     let savedBooked = localStorage.getItem('kalaila_booked_days');
-    let savedLimited = localStorage.getItem('kalaila_limited_days');
-
     let bookedDays = savedBooked ? JSON.parse(savedBooked) : defaultBooked;
-    let limitedDays = savedLimited ? JSON.parse(savedLimited) : defaultLimited;
 
     let isAdminSlotMode = false;
 
@@ -380,9 +376,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (bookedDays.includes(day)) {
                 statusClass = 'status-booked';
                 badgeText = 'FULL';
-            } else if (limitedDays.includes(day)) {
-                statusClass = 'status-limited';
-                badgeText = 'SISA 1';
             }
 
             const formattedDateISO = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
@@ -404,22 +397,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 const selectedISO = this.getAttribute('data-date');
 
                 if (isAdminSlotMode) {
-                    // Rotate status: Available -> Limited -> Booked -> Available
+                    // Binary toggle: Tersedia <-> Full Booked
                     if (bookedDays.includes(dayNum)) {
-                        // Change from Booked to Available
                         bookedDays = bookedDays.filter(d => d !== dayNum);
-                    } else if (limitedDays.includes(dayNum)) {
-                        // Change from Limited to Booked
-                        limitedDays = limitedDays.filter(d => d !== dayNum);
-                        bookedDays.push(dayNum);
                     } else {
-                        // Change from Available to Limited
-                        limitedDays.push(dayNum);
+                        bookedDays.push(dayNum);
                     }
 
                     // Save to localStorage
                     localStorage.setItem('kalaila_booked_days', JSON.stringify(bookedDays));
-                    localStorage.setItem('kalaila_limited_days', JSON.stringify(limitedDays));
 
                     // Re-render
                     renderCalendarGrid();

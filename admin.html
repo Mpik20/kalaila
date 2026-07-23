@@ -287,14 +287,6 @@
                     </div>
                 </div>
 
-                <div class="stat-card-admin limited">
-                    <i class="fas fa-exclamation-triangle"></i>
-                    <div class="stat-info">
-                        <h4 id="cntLimited">0</h4>
-                        <p>Tanggal Sisa 1 Slot</p>
-                    </div>
-                </div>
-
                 <div class="stat-card-admin available">
                     <i class="fas fa-check-circle"></i>
                     <div class="stat-info">
@@ -315,7 +307,7 @@
 
                 <div class="admin-notice">
                     <i class="fas fa-mouse-pointer" style="font-size: 1.2rem;"></i>
-                    <span><strong>CARA MENGUBAH TANGGAL:</strong> Klik kotak tanggal mana saja pada kalender di bawah untuk mengganti statusnya: <strong>TERSEDIA ➔ SISA 1 SLOT ➔ FULL BOOKED ➔ TERSEDIA</strong>. Perubahan langsung tersimpan otomatis!</span>
+                    <span><strong>CARA MENGUBAH TANGGAL:</strong> Klik kotak tanggal mana saja pada kalender untuk mengganti statusnya: <strong>TERSEDIA ➔ FULL BOOKED ➔ TERSEDIA</strong>. Perubahan langsung tersimpan otomatis!</span>
                 </div>
 
                 <!-- Admin Interactive Calendar Grid -->
@@ -328,13 +320,9 @@
     <script>
         // Slot Data Manager
         let defaultBooked = [6, 12, 18, 25];
-        let defaultLimited = [7, 19, 26];
 
         let savedBooked = localStorage.getItem('kalaila_booked_days');
-        let savedLimited = localStorage.getItem('kalaila_limited_days');
-
         let bookedDays = savedBooked ? JSON.parse(savedBooked) : defaultBooked;
-        let limitedDays = savedLimited ? JSON.parse(savedLimited) : defaultLimited;
 
         function renderAdminGrid() {
             const grid = document.getElementById('adminCalendarGrid');
@@ -347,7 +335,7 @@
             const dayNames = ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'];
 
             let html = '';
-            let cntA = 0, cntL = 0, cntB = 0;
+            let cntA = 0, cntB = 0;
 
             for (let day = 1; day <= daysInMonth; day++) {
                 const dateObj = new Date(year, month, day);
@@ -360,10 +348,6 @@
                     statusClass = 'status-booked';
                     badgeText = 'FULL';
                     cntB++;
-                } else if (limitedDays.includes(day)) {
-                    statusClass = 'status-limited';
-                    badgeText = 'SISA 1';
-                    cntL++;
                 } else {
                     cntA++;
                 }
@@ -380,7 +364,6 @@
             grid.innerHTML = html;
 
             document.getElementById('cntBooked').textContent = cntB;
-            document.getElementById('cntLimited').textContent = cntL;
             document.getElementById('cntAvailable').textContent = cntA;
 
             document.querySelectorAll('.date-chip-admin').forEach(chip => {
@@ -388,20 +371,12 @@
                     const dayNum = parseInt(this.getAttribute('data-day'));
 
                     if (bookedDays.includes(dayNum)) {
-                        // Change from Booked to Available
                         bookedDays = bookedDays.filter(d => d !== dayNum);
-                    } else if (limitedDays.includes(dayNum)) {
-                        // Change from Limited to Booked
-                        limitedDays = limitedDays.filter(d => d !== dayNum);
-                        bookedDays.push(dayNum);
                     } else {
-                        // Change from Available to Limited
-                        limitedDays.push(dayNum);
+                        bookedDays.push(dayNum);
                     }
 
                     localStorage.setItem('kalaila_booked_days', JSON.stringify(bookedDays));
-                    localStorage.setItem('kalaila_limited_days', JSON.stringify(limitedDays));
-
                     renderAdminGrid();
                 });
             });
@@ -410,16 +385,14 @@
         function resetDefaultSlots() {
             if (confirm('Apakah Anda yakin ingin mengembalikan pengaturan slot ke awal?')) {
                 bookedDays = [6, 12, 18, 25];
-                limitedDays = [7, 19, 26];
                 localStorage.setItem('kalaila_booked_days', JSON.stringify(bookedDays));
-                localStorage.setItem('kalaila_limited_days', JSON.stringify(limitedDays));
                 renderAdminGrid();
             }
         }
 
         function logoutAdmin() {
             sessionStorage.removeItem('kalaila_admin_logged_in');
-            window.location.href = 'admin-login.html';
+            window.location.href = 'index.html';
         }
 
         document.addEventListener('DOMContentLoaded', renderAdminGrid);
