@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galeri Spesial Pasangan | Kalaila Photography</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .couple-detail-hero {
+            position: relative;
+            padding: 140px 0 80px 0;
+            background: linear-gradient(180deg, #0d0e15 0%, #161824 100%);
+            color: var(--white);
+            text-align: center;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .couple-detail-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(212, 175, 55, 0.15);
+            border: 1px solid var(--gold-accent);
+            color: var(--gold-accent);
+            padding: 6px 20px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .couple-detail-hero h1 {
+            font-family: var(--font-serif);
+            font-size: 3.5rem;
+            margin-bottom: 12px;
+            color: var(--white);
+        }
+
+        .couple-detail-location {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .couple-masonry-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            grid-auto-rows: 240px;
+            gap: 20px;
+            padding: 40px 0;
+        }
+
+        .couple-masonry-card {
+            position: relative;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            background: #0d0e15;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .couple-masonry-card.landscape {
+            grid-column: span 2;
+            grid-row: span 2;
+        }
+
+        .couple-masonry-card.portrait {
+            grid-row: span 2;
+        }
+
+        .couple-masonry-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .couple-masonry-card:hover img {
+            transform: scale(1.06);
+        }
+
+        .couple-masonry-card .overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            display: flex;
+            align-items: flex-end;
+            padding: 20px;
+            color: white;
+        }
+
+        .couple-masonry-card:hover .overlay {
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            .couple-masonry-card.landscape {
+                grid-column: span 1;
+            }
+            .couple-detail-hero h1 {
+                font-size: 2.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Page Loader -->
+    <div id="pageLoader" class="page-loader">
+        <div class="loader-content">
+            <div class="loader-icon"><i class="fas fa-camera-retro"></i></div>
+            <h2 class="loader-logo">kalaila.photography</h2>
+            <div class="loader-bar"><div class="loader-progress"></div></div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <a href="index.html" class="logo">
+                    <h1>KALAILA</h1>
+                    <span>PHOTOGRAPHY</span>
+                </a>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Beranda</a></li>
+                    <li><a href="about.html">Tentang</a></li>
+                    <li><a href="portfolio.html" class="active">Portofolio</a></li>
+                    <li><a href="availability.html">Jadwal</a></li>
+                    <li><a href="stories.html">Cerita Klien</a></li>
+                    <li><a href="testimonials.html">Testimoni</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="contact.html" class="nav-cta">Hubungi Kami</a></li>
+                </ul>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Header Pasangan -->
+    <section class="couple-detail-hero">
+        <div class="container">
+            <a href="portfolio.html" style="color: var(--gold-accent); text-decoration: none; font-size: 0.9rem; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; margin-bottom: 20px;">
+                <i class="fas fa-arrow-left"></i> Kembali ke Semua Portofolio
+            </a>
+            <div>
+                <span class="couple-detail-badge" id="couplePageCat"><i class="fas fa-heart"></i> Pre-Wedding</span>
+            </div>
+            <h1 id="couplePageName">Rian & Maya</h1>
+            <div class="couple-detail-location">
+                <i class="fas fa-map-marker-alt" style="color: var(--gold-accent);"></i>
+                <span id="couplePageLoc">Pine Forest & Meadow • Bandung</span>
+            </div>
+            <p style="max-width: 680px; margin: 0 auto 30px auto; color: rgba(255,255,255,0.8); line-height: 1.7;" id="couplePageDesc">
+                Dokumentasi momen kebahagiaan penuh kehangatan, menangkap setiap senyum alami, tatapan cinta, dan keindahan lanskap visual khas Kalaila Photography.
+            </p>
+            <a href="#" id="couplePageWaBtn" target="_blank" class="cta-button primary">
+                <i class="fab fa-whatsapp"></i> Konsultasi Konsep Foto Seperti Pasangan Ini
+            </a>
+        </div>
+    </section>
+
+    <!-- Masonry Photo Gallery Grid -->
+    <section class="portfolio-gallery-section" style="padding: 60px 0; background: var(--bg-warm);">
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; margin-bottom: 24px;">
+                <div>
+                    <h3 style="font-family: var(--font-serif); font-size: 1.8rem; color: var(--primary-color);">Koleksi Foto Galeri</h3>
+                    <p style="font-size: 0.9rem; color: var(--light-text);">Klik pada foto mana saja untuk melihat tampilan layar penuh (Fullscreen Lightbox)</p>
+                </div>
+                <div>
+                    <a href="portfolio.html" class="btn-today-jump" style="text-decoration: none;"><i class="fas fa-chevron-left"></i> Kembali ke Portofolio</a>
+                </div>
+            </div>
+
+            <!-- Grid Container -->
+            <div class="couple-masonry-grid" id="coupleMasonryGrid"></div>
+        </div>
+    </section>
+
+    <!-- Pre-Footer VIP Call to Action Banner -->
+    <section class="pre-footer-cta">
+        <div class="container">
+            <div class="pre-footer-card">
+                <div class="pre-footer-badge"><i class="fas fa-crown"></i> Booking Konsep Foto Anda</div>
+                <h2>Tertarik dengan Gaya & Kualitas Fotografi Kalaila?</h2>
+                <p>Setiap pasangan memiliki cerita unik. Konsultasikan tanggal, konsep visual, dan lokasi impian Anda bersama tim fotografer profesional Kalaila Photography.</p>
+                <div class="pre-footer-buttons">
+                    <a href="https://wa.me/6282318928400?text=Halo%20Kalaila%20Photography,%20saya%20tertarik%20berkonsultasi%20mengenai%20paket%20foto%20dan%20promo%20terbaru." target="_blank" class="cta-button primary">
+                        <i class="fab fa-whatsapp"></i> Konsultasi Gratis via WhatsApp
+                    </a>
+                    <a href="availability.html" class="cta-button secondary">
+                        <i class="far fa-calendar-check"></i> Cek Tanggal Slot
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fullscreen Lightbox Modal -->
+    <div class="lightbox-modal" id="lightboxModal">
+        <div class="lightbox-overlay" id="lightboxOverlay"></div>
+        <div class="lightbox-content">
+            <button class="lightbox-close" id="lightboxClose">&times;</button>
+            <button class="lightbox-prev" id="lightboxPrev"><i class="fas fa-chevron-left"></i></button>
+            <div class="lightbox-img-wrapper">
+                <img src="" alt="Zoom Photo" id="lightboxImg">
+            </div>
+            <button class="lightbox-next" id="lightboxNext"><i class="fas fa-chevron-right"></i></button>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const queryName = params.get('name');
+
+            let coupleData = null;
+
+            try {
+                const sessionRaw = sessionStorage.getItem('kalaila_active_couple');
+                if (sessionRaw) {
+                    const parsed = JSON.parse(sessionRaw);
+                    if (!queryName || parsed.name === queryName) {
+                        coupleData = parsed;
+                    }
+                }
+            } catch(e){}
+
+            if (!coupleData && typeof window.getStoredPortfolios === 'function') {
+                const list = window.getStoredPortfolios();
+                if (queryName) {
+                    coupleData = list.find(p => p.name === queryName);
+                }
+            }
+
+            if (!coupleData) {
+                coupleData = {
+                    name: queryName || 'Rian & Maya',
+                    categoryName: 'Pre-Wedding',
+                    location: 'Pine Forest & Meadow • Bandung',
+                    photos: [
+                        "images/prewed.jpg",
+                        "images/profile.jpg",
+                        "images/prewed1.jpg",
+                        "images/wedding.jpg",
+                        "images/wedding1.jpg",
+                        "images/wedding2.jpg"
+                    ]
+                };
+            }
+
+            const coupleName = coupleData.name || 'Galeri Pasangan';
+            const coupleCat = coupleData.categoryName || 'Galeri Foto';
+            const coupleLoc = coupleData.location || 'Lokasi Foto';
+            const photos = coupleData.photos && coupleData.photos.length > 0 ? coupleData.photos : ['images/prewed.jpg'];
+
+            document.getElementById('couplePageName').textContent = coupleName;
+            document.getElementById('couplePageCat').innerHTML = `<i class="fas fa-heart"></i> ${coupleCat}`;
+            document.getElementById('couplePageLoc').textContent = coupleLoc;
+            document.title = `${coupleName} Galeri Foto | Kalaila Photography`;
+
+            const waBtn = document.getElementById('couplePageWaBtn');
+            if (waBtn) {
+                waBtn.href = `https://wa.me/6282318928400?text=${encodeURIComponent(`Halo Kalaila Photography, saya melihat galeri portofolio ${coupleName} (${coupleCat} di ${coupleLoc}). Saya ingin konsultasi konsep serupa.`)}`;
+            }
+
+            const grid = document.getElementById('coupleMasonryGrid');
+            if (grid) {
+                let html = '';
+                photos.forEach((src, idx) => {
+                    const isLandscape = (idx % 3 === 0);
+                    const isPortrait = (idx % 3 === 1);
+                    const cardClass = isLandscape ? 'landscape' : (isPortrait ? 'portrait' : '');
+
+                    html += `
+                        <div class="couple-masonry-card ${cardClass}" data-index="${idx}" onclick="openLightboxSingle('${src.replace(/'/g, "\\'")}')">
+                            <img src="${src}" alt="${coupleName} Photo ${idx + 1}" loading="lazy" onload="detectOrientation(this)" onerror="this.onerror=null; this.src='images/wedding.jpg';">
+                            <div class="overlay">
+                                <div>
+                                    <span style="font-size: 0.78rem; font-weight: 700; color: var(--gold-accent); text-transform: uppercase;">Foto ${idx + 1} dari ${photos.length}</span>
+                                    <h4 style="font-family: var(--font-serif); font-size: 1.1rem; margin-top: 2px;">${coupleName}</h4>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                grid.innerHTML = html;
+            }
+        });
+
+        function detectOrientation(img) {
+            const card = img.closest('.couple-masonry-card');
+            if (!card) return;
+            if (img.naturalWidth && img.naturalHeight) {
+                if (img.naturalWidth > img.naturalHeight * 1.15) {
+                    card.classList.add('landscape');
+                    card.classList.remove('portrait');
+                } else if (img.naturalHeight > img.naturalWidth * 1.1) {
+                    card.classList.add('portrait');
+                    card.classList.remove('landscape');
+                }
+            }
+        }
+
+        function filterAspectPhotos(mode) {
+            const cards = document.querySelectorAll('.couple-masonry-card');
+            cards.forEach(card => {
+                if (mode === 'all') {
+                    card.style.display = 'block';
+                } else if (mode === 'landscape') {
+                    card.style.display = card.classList.contains('landscape') ? 'block' : 'none';
+                } else if (mode === 'portrait') {
+                    card.style.display = card.classList.contains('portrait') ? 'block' : 'none';
+                }
+            });
+        }
+
+        function openLightboxSingle(src) {
+            const lightbox = document.getElementById('lightboxModal');
+            const img = document.getElementById('lightboxImg');
+            if (lightbox && img) {
+                img.src = src;
+                lightbox.classList.add('active');
+            }
+        }
+    </script>
+</body>
+</html>

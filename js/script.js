@@ -1,23 +1,810 @@
+// ========== ELEGANT CUSTOM MODAL ALERT SYSTEM ==========
+window.showCustomModal = function(options) {
+    let title = "Pemberitahuan";
+    let message = "";
+    let type = "info";
+    let iconClass = "fas fa-info-circle";
+    let buttonText = "OK";
+    let cancelText = "Batal";
+    let showCancel = false;
+    let onConfirm = null;
+
+    if (typeof options === 'string') {
+        message = options;
+        const lower = message.toLowerCase();
+        if (lower.includes('terima kasih') || lower.includes('berhasil') || lower.includes('diterbitkan') || lower.includes('sukses')) {
+            type = 'success';
+            title = 'Terima Kasih Banyak!';
+            iconClass = 'fas fa-check-circle';
+        } else if (lower.includes('mohon') || lower.includes('lengkapi') || lower.includes('isi seluruh') || lower.includes('periksa')) {
+            type = 'warning';
+            title = 'Mohon Lengkapi';
+            iconClass = 'fas fa-exclamation-triangle';
+        } else if (lower.includes('gagal') || lower.includes('error') || lower.includes('salah')) {
+            type = 'error';
+            title = 'Terjadi Kesalahan';
+            iconClass = 'fas fa-times-circle';
+        }
+    } else if (typeof options === 'object' && options !== null) {
+        message = options.message || '';
+        title = options.title || (options.type === 'success' ? 'Berhasil!' : options.type === 'warning' ? 'Perhatian' : 'Pemberitahuan');
+        type = options.type || 'info';
+        buttonText = options.buttonText || 'OK';
+        cancelText = options.cancelText || 'Batal';
+        showCancel = options.showCancel || false;
+        onConfirm = options.onConfirm || null;
+
+        if (options.icon) {
+            iconClass = options.icon;
+        } else {
+            if (type === 'success') iconClass = 'fas fa-check-circle';
+            else if (type === 'warning') iconClass = 'fas fa-exclamation-triangle';
+            else if (type === 'error') iconClass = 'fas fa-times-circle';
+            else iconClass = 'fas fa-info-circle';
+        }
+    }
+
+    // Clean up existing modal if open
+    const existingModal = document.getElementById('kalailaCustomModalOverlay');
+    if (existingModal) {
+        existingModal.remove();
+    }
+
+    const overlay = document.createElement('div');
+    overlay.id = 'kalailaCustomModalOverlay';
+    overlay.className = `kalaila-modal-overlay kalaila-modal-type-${type}`;
+
+    let footerHtml = `<button class="kalaila-modal-btn kalaila-modal-btn-primary kalaila-modal-btn-confirm">${buttonText}</button>`;
+    if (showCancel || typeof onConfirm === 'function') {
+        footerHtml = `
+            <button class="kalaila-modal-btn kalaila-modal-btn-secondary kalaila-modal-btn-cancel">${cancelText}</button>
+            <button class="kalaila-modal-btn kalaila-modal-btn-primary kalaila-modal-btn-confirm">${buttonText}</button>
+        `;
+    }
+
+    overlay.innerHTML = `
+        <div class="kalaila-modal-card">
+            <button class="kalaila-modal-close" aria-label="Tutup">&times;</button>
+            <div class="kalaila-modal-header">
+                <div class="kalaila-modal-icon-wrapper">
+                    <i class="${iconClass}"></i>
+                </div>
+            </div>
+            <div class="kalaila-modal-body">
+                <h3 class="kalaila-modal-title">${title}</h3>
+                <div class="kalaila-modal-message">${message.replace(/\n/g, '<br>')}</div>
+            </div>
+            <div class="kalaila-modal-footer">
+                ${footerHtml}
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(overlay);
+
+    requestAnimationFrame(() => {
+        overlay.classList.add('active');
+    });
+
+    const closeModal = (confirmed = false) => {
+        overlay.classList.remove('active');
+        overlay.classList.add('closing');
+        setTimeout(() => {
+            overlay.remove();
+            if (confirmed && typeof onConfirm === 'function') {
+                onConfirm();
+            }
+        }, 250);
+    };
+
+    const btnConfirm = overlay.querySelector('.kalaila-modal-btn-confirm');
+    const btnCancel = overlay.querySelector('.kalaila-modal-btn-cancel');
+    const btnClose = overlay.querySelector('.kalaila-modal-close');
+
+    if (btnConfirm) btnConfirm.addEventListener('click', () => closeModal(true));
+    if (btnCancel) btnCancel.addEventListener('click', () => closeModal(false));
+    if (btnClose) btnClose.addEventListener('click', () => closeModal(false));
+
+    overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) {
+            closeModal(false);
+        }
+    });
+
+    const handleKeyDown = (e) => {
+        if (e.key === 'Escape') {
+            document.removeEventListener('keydown', handleKeyDown);
+            closeModal(false);
+        }
+    };
+    document.addEventListener('keydown', handleKeyDown);
+
+    setTimeout(() => {
+        if (btnConfirm) btnConfirm.focus();
+    }, 50);
+};
+
+// Global override for native browser alert
+window.alert = function(message) {
+    window.showCustomModal(message);
+};
+
+// ========== TESTIMONIAL DATA & MANAGEMENT GLOBALS ==========
+window.defaultTestimonials = [];
+
+if (!localStorage.getItem('kalaila_testimonials_cleared_v2')) {
+    localStorage.setItem('kalaila_user_testimonials', JSON.stringify([]));
+    localStorage.setItem('kalaila_testimonials_cleared_v2', 'true');
+}
+
+window.getStoredTestimonials = function() {
+    const saved = localStorage.getItem('kalaila_user_testimonials');
+    if (saved) {
+        try {
+            return JSON.parse(saved);
+        } catch (e) {
+            return [];
+        }
+    }
+    return [];
+};
+
+window.deleteTestimonial = function(index) {
+    window.showCustomModal({
+        title: 'Hapus Ulasan?',
+        message: 'Apakah Anda yakin ingin menghapus ulasan testimoni ini dari tampilan web?',
+        type: 'warning',
+        showCancel: true,
+        buttonText: 'Ya, Hapus',
+        cancelText: 'Batal',
+        onConfirm: function() {
+            let list = window.getStoredTestimonials();
+            if (index >= 0 && index < list.length) {
+                list.splice(index, 1);
+                localStorage.setItem('kalaila_user_testimonials', JSON.stringify(list));
+                if (typeof window.renderTestimonials === 'function') {
+                    window.renderTestimonials();
+                }
+                if (typeof window.renderAdminTestimonials === 'function') {
+                    window.renderAdminTestimonials();
+                }
+                window.showCustomModal({
+                    title: 'Berhasil Dihapus',
+                    message: 'Ulasan testimoni telah berhasil dihapus.',
+                    type: 'success'
+                });
+            }
+        }
+    });
+};
+
+window.editTestimonial = function(index) {
+    const list = window.getStoredTestimonials();
+    if (index < 0 || index >= list.length) return;
+    const item = list[index];
+
+    const existingModal = document.getElementById('kalailaEditModalOverlay');
+    if (existingModal) {
+        existingModal.remove();
+    }
+
+    const overlay = document.createElement('div');
+    overlay.id = 'kalailaEditModalOverlay';
+    overlay.className = 'kalaila-modal-overlay active';
+
+    overlay.innerHTML = `
+        <div class="kalaila-modal-card" style="max-width: 480px; text-align: left;">
+            <button class="kalaila-modal-close" id="closeEditModalBtn">&times;</button>
+            <div class="kalaila-modal-header" style="justify-content: flex-start; margin-bottom: 16px;">
+                <h3 class="kalaila-modal-title" style="margin-bottom: 0; font-size: 1.5rem;"><i class="fas fa-edit" style="color: var(--gold-accent); margin-right: 8px;"></i> Edit Ulasan Testimoni</h3>
+            </div>
+            <div class="kalaila-modal-body">
+                <form id="kalailaEditForm" style="display: flex; flex-direction: column; gap: 14px;">
+                    <div>
+                        <label style="font-size: 0.85rem; font-weight: 700; color: var(--primary-color); display: block; margin-bottom: 4px;">Nama Pasangan / Client</label>
+                        <input type="text" id="editClientName" value="${item.name.replace(/"/g, '&quot;')}" required style="width: 100%; padding: 10px 14px; border-radius: 10px; border: 1px solid var(--border-color); font-family: var(--font-body); font-size: 0.9rem;">
+                    </div>
+                    <div>
+                        <label style="font-size: 0.85rem; font-weight: 700; color: var(--primary-color); display: block; margin-bottom: 4px;">Acara & Lokasi</label>
+                        <input type="text" id="editClientEvent" value="${item.event.replace(/"/g, '&quot;')}" required style="width: 100%; padding: 10px 14px; border-radius: 10px; border: 1px solid var(--border-color); font-family: var(--font-body); font-size: 0.9rem;">
+                    </div>
+                    <div>
+                        <label style="font-size: 0.85rem; font-weight: 700; color: var(--primary-color); display: block; margin-bottom: 4px;">Rating Bintang</label>
+                        <select id="editRating" style="width: 100%; padding: 10px 14px; border-radius: 10px; border: 1px solid var(--border-color); font-family: var(--font-body); font-size: 0.9rem; background: white;">
+                            <option value="5" ${item.stars == 5 ? 'selected' : ''}>⭐⭐⭐⭐⭐ (5 Bintang)</option>
+                            <option value="4" ${item.stars == 4 ? 'selected' : ''}>⭐⭐⭐⭐ (4 Bintang)</option>
+                            <option value="3" ${item.stars == 3 ? 'selected' : ''}>⭐⭐⭐ (3 Bintang)</option>
+                            <option value="2" ${item.stars == 2 ? 'selected' : ''}>⭐⭐ (2 Bintang)</option>
+                            <option value="1" ${item.stars == 1 ? 'selected' : ''}>⭐ (1 Bintang)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label style="font-size: 0.85rem; font-weight: 700; color: var(--primary-color); display: block; margin-bottom: 4px;">Pesan / Isi Ulasan</label>
+                        <textarea id="editClientComment" rows="4" required style="width: 100%; padding: 10px 14px; border-radius: 10px; border: 1px solid var(--border-color); font-family: var(--font-body); font-size: 0.9rem; resize: vertical;">${item.comment}</textarea>
+                    </div>
+                    <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 10px;">
+                        <button type="button" class="kalaila-modal-btn kalaila-modal-btn-secondary" id="cancelEditModalBtn">Batal</button>
+                        <button type="submit" class="kalaila-modal-btn kalaila-modal-btn-primary"><i class="fas fa-save" style="margin-right: 6px;"></i> Simpan Perubahan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(overlay);
+
+    const closeOverlay = () => {
+        overlay.classList.remove('active');
+        overlay.classList.add('closing');
+        setTimeout(() => overlay.remove(), 250);
+    };
+
+    document.getElementById('closeEditModalBtn').addEventListener('click', closeOverlay);
+    document.getElementById('cancelEditModalBtn').addEventListener('click', closeOverlay);
+    overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) closeOverlay();
+    });
+
+    document.getElementById('kalailaEditForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const newName = document.getElementById('editClientName').value.trim();
+        const newEvent = document.getElementById('editClientEvent').value.trim();
+        const newRating = parseInt(document.getElementById('editRating').value);
+        const newComment = document.getElementById('editClientComment').value.trim();
+
+        if (!newName || !newEvent || !newComment) return;
+
+        let currentList = window.getStoredTestimonials();
+        if (index >= 0 && index < currentList.length) {
+            currentList[index].name = newName;
+            currentList[index].event = newEvent;
+            currentList[index].stars = newRating;
+            currentList[index].comment = newComment;
+
+            const parts = newName.split(/\s+/);
+            currentList[index].avatar = parts.length >= 2 ? (parts[0][0] + parts[parts.length - 1][0]).toUpperCase() : newName.substring(0, 2).toUpperCase();
+
+            localStorage.setItem('kalaila_user_testimonials', JSON.stringify(currentList));
+            closeOverlay();
+
+            if (typeof window.renderTestimonials === 'function') {
+                window.renderTestimonials();
+            }
+            if (typeof window.renderAdminTestimonials === 'function') {
+                window.renderAdminTestimonials();
+            }
+
+            window.showCustomModal({
+                title: 'Berhasil Diperbarui',
+                message: 'Ulasan testimoni telah berhasil diperbarui.',
+                type: 'success'
+            });
+        }
+    });
+};
+
+window.resetTestimonialsToDefault = function() {
+    window.showCustomModal({
+        title: 'Reset Testimoni?',
+        message: 'Apakah Anda yakin ingin menghapus semua ulasan tambahan dan mengembalikan testimoni ke ulasan utama saja?',
+        type: 'warning',
+        showCancel: true,
+        buttonText: 'Ya, Bersihkan',
+        cancelText: 'Batal',
+        onConfirm: function() {
+            localStorage.setItem('kalaila_user_testimonials', JSON.stringify(window.defaultTestimonials));
+            if (typeof window.renderTestimonials === 'function') {
+                window.renderTestimonials();
+            }
+            if (typeof window.renderAdminTestimonials === 'function') {
+                window.renderAdminTestimonials();
+            }
+            window.showCustomModal({
+                title: 'Berhasil Dibersihkan',
+                message: 'Semua ulasan tambahan telah dibersihkan dan dikembalikan ke testimoni utama.',
+                type: 'success'
+            });
+        }
+    });
+};
+
+// ========== GLOBAL PORTFOLIO CMS MANAGER ==========
+window.defaultPortfolios = [
+    {
+        id: "port-1",
+        name: "Rian & Maya",
+        category: "prewedding",
+        categoryName: "Pre-Wedding",
+        location: "Pine Forest & Meadow • Bandung",
+        cover: "images/prewed.jpg",
+        photos: ["images/prewed.jpg", "images/profile.jpg", "images/prewed1.jpg", "images/wedding.jpg", "images/wedding1.jpg", "images/wedding2.jpg"]
+    },
+    {
+        id: "port-2",
+        name: "Dimas & Nadia",
+        category: "wedding",
+        categoryName: "Pernikahan (Wedding)",
+        location: "Grand Ballroom & Garden Akad • Jakarta",
+        cover: "images/wedding1.jpg",
+        photos: ["images/wedding1.jpg", "images/wedding.jpg", "images/wedding2.jpg", "images/prewed.jpg", "images/profile.jpg", "images/prewed1.jpg"]
+    },
+    {
+        id: "port-3",
+        name: "Fikri & Aulia",
+        category: "prewedding",
+        categoryName: "Pre-Wedding",
+        location: "Ranca Upas & Tea Plantation • Ciwidey",
+        cover: "images/profile.jpg",
+        photos: ["images/profile.jpg", "images/prewed1.jpg", "images/prewed.jpg", "images/wedding2.jpg", "images/wedding.jpg"]
+    },
+    {
+        id: "port-4",
+        name: "Reza & Kirana",
+        category: "wedding",
+        categoryName: "Pernikahan (Wedding)",
+        location: "Glass House Indoor & Intimate Dinner • Bandung",
+        cover: "images/wedding2.jpg",
+        photos: ["images/wedding2.jpg", "images/wedding.jpg", "images/wedding1.jpg", "images/prewed1.jpg", "images/prewed.jpg", "images/profile.jpg"]
+    },
+    {
+        id: "port-5",
+        name: "Bagas & Cynthia",
+        category: "engagement",
+        categoryName: "Engagement & Sangjit",
+        location: "Heritage House & Garden • Semarang",
+        cover: "images/wedding.jpg",
+        photos: ["images/wedding.jpg", "images/wedding2.jpg", "images/prewed.jpg", "images/wedding1.jpg"]
+    },
+    {
+        id: "port-6",
+        name: "Aris & Vina",
+        category: "maternity",
+        categoryName: "Maternity & Family",
+        location: "Warm Sunset Studio & Outdoor • Bandung",
+        cover: "images/prewed1.jpg",
+        photos: ["images/prewed1.jpg", "images/profile.jpg", "images/prewed.jpg", "images/wedding2.jpg", "images/wedding1.jpg"]
+    }
+];
+
+window.getStoredPortfolios = function() {
+    const saved = localStorage.getItem('kalaila_portfolios');
+    if (saved) {
+        try {
+            return JSON.parse(saved);
+        } catch(e){}
+    }
+    return window.defaultPortfolios;
+};
+
+window.savePortfolios = function(list) {
+    localStorage.setItem('kalaila_portfolios', JSON.stringify(list));
+};
+
+window.deletePortfolioItem = function(index, skipConfirm = false) {
+    let list = window.getStoredPortfolios();
+    if (index < 0 || index >= list.length) return;
+
+    const doDelete = () => {
+        const item = list[index];
+        list.splice(index, 1);
+        window.savePortfolios(list);
+        if (typeof window.renderDynamicPortfolios === 'function') window.renderDynamicPortfolios();
+        if (typeof window.renderAdminPortfolios === 'function') window.renderAdminPortfolios();
+        if (!skipConfirm) {
+            window.showCustomModal({
+                title: 'Berhasil Dihapus',
+                message: `Portofolio "${item ? item.name : ''}" telah dihapus.`,
+                type: 'success'
+            });
+        }
+    };
+
+    if (skipConfirm) {
+        doDelete();
+    } else {
+        window.showCustomModal({
+            title: 'Hapus Karya Portofolio?',
+            message: 'Apakah Anda yakin ingin menghapus portofolio pasangan ini dari galeri web?',
+            type: 'warning',
+            showCancel: true,
+            buttonText: 'Ya, Hapus',
+            cancelText: 'Batal',
+            onConfirm: doDelete
+        });
+    }
+};
+
+function compressAndReadImage(file, maxDimension = 1000, quality = 0.75) {
+    return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const img = new Image();
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                let w = img.width;
+                let h = img.height;
+
+                if (w > maxDimension || h > maxDimension) {
+                    if (w > h) {
+                        h = Math.round((h * maxDimension) / w);
+                        w = maxDimension;
+                    } else {
+                        w = Math.round((w * maxDimension) / h);
+                        h = maxDimension;
+                    }
+                }
+
+                canvas.width = w;
+                canvas.height = h;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, w, h);
+                resolve(canvas.toDataURL('image/jpeg', quality));
+            };
+            img.onerror = () => resolve(e.target.result);
+            img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    });
+}
+
+window.openAddEditPortfolioModal = function(editIndex = -1) {
+    const list = window.getStoredPortfolios();
+    const isEdit = (editIndex >= 0 && editIndex < list.length);
+    const item = isEdit ? list[editIndex] : {
+        name: '',
+        category: 'prewedding',
+        location: '',
+        cover: '',
+        photos: []
+    };
+
+    let currentFormPhotos = [...(item.photos || [])];
+
+    const existingModal = document.getElementById('kalailaPortfolioModalOverlay');
+    if (existingModal) existingModal.remove();
+
+    const overlay = document.createElement('div');
+    overlay.id = 'kalailaPortfolioModalOverlay';
+    overlay.className = 'kalaila-modal-overlay active';
+
+    overlay.innerHTML = `
+        <div class="kalaila-modal-card" style="max-width: 580px; text-align: left;">
+            <button class="kalaila-modal-close" id="closePortModalBtn">&times;</button>
+            <div class="kalaila-modal-header" style="justify-content: flex-start; margin-bottom: 16px;">
+                <h3 class="kalaila-modal-title" style="margin-bottom: 0; font-size: 1.45rem;">
+                    <i class="fas ${isEdit ? 'fa-edit' : 'fa-plus-circle'}" style="color: var(--gold-accent); margin-right: 8px;"></i>
+                    ${isEdit ? 'Edit Karya Portofolio' : 'Tambah Portofolio Pasangan Baru'}
+                </h3>
+            </div>
+            <div class="kalaila-modal-body">
+                <form id="kalailaPortfolioForm" style="display: flex; flex-direction: column; gap: 14px;">
+                    <div>
+                        <label style="font-size: 0.85rem; font-weight: 700; color: var(--primary-color); display: block; margin-bottom: 4px;">Nama Pasangan / Judul Project</label>
+                        <input type="text" id="portName" value="${item.name.replace(/"/g, '&quot;')}" placeholder="Contoh: Rian & Maya" required style="width: 100%; padding: 10px 14px; border-radius: 10px; border: 1px solid var(--border-color); font-family: var(--font-body); font-size: 0.9rem;">
+                    </div>
+                    <div>
+                        <label style="font-size: 0.85rem; font-weight: 700; color: var(--primary-color); display: block; margin-bottom: 4px;">Kategori Momen</label>
+                        <select id="portCategory" style="width: 100%; padding: 10px 14px; border-radius: 10px; border: 1px solid var(--border-color); font-family: var(--font-body); font-size: 0.9rem; background: white;">
+                            <option value="prewedding" ${item.category === 'prewedding' ? 'selected' : ''}>Pre-Wedding</option>
+                            <option value="wedding" ${item.category === 'wedding' ? 'selected' : ''}>Pernikahan (Wedding)</option>
+                            <option value="engagement" ${item.category === 'engagement' ? 'selected' : ''}>Engagement & Sangjit</option>
+                            <option value="maternity" ${item.category === 'maternity' ? 'selected' : ''}>Maternity & Family</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label style="font-size: 0.85rem; font-weight: 700; color: var(--primary-color); display: block; margin-bottom: 4px;">Lokasi & Tempat Acara</label>
+                        <input type="text" id="portLoc" value="${item.location.replace(/"/g, '&quot;')}" placeholder="Contoh: Pine Forest & Meadow • Bandung" required style="width: 100%; padding: 10px 14px; border-radius: 10px; border: 1px solid var(--border-color); font-family: var(--font-body); font-size: 0.9rem;">
+                    </div>
+                    <div>
+                        <label style="font-size: 0.85rem; font-weight: 700; color: var(--primary-color); display: block; margin-bottom: 6px;">Upload Foto Galeri (Bisa Tambah s/d Maksimal 30 Foto)</label>
+                        <div style="background: #f8fafc; border: 2px dashed #cbd5e1; border-radius: 12px; padding: 16px; text-align: center; cursor: pointer; transition: all 0.2s ease;" onclick="document.getElementById('portPhotosFileInput').click()" onmouseover="this.style.borderColor='var(--gold-accent)'" onmouseout="this.style.borderColor='#cbd5e1'">
+                            <i class="fas fa-cloud-upload-alt" style="font-size: 1.8rem; color: var(--gold-accent); margin-bottom: 6px;"></i>
+                            <div style="font-size: 0.9rem; font-weight: 700; color: var(--primary-color);">📁 Klik untuk Tambah Foto dari Komputer Anda</div>
+                            <div style="font-size: 0.76rem; color: var(--light-text);" id="photosFileStatus">Dapat memilih hingga maksimal 30 foto sekaligus dari folder lokal.</div>
+                            <input type="file" id="portPhotosFileInput" accept="image/*" multiple style="display: none;">
+                        </div>
+                    </div>
+
+                    <!-- Live Thumbnail Preview List -->
+                    <div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                            <label style="font-size: 0.85rem; font-weight: 700; color: var(--primary-color);">Daftar Foto Galeri Pasangan (<span id="photoCountNum">${currentFormPhotos.length}</span> / 30 Foto):</label>
+                            <span style="font-size: 0.75rem; color: var(--light-text);">Klik ✕ untuk hapus | Klik 'Cover' untuk sampul</span>
+                        </div>
+                        <div id="portPhotosPreviewGrid" style="display: flex; gap: 10px; overflow-x: auto; padding: 10px; background: #f1f5f9; border-radius: 10px; min-height: 90px; align-items: center;"></div>
+                    </div>
+
+                    <div>
+                        <label style="font-size: 0.85rem; font-weight: 700; color: var(--primary-color); display: block; margin-bottom: 4px;">Path Foto Sampul (Cover Utama)</label>
+                        <input type="text" id="portCover" value="${item.cover.replace(/"/g, '&quot;')}" placeholder="Pilih dari tombol 'Cover' di atas..." style="width: 100%; padding: 8px 12px; border-radius: 8px; border: 1px solid var(--border-color); font-family: var(--font-body); font-size: 0.8rem;">
+                    </div>
+
+                    <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 10px;">
+                        <button type="button" class="kalaila-modal-btn kalaila-modal-btn-secondary" id="cancelPortModalBtn">Batal</button>
+                        <button type="submit" class="kalaila-modal-btn kalaila-modal-btn-primary"><i class="fas fa-save" style="margin-right: 6px;"></i> Simpan Portofolio</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(overlay);
+
+    const closeOverlay = () => {
+        overlay.classList.remove('active');
+        overlay.classList.add('closing');
+        setTimeout(() => overlay.remove(), 250);
+    };
+
+    document.getElementById('closePortModalBtn').addEventListener('click', closeOverlay);
+    document.getElementById('cancelPortModalBtn').addEventListener('click', closeOverlay);
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) closeOverlay(); });
+
+    function renderFormPhotoPreviews() {
+        const grid = document.getElementById('portPhotosPreviewGrid');
+        const countSpan = document.getElementById('photoCountNum');
+        if (!grid) return;
+
+        if (countSpan) countSpan.textContent = currentFormPhotos.length;
+
+        if (currentFormPhotos.length === 0) {
+            grid.innerHTML = '<p style="font-size: 0.78rem; color: var(--light-text); font-style: italic; width: 100%; text-align: center; margin: 0;">Belum ada foto. Klik kotak upload di atas untuk menambahkan foto dari komputer Anda.</p>';
+            return;
+        }
+
+        let html = '';
+        const currentCover = document.getElementById('portCover').value;
+
+        currentFormPhotos.forEach((src, idx) => {
+            const isCover = (currentCover === src);
+            html += `
+                <div style="position: relative; width: 75px; height: 75px; border-radius: 10px; overflow: hidden; border: 2px solid ${isCover ? 'var(--gold-accent)' : '#cbd5e1'}; background: #07080f; flex-shrink: 0;">
+                    <img src="${src}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.onerror=null; this.src='images/wedding.jpg';">
+                    <button type="button" class="btn-remove-photo" data-idx="${idx}" title="Hapus foto ini" style="position: absolute; top: 3px; right: 3px; background: rgba(220, 38, 38, 0.9); color: white; border: none; width: 20px; height: 20px; border-radius: 50%; font-size: 0.75rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 10;">&times;</button>
+                    <button type="button" class="btn-set-cover" data-src="${src.replace(/"/g, '&quot;')}" title="Jadikan Sampul Cover" style="position: absolute; bottom: 2px; left: 2px; right: 2px; background: ${isCover ? 'var(--gold-accent)' : 'rgba(0,0,0,0.65)'}; color: ${isCover ? 'var(--primary-color)' : 'white'}; border: none; border-radius: 4px; font-size: 0.6rem; font-weight: 700; cursor: pointer; padding: 2px 0; text-align: center;">
+                        ${isCover ? '★ Cover' : 'Cover'}
+                    </button>
+                </div>
+            `;
+        });
+
+        grid.innerHTML = html;
+
+        grid.querySelectorAll('.btn-remove-photo').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const idx = parseInt(btn.getAttribute('data-idx'));
+                currentFormPhotos.splice(idx, 1);
+                if (currentFormPhotos.length > 0 && !currentFormPhotos.includes(document.getElementById('portCover').value)) {
+                    document.getElementById('portCover').value = currentFormPhotos[0];
+                }
+                renderFormPhotoPreviews();
+            });
+        });
+
+        grid.querySelectorAll('.btn-set-cover').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const src = btn.getAttribute('data-src');
+                document.getElementById('portCover').value = src;
+                renderFormPhotoPreviews();
+            });
+        });
+    }
+
+    renderFormPhotoPreviews();
+
+    document.getElementById('portPhotosFileInput').addEventListener('change', async function(e) {
+        const files = Array.from(e.target.files);
+        if (files.length > 0) {
+            const availableSlot = Math.max(0, 30 - currentFormPhotos.length);
+
+            if (availableSlot <= 0) {
+                window.showCustomModal({
+                    title: 'Batas Maksimal 30 Foto',
+                    message: 'Galeri pasangan ini telah mencapai batas maksimal 30 foto. Hapus beberapa foto untuk menambahkan yang baru.',
+                    type: 'warning'
+                });
+                return;
+            }
+
+            if (files.length > availableSlot) {
+                window.showCustomModal({
+                    title: 'Batas Maksimal 30 Foto',
+                    message: `Anda memilih ${files.length} foto. Hanya ${availableSlot} foto pertama yang akan dimasukkan untuk memenuhi kuota maksimal 30 foto.`,
+                    type: 'info'
+                });
+            }
+
+            const filesToProcess = files.slice(0, availableSlot);
+            document.getElementById('photosFileStatus').textContent = `Memproses & Mengompres ${filesToProcess.length} Foto Komputer...`;
+            for (const file of filesToProcess) {
+                const compressed = await compressAndReadImage(file, 800, 0.7);
+                currentFormPhotos.push(compressed);
+            }
+            if (currentFormPhotos.length > 0 && !document.getElementById('portCover').value) {
+                document.getElementById('portCover').value = currentFormPhotos[0];
+            }
+            document.getElementById('photosFileStatus').textContent = `✅ Total ${currentFormPhotos.length} / 30 Foto Terisi dalam Galeri!`;
+            renderFormPhotoPreviews();
+        }
+    });
+
+    document.getElementById('kalailaPortfolioForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const name = document.getElementById('portName').value.trim();
+        const category = document.getElementById('portCategory').value;
+        const location = document.getElementById('portLoc').value.trim();
+        let cover = document.getElementById('portCover').value.trim() || (currentFormPhotos.length > 0 ? currentFormPhotos[0] : 'images/prewed.jpg');
+
+        let photos = currentFormPhotos.length > 0 ? currentFormPhotos : [cover];
+
+        const catNames = {
+            prewedding: 'Pre-Wedding',
+            wedding: 'Pernikahan (Wedding)',
+            engagement: 'Engagement & Sangjit',
+            maternity: 'Maternity & Family'
+        };
+
+        let currentList = window.getStoredPortfolios();
+        const newObj = {
+            id: isEdit ? item.id : 'port-' + Date.now(),
+            name: name,
+            category: category,
+            categoryName: catNames[category] || 'Galeri Foto',
+            location: location,
+            cover: cover,
+            photos: photos
+        };
+
+        if (isEdit) {
+            currentList[editIndex] = newObj;
+        } else {
+            currentList.unshift(newObj);
+        }
+
+        window.savePortfolios(currentList);
+        closeOverlay();
+
+        if (typeof window.renderDynamicPortfolios === 'function') window.renderDynamicPortfolios();
+        if (typeof window.renderAdminPortfolios === 'function') window.renderAdminPortfolios();
+
+        window.showCustomModal({
+            title: isEdit ? 'Berhasil Diperbarui' : 'Berhasil Ditambahkan',
+            message: `Portofolio "${name}" dengan ${photos.length} foto telah berhasil disimpan!`,
+            type: 'success'
+        });
+    });
+};
+
+window.portfolioLimit = 6;
+
+window.loadMorePortfolios = function() {
+    window.portfolioLimit = (window.portfolioLimit || 6) + 6;
+    const activeFilterBtn = document.querySelector('.filter-btn.active');
+    const currentFilter = activeFilterBtn ? activeFilterBtn.getAttribute('data-filter') : 'all';
+    window.renderDynamicPortfolios(currentFilter);
+};
+
+window.renderDynamicPortfolios = function(filter = 'all') {
+    const grids = [document.getElementById('portfolioGrid'), document.getElementById('homePortfolioGrid')].filter(Boolean);
+    if (grids.length === 0) return;
+
+    const list = window.getStoredPortfolios();
+    const isAdmin = sessionStorage.getItem('kalaila_admin_logged_in') === 'true';
+
+    grids.forEach(grid => {
+        const isHome = grid.id === 'homePortfolioGrid';
+        let html = '';
+        const filtered = filter === 'all' ? list : list.filter(item => item.category === filter);
+        const limit = isHome ? 3 : (window.portfolioLimit || 6);
+        const displayList = filtered.slice(0, limit);
+
+        if (displayList.length === 0) {
+            grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--light-text); padding: 40px;">Belum ada karya portofolio untuk kategori ini.</p>';
+        } else {
+            displayList.forEach((item, index) => {
+                const realIndex = list.findIndex(p => p.id === item.id);
+                const photoCount = item.photos ? item.photos.length : 1;
+                const rawPhotosJSON = JSON.stringify(item.photos || [item.cover]).replace(/'/g, '&apos;');
+                const animDelay = (index * 0.05).toFixed(2);
+
+                const adminBtns = isAdmin ? `
+                    <div style="position: absolute; top: 12px; right: 12px; z-index: 20; display: flex; gap: 6px;">
+                        <button onclick="event.stopPropagation(); window.openAddEditPortfolioModal(${realIndex})" class="admin-edit-testimonial-btn" style="position: static; padding: 4px 10px; font-size: 0.75rem;">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                        <button onclick="event.stopPropagation(); window.deletePortfolioItem(${realIndex})" class="admin-delete-testimonial-btn" style="position: static; padding: 4px 10px; font-size: 0.75rem;">
+                            <i class="fas fa-trash-alt"></i> Hapus
+                        </button>
+                    </div>
+                ` : '';
+
+                html += `
+                    <div class="portfolio-item couple-card filtering-in" data-category="${item.category}"
+                         style="animation-delay: ${animDelay}s;"
+                         data-couple-id="${item.id}"
+                         data-couple-name="${item.name.replace(/"/g, '&quot;')}"
+                         data-couple-cat="${(item.categoryName || 'Galeri Foto').replace(/"/g, '&quot;')}"
+                         data-couple-loc="${item.location.replace(/"/g, '&quot;')}"
+                         data-couple-photos='${rawPhotosJSON}'>
+                        ${adminBtns}
+                        <div class="portfolio-image">
+                            <span class="photo-count-badge"><i class="fas fa-images"></i> ${photoCount} Foto Galeri</span>
+                            <img src="${item.cover}" alt="${item.name}" loading="lazy" onerror="this.onerror=null; this.src='images/prewed.jpg';">
+                            <div class="portfolio-overlay">
+                                <span class="category-tag">${item.categoryName || 'Galeri Foto'}</span>
+                                <h4>${item.name}</h4>
+                                <p>${item.location}</p>
+                                <button class="open-couple-btn"><i class="fas fa-search-plus"></i> Lihat Foto Pasangan</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            grid.innerHTML = html;
+        }
+
+        grid.querySelectorAll('.couple-card').forEach(card => {
+            card.addEventListener('click', (e) => {
+                if (typeof window.openCoupleModal === 'function') {
+                    window.openCoupleModal(card);
+                }
+            });
+        });
+
+        if (!isHome) {
+            const loadMoreContainer = document.getElementById('loadMorePortfoliosContainer');
+            if (loadMoreContainer) {
+                const remaining = filtered.length - displayList.length;
+                if (remaining > 0) {
+                    loadMoreContainer.innerHTML = `
+                        <div style="text-align: center; margin-top: 48px; width: 100%;">
+                            <button onclick="window.loadMorePortfolios()" class="cta-button primary" style="padding: 16px 40px; font-size: 1rem; border-radius: 50px; cursor: pointer; box-shadow: 0 8px 24px rgba(212, 175, 55, 0.35); transition: all 0.3s ease;">
+                                <i class="fas fa-plus-circle" style="margin-right: 8px;"></i> Tampilkan Lebih Banyak Karya
+                            </button>
+                        </div>
+                    `;
+                } else if (filtered.length > 6) {
+                    loadMoreContainer.innerHTML = `
+                        <div style="text-align: center; margin-top: 40px; width: 100%;">
+                            <span style="font-size: 0.88rem; color: var(--light-text); font-style: italic; background: rgba(0,0,0,0.04); padding: 10px 24px; border-radius: 50px; border: 1px solid var(--border-color);">
+                                ✨ Menampilkan Seluruh ${filtered.length} Karya Portofolio Pasangan
+                            </span>
+                        </div>
+                    `;
+                } else {
+                    loadMoreContainer.innerHTML = '';
+                }
+            }
+        }
+    });
+};
+
 document.addEventListener('DOMContentLoaded', () => {
 
     // ========== PAGE LOADER & TRANSITION HANDLER ==========
     const pageLoader = document.getElementById('pageLoader');
     const loaderProgress = document.querySelector('.loader-progress');
 
-    window.addEventListener('load', () => {
+    function hidePageLoader() {
         if (pageLoader) {
-            setTimeout(() => {
-                pageLoader.classList.add('fade-out');
-            }, 300);
+            pageLoader.classList.add('fade-out');
         }
-    });
+    }
+
+    hidePageLoader();
+    window.addEventListener('load', hidePageLoader);
+    window.addEventListener('pageshow', hidePageLoader);
+    setTimeout(hidePageLoader, 350);
 
     document.querySelectorAll('a[href]').forEach(link => {
         link.addEventListener('click', function (e) {
             const href = this.getAttribute('href');
             const target = this.getAttribute('target');
 
-            if (!href || href.startsWith('#') || href.startsWith('http') || href.startsWith('mailto:') || href.startsWith('tel:') || href.startsWith('https://wa.me') || target === '_blank') {
+            if (!href || href === '#' || href.startsWith('#') || href.startsWith('javascript') || href.startsWith('http') || href.startsWith('mailto:') || href.startsWith('tel:') || href.startsWith('https://wa.me') || target === '_blank') {
                 return;
             }
 
@@ -27,11 +814,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (loaderProgress) {
                     loaderProgress.style.animation = 'none';
                     loaderProgress.offsetHeight;
-                    loaderProgress.style.animation = 'loaderFill 0.5s ease forwards';
+                    loaderProgress.style.animation = 'loaderFill 0.35s ease forwards';
                 }
                 setTimeout(() => {
                     window.location.href = href;
-                }, 500);
+                }, 350);
             } else {
                 window.location.href = href;
             }
@@ -242,32 +1029,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ========== PORTFOLIO INTERACTIVE CATEGORY FILTER ==========
     const filterBtns = document.querySelectorAll('.filter-btn');
-    const portfolioItems = document.querySelectorAll('.portfolio-item');
-
     filterBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
+        btn.addEventListener('click', function() {
             filterBtns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
+            this.classList.add('active');
 
-            const filterValue = btn.getAttribute('data-filter');
-
-            portfolioItems.forEach(item => {
-                const category = item.getAttribute('data-category');
-
-                if (filterValue === 'all' || filterValue === category) {
-                    item.style.display = 'block';
-                    setTimeout(() => {
-                        item.style.opacity = '1';
-                        item.style.transform = 'scale(1)';
-                    }, 50);
-                } else {
-                    item.style.opacity = '0';
-                    item.style.transform = 'scale(0.9)';
-                    setTimeout(() => {
-                        item.style.display = 'none';
-                    }, 300);
-                }
-            });
+            window.portfolioLimit = 6;
+            const filterValue = this.getAttribute('data-filter');
+            if (typeof window.renderDynamicPortfolios === 'function') {
+                window.renderDynamicPortfolios(filterValue);
+            }
         });
     });
 
@@ -362,6 +1133,10 @@ document.addEventListener('DOMContentLoaded', () => {
             coupleMainImg.style.opacity = '0.3';
             setTimeout(() => {
                 coupleMainImg.src = newSrc;
+                coupleMainImg.onerror = function() {
+                    this.onerror = null;
+                    this.src = 'images/wedding1.jpg';
+                };
                 coupleMainImg.style.opacity = '1';
             }, 150);
         }
@@ -372,7 +1147,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function openCoupleModal(card) {
+    window.openCoupleModal = function(card) {
+        const coupleModal = document.getElementById('coupleModal');
+        const coupleModalTitle = document.getElementById('coupleModalTitle');
+        const coupleModalSub = document.getElementById('coupleModalSub');
+        const coupleMainImg = document.getElementById('coupleMainImg');
+        const coupleThumbsGrid = document.getElementById('coupleThumbsGrid');
+        const coupleWaBtn = document.getElementById('coupleWaBtn');
+
         if (!coupleModal) return;
 
         const coupleName = card.getAttribute('data-couple-name') || 'Galeri Pasangan';
@@ -392,6 +1174,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (coupleMainImg && currentCouplePhotos.length > 0) {
             coupleMainImg.src = currentCouplePhotos[0];
+            coupleMainImg.onerror = function() {
+                this.onerror = null;
+                this.src = 'images/wedding1.jpg';
+            };
             coupleMainImg.alt = `${coupleName} Photo`;
         }
 
@@ -400,7 +1186,7 @@ document.addEventListener('DOMContentLoaded', () => {
             currentCouplePhotos.forEach((src, idx) => {
                 const thumb = document.createElement('div');
                 thumb.className = `couple-thumb-item ${idx === 0 ? 'active' : ''}`;
-                thumb.innerHTML = `<img src="${src}" alt="Foto ${idx + 1}">`;
+                thumb.innerHTML = `<img src="${src}" alt="Foto ${idx + 1}" onerror="this.onerror=null; this.src='images/wedding.jpg';">`;
                 thumb.addEventListener('click', () => {
                     switchCouplePhoto(idx);
                 });
@@ -412,16 +1198,32 @@ document.addEventListener('DOMContentLoaded', () => {
             coupleWaBtn.href = `https://wa.me/6282318928400?text=${encodeURIComponent(`Halo Kalaila Photography, saya sangat menyukai konsep foto galeri pasangan ${coupleName} (${coupleCat} di ${coupleLoc}). Bisakah konsultasi paket & konsep serupa?`)}`;
         }
 
+        const activeCouple = {
+            name: coupleName,
+            categoryName: coupleCat,
+            location: coupleLoc,
+            photos: currentCouplePhotos
+        };
+        try {
+            sessionStorage.setItem('kalaila_active_couple', JSON.stringify(activeCouple));
+        } catch (e) {}
+
+        const coupleDetailLink = document.getElementById('coupleDetailLink');
+        if (coupleDetailLink) {
+            coupleDetailLink.href = `couple-detail.html?name=${encodeURIComponent(coupleName)}`;
+        }
+
         coupleModal.classList.add('active');
         document.body.style.overflow = 'hidden';
-    }
+    };
 
-    function closeCoupleModal() {
+    window.closeCoupleModal = function() {
+        const coupleModal = document.getElementById('coupleModal');
         if (coupleModal) {
             coupleModal.classList.remove('active');
             document.body.style.overflow = 'auto';
         }
-    }
+    };
 
     if (couplePrevBtn) {
         couplePrevBtn.addEventListener('click', () => {
@@ -437,12 +1239,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelectorAll('.couple-card').forEach(card => {
         card.addEventListener('click', (e) => {
-            openCoupleModal(card);
+            window.openCoupleModal(card);
         });
     });
 
-    if (coupleModalClose) coupleModalClose.addEventListener('click', closeCoupleModal);
-    if (coupleModalOverlay) coupleModalOverlay.addEventListener('click', closeCoupleModal);
+    if (coupleModalClose) coupleModalClose.addEventListener('click', window.closeCoupleModal);
+    if (coupleModalOverlay) coupleModalOverlay.addEventListener('click', window.closeCoupleModal);
 
     document.addEventListener('keydown', (e) => {
         if (coupleModal && coupleModal.classList.contains('active')) {
@@ -452,45 +1254,77 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // ========== AVAILABILITY DATE CHECKER & CALENDAR OVERVIEW ==========
+    // ========== REAL 2026 CALENDAR SYSTEM & AVAILABILITY CHECKER ==========
     const availabilityForm = document.getElementById('availabilityForm');
     const availabilityResult = document.getElementById('availabilityResult');
     const calendarDatesGrid = document.getElementById('calendarDatesGrid');
-    const toggleAdminSlotBtn = document.getElementById('toggleAdminSlotMode');
 
-    // Default slots per day (Max 3 slots per day)
-    let defaultDaySlots = {
-        6: 0, 12: 0, 18: 0, 25: 0, // Full Booked
-        3: 1, 8: 1, 14: 1, 20: 1, 27: 1, 29: 1, // Sisa 1 Slot
-        2: 2, 5: 2, 9: 2, 15: 2, 22: 2, 28: 2 // Sisa 2 Slot
+    const monthNamesIndo = [
+        'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+        'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+    ];
+
+    let clientCalYear = 2026;
+    let clientCalMonth = 6; // July 2026 (0-indexed)
+
+    // Initial default booked & limited slot maps for July 2026
+    let defaultISOBooked = {
+        "2026-07-06": 0, "2026-07-12": 0, "2026-07-18": 0, "2026-07-25": 0,
+        "2026-07-03": 1, "2026-07-08": 1, "2026-07-14": 1, "2026-07-20": 1, "2026-07-27": 1, "2026-07-29": 1,
+        "2026-07-02": 2, "2026-07-05": 2, "2026-07-09": 2, "2026-07-15": 2, "2026-07-22": 2, "2026-07-28": 2
     };
 
-    let savedSlots = localStorage.getItem('kalaila_day_slots');
-    let daySlotsMap = savedSlots ? JSON.parse(savedSlots) : defaultDaySlots;
-
-    let isAdminSlotMode = false;
-
-    function getRemainingSlots(day) {
-        if (daySlotsMap.hasOwnProperty(day)) {
-            return parseInt(daySlotsMap[day]);
+    function getISOSlotsMap() {
+        const saved = localStorage.getItem('kalaila_iso_slots');
+        if (saved) {
+            try { return JSON.parse(saved); } catch(e){}
         }
-        return 3; // Default 3 slots
+        const oldSaved = localStorage.getItem('kalaila_day_slots');
+        if (oldSaved) {
+            try {
+                const oldMap = JSON.parse(oldSaved);
+                let migrated = { ...defaultISOBooked };
+                Object.keys(oldMap).forEach(day => {
+                    const isoKey = `2026-07-${String(day).padStart(2, '0')}`;
+                    migrated[isoKey] = parseInt(oldMap[day]);
+                });
+                return migrated;
+            } catch(e){}
+        }
+        return defaultISOBooked;
     }
 
-    function renderCalendarGrid() {
-        if (!calendarDatesGrid) return;
+    window.getRemainingSlotsISO = function(isoDate) {
+        const map = getISOSlotsMap();
+        if (map.hasOwnProperty(isoDate)) {
+            return parseInt(map[isoDate]);
+        }
+        return 3;
+    };
 
-        const today = new Date();
-        const year = today.getFullYear();
-        const month = today.getMonth();
+    window.renderRealCalendar = function(containerId, year, month, isAdminMode = false) {
+        const gridContainer = document.getElementById(containerId);
+        if (!gridContainer) return;
+
+        const firstDayIndex = new Date(year, month, 1).getDay(); // 0 = Sun, 3 = Wed
         const daysInMonth = new Date(year, month + 1, 0).getDate();
-        const dayNames = ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'];
+
+        const todayObj = new Date();
+        const curY = todayObj.getFullYear();
+        const curM = todayObj.getMonth();
+        const curD = todayObj.getDate();
 
         let gridHTML = '';
+
+        // 1. First Day Offset Padding Chips
+        for (let i = 0; i < firstDayIndex; i++) {
+            gridHTML += `<div class="date-chip-empty"></div>`;
+        }
+
+        // 2. Real Days of Month
         for (let day = 1; day <= daysInMonth; day++) {
-            const dateObj = new Date(year, month, day);
-            const dayName = dayNames[dateObj.getDay()];
-            const slots = getRemainingSlots(day);
+            const formattedISO = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+            const slots = window.getRemainingSlotsISO(formattedISO);
 
             let statusClass = 'status-available';
             let badgeText = `Sisa ${slots} Slot`;
@@ -503,63 +1337,153 @@ document.addEventListener('DOMContentLoaded', () => {
                 badgeText = `Sisa ${slots} Slot`;
             }
 
-            const formattedDateISO = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+            const isToday = (year === curY && month === curM && day === curD);
+            const chipClass = isAdminMode ? 'date-chip-admin' : 'date-chip';
 
             gridHTML += `
-                <div class="date-chip ${statusClass}" data-day="${day}" data-date="${formattedDateISO}">
-                    <span class="day-name">${dayName}</span>
+                <div class="${chipClass} ${statusClass} ${isToday ? 'is-today' : ''}" data-day="${day}" data-date="${formattedISO}">
                     <span class="day-num">${day}</span>
                     <span class="status-badge">${badgeText}</span>
                 </div>
             `;
         }
-        calendarDatesGrid.innerHTML = gridHTML;
 
-        // Click date chip listener
-        document.querySelectorAll('.date-chip').forEach(chip => {
-            chip.addEventListener('click', function () {
-                const dayNum = parseInt(this.getAttribute('data-day'));
+        gridContainer.innerHTML = gridHTML;
+
+        // Click listeners
+        gridContainer.querySelectorAll('.date-chip, .date-chip-admin').forEach(chip => {
+            chip.addEventListener('click', function() {
                 const selectedISO = this.getAttribute('data-date');
 
-                if (isAdminSlotMode) {
-                    let curSlots = getRemainingSlots(dayNum);
+                if (isAdminMode) {
+                    let curSlots = window.getRemainingSlotsISO(selectedISO);
                     curSlots = (curSlots > 0) ? curSlots - 1 : 3;
-                    daySlotsMap[dayNum] = curSlots;
 
-                    localStorage.setItem('kalaila_day_slots', JSON.stringify(daySlotsMap));
-                    renderCalendarGrid();
+                    let map = getISOSlotsMap();
+                    map[selectedISO] = curSlots;
+                    localStorage.setItem('kalaila_iso_slots', JSON.stringify(map));
 
-                    if (typeof window.showBookingToast === 'function') {
-                        const statusDesc = curSlots === 0 ? 'Full Booked' : `Sisa ${curSlots} Slot`;
-                        window.showBookingToast('Status Slot Diperbarui!', `Tanggal ${dayNum}: ${statusDesc}`, 'Disimpan di browser');
+                    window.renderRealCalendar(containerId, year, month, true);
+                    if (typeof window.updateAdminStats === 'function') {
+                        window.updateAdminStats();
                     }
                 } else {
-                    // Client Mode: Autofill date input
+                    gridContainer.querySelectorAll('.date-chip').forEach(c => c.classList.remove('selected'));
+                    this.classList.add('selected');
+
                     const eventDateInput = document.getElementById('eventDate');
                     if (eventDateInput && selectedISO) {
                         eventDateInput.value = selectedISO;
-                        eventDateInput.focus();
+                    }
+
+                    const bannerContainer = document.getElementById('selectedDateBannerContainer');
+                    if (bannerContainer) {
+                        const dateObj = new Date(selectedISO);
+                        const formattedFull = dateObj.toLocaleDateString('id-ID', {
+                            weekday: 'long',
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                        });
+                        const slots = window.getRemainingSlotsISO(selectedISO);
+
+                        let badgeColor = slots === 0 ? '#dc2626' : (slots <= 2 ? '#d35400' : '#16a34a');
+                        let statusText = slots === 0 ? 'Full Booked (Slot Terisi Penuh)' : `Sisa ${slots} Slot Tersedia`;
+                        let waText = slots === 0 
+                            ? `Halo Kalaila Photography, saya mengecek tanggal ${formattedFull} dan terisi penuh. Bisakah konsultasi tanggal alternatif?`
+                            : `Halo Kalaila Photography, saya tertarik booking liputan untuk tanggal ${formattedFull} (${statusText}). Bisakah bantu prosesnya?`;
+
+                        bannerContainer.innerHTML = `
+                            <div class="selected-date-banner">
+                                <div class="date-info">
+                                    <div class="date-icon" style="background: ${badgeColor};">
+                                        <i class="${slots === 0 ? 'fas fa-calendar-times' : 'fas fa-calendar-check'}"></i>
+                                    </div>
+                                    <div>
+                                        <h4>${formattedFull}</h4>
+                                        <p style="color: ${badgeColor}; font-weight: 700;">Status: ${statusText}</p>
+                                    </div>
+                                </div>
+                                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                                    <a href="https://wa.me/6282318928400?text=${encodeURIComponent(waText)}" target="_blank" class="cta-button primary" style="padding: 10px 20px; font-size: 0.88rem; text-decoration: none;">
+                                        <i class="fab fa-whatsapp"></i> ${slots === 0 ? 'Tanya Tanggal Alternatif' : 'Booking Tanggal Ini via WA'}
+                                    </a>
+                                </div>
+                            </div>
+                        `;
                     }
                 }
             });
         });
+    };
+
+    function updateClientCalendarHeader() {
+        const mSelect = document.getElementById('clientMonthSelect');
+        const ySelect = document.getElementById('clientYearSelect');
+        if (mSelect) mSelect.value = clientCalMonth;
+        if (ySelect) ySelect.value = clientCalYear;
+    }
+
+    function renderClientCalendar() {
+        updateClientCalendarHeader();
+        window.renderRealCalendar('calendarDatesGrid', clientCalYear, clientCalMonth, false);
     }
 
     if (calendarDatesGrid) {
-        renderCalendarGrid();
-    }
+        renderClientCalendar();
 
-    if (toggleAdminSlotBtn) {
-        toggleAdminSlotBtn.addEventListener('click', () => {
-            isAdminSlotMode = !isAdminSlotMode;
-            toggleAdminSlotBtn.classList.toggle('active', isAdminSlotMode);
-            if (isAdminSlotMode) {
-                toggleAdminSlotBtn.innerHTML = `<i class="fas fa-check-circle"></i> Mode Edit AKTIF (Klik Tanggal)`;
-                alert('MODE EDIT ADMIN AKTIF!\n\nKlik tanggal mana saja pada kalender untuk mengganti jumlah sisa slot:\nSISA 3 SLOT -> SISA 2 SLOT -> SISA 1 SLOT -> FULL BOOKED -> SISA 3 SLOT.');
-            } else {
-                toggleAdminSlotBtn.innerHTML = `<i class="fas fa-edit"></i> Edit Status Tanggal`;
-            }
-        });
+        const prevClientBtn = document.getElementById('prevClientMonthBtn');
+        const nextClientBtn = document.getElementById('nextClientMonthBtn');
+        const clientMSelect = document.getElementById('clientMonthSelect');
+        const clientYSelect = document.getElementById('clientYearSelect');
+
+        if (prevClientBtn) {
+            prevClientBtn.addEventListener('click', () => {
+                if (clientCalMonth > 0) {
+                    clientCalMonth--;
+                } else {
+                    clientCalMonth = 11;
+                    clientCalYear--;
+                }
+                renderClientCalendar();
+            });
+        }
+
+        if (nextClientBtn) {
+            nextClientBtn.addEventListener('click', () => {
+                if (clientCalMonth < 11) {
+                    clientCalMonth++;
+                } else {
+                    clientCalMonth = 0;
+                    clientCalYear++;
+                }
+                renderClientCalendar();
+            });
+        }
+
+        if (clientMSelect) {
+            clientMSelect.addEventListener('change', function() {
+                clientCalMonth = parseInt(this.value);
+                renderClientCalendar();
+            });
+        }
+
+        if (clientYSelect) {
+            clientYSelect.addEventListener('change', function() {
+                clientCalYear = parseInt(this.value);
+                renderClientCalendar();
+            });
+        }
+
+        const todayJumpBtn = document.getElementById('todayJumpClientBtn');
+        if (todayJumpBtn) {
+            todayJumpBtn.addEventListener('click', () => {
+                const now = new Date();
+                clientCalYear = now.getFullYear();
+                clientCalMonth = now.getMonth();
+                renderClientCalendar();
+            });
+        }
     }
 
     if (availabilityForm && availabilityResult) {
@@ -575,7 +1499,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             const inputDate = new Date(dateVal);
-            const dayNumber = inputDate.getDate();
             const formattedDate = inputDate.toLocaleDateString('id-ID', {
                 weekday: 'long',
                 year: 'numeric',
@@ -583,7 +1506,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 day: 'numeric'
             });
 
-            const slots = getRemainingSlots(dayNumber);
+            const slots = window.getRemainingSlotsISO ? window.getRemainingSlotsISO(dateVal) : 3;
 
             if (slots === 0) {
                 if (typeof window.showBookingToast === 'function') {
@@ -813,48 +1736,103 @@ document.addEventListener('DOMContentLoaded', () => {
     const testimonialsGrid = document.getElementById('testimonialsGrid');
     const userTestimonialForm = document.getElementById('userTestimonialForm');
 
-    const defaultTestimonials = [
-        {
-            name: "Budi & Siti",
-            event: "Pernikahan Bandung • 2024",
-            stars: 5,
-            comment: "Tim Kalaila Photography bener-bener ramah dan ceria banget! Kita yang tadinya kaku banget di depan kamera jadi rileks dan ketawa lepas. Hasil fotonya masyaAllah bagus banget, tonalnya hangat sesuai harapan!",
-            avatar: "BS"
-        },
-        {
-            name: "Rina & Andi",
-            event: "Pre-wedding Ciwidey • 2024",
-            stars: 5,
-            comment: "Sangat memuaskan dari awal komunikasi via WA sampai serah terima album foto. Sneak peek fotonya dikirim super cepat dalam 2 hari setelah acara. Sangat direkomendasikan untuk calon pengantin!",
-            avatar: "RA"
-        },
-        {
-            name: "Dika & Maya",
-            event: "Wedding Reception • 2024",
-            stars: 5,
-            comment: "Videografi dan albumnya super mewah! Hasil cetak canvas-nya jernih banget dipajang di ruang tamu. Terima kasih tim Kalaila sudah membuat hari spesial kami abadi selamanya.",
-            avatar: "DM"
-        }
-    ];
+    const defaultTestimonials = [];
 
-    function getStoredTestimonials() {
+    window.getStoredTestimonials = function() {
         const saved = localStorage.getItem('kalaila_user_testimonials');
         if (saved) {
             try {
                 return JSON.parse(saved);
             } catch (e) {
-                return defaultTestimonials;
+                return [];
             }
         }
-        return defaultTestimonials;
-    }
+        return [];
+    };
 
-    function renderTestimonials() {
+    window.deleteTestimonial = function(index) {
+        window.showCustomModal({
+            title: 'Hapus Ulasan?',
+            message: 'Apakah Anda yakin ingin menghapus ulasan testimoni ini dari tampilan web?',
+            type: 'warning',
+            showCancel: true,
+            buttonText: 'Ya, Hapus',
+            cancelText: 'Batal',
+            onConfirm: function() {
+                let list = window.getStoredTestimonials();
+                if (index >= 0 && index < list.length) {
+                    list.splice(index, 1);
+                    localStorage.setItem('kalaila_user_testimonials', JSON.stringify(list));
+                    if (typeof window.renderTestimonials === 'function') {
+                        window.renderTestimonials();
+                    }
+                    if (typeof window.renderAdminTestimonials === 'function') {
+                        window.renderAdminTestimonials();
+                    }
+                    window.showCustomModal({
+                        title: 'Berhasil Dihapus',
+                        message: 'Ulasan testimoni telah berhasil dihapus.',
+                        type: 'success'
+                    });
+                }
+            }
+        });
+    };
+
+    window.resetTestimonialsToDefault = function() {
+        window.showCustomModal({
+            title: 'Bersihkan Semua Ulasan?',
+            message: 'Apakah Anda yakin ingin menghapus/membersihkan semua ulasan testimoni?',
+            type: 'warning',
+            showCancel: true,
+            buttonText: 'Ya, Bersihkan Semua',
+            cancelText: 'Batal',
+            onConfirm: function() {
+                localStorage.setItem('kalaila_user_testimonials', JSON.stringify([]));
+                if (typeof window.renderTestimonials === 'function') {
+                    window.renderTestimonials();
+                }
+                if (typeof window.renderAdminTestimonials === 'function') {
+                    window.renderAdminTestimonials();
+                }
+                window.showCustomModal({
+                    title: 'Berhasil Dibersihkan',
+                    message: 'Semua ulasan testimoni telah berhasil dibersihkan!',
+                    type: 'success'
+                });
+            }
+        });
+    };
+
+    window.renderTestimonials = function() {
         if (!testimonialsGrid) return;
-        const list = getStoredTestimonials();
+        const list = window.getStoredTestimonials();
+        const isAdmin = sessionStorage.getItem('kalaila_admin_logged_in') === 'true';
 
         let html = '';
-        list.forEach(item => {
+
+        if (isAdmin) {
+            html += `
+                <div class="admin-testimonial-banner">
+                    <span><i class="fas fa-user-shield"></i> <strong>Mode Admin Aktif:</strong> Anda dapat mengelola ulasan langsung dari halaman ini.</span>
+                    <button onclick="resetTestimonialsToDefault()" class="btn-clean-testimonials"><i class="fas fa-broom"></i> Bersihkan Semua Ulasan</button>
+                </div>
+            `;
+        }
+
+        if (list.length === 0) {
+            html += `
+                <div style="grid-column: 1/-1; text-align: center; padding: 48px 24px; background: white; border-radius: 16px; border: 1px dashed var(--border-color); width: 100%;">
+                    <i class="fas fa-comment-dots" style="font-size: 2.5rem; color: var(--gold-accent); margin-bottom: 14px; display: block;"></i>
+                    <h4 style="font-family: var(--font-serif); font-size: 1.35rem; color: var(--primary-color); margin-bottom: 6px;">Belum Ada Ulasan Klien</h4>
+                    <p style="font-size: 0.9rem; color: var(--light-text);">Daftar ulasan masih kosong. Ulasan baru yang dikirim oleh pengunjung web akan otomatis tampil di sini!</p>
+                </div>
+            `;
+            testimonialsGrid.innerHTML = html;
+            return;
+        }
+
+        list.forEach((item, index) => {
             let starsHtml = '';
             for (let i = 1; i <= 5; i++) {
                 if (i <= item.stars) {
@@ -864,8 +1842,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
+            const adminBtns = isAdmin ? `
+                <button class="admin-edit-testimonial-btn" onclick="editTestimonial(${index})" title="Edit ulasan ini">
+                    <i class="fas fa-edit"></i> Edit
+                </button>
+                <button class="admin-delete-testimonial-btn" onclick="deleteTestimonial(${index})" title="Hapus ulasan ini">
+                    <i class="fas fa-trash-alt"></i> Hapus
+                </button>
+            ` : '';
+
             html += `
                 <div class="testimonial-card">
+                    ${adminBtns}
                     <div class="stars">
                         ${starsHtml}
                     </div>
@@ -882,7 +1870,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         testimonialsGrid.innerHTML = html;
-    }
+    };
 
     function getInitials(name) {
         if (!name) return 'KL';
@@ -894,7 +1882,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (testimonialsGrid) {
-        renderTestimonials();
+        window.renderTestimonials();
     }
 
     if (userTestimonialForm) {
@@ -920,13 +1908,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 avatar: getInitials(clientName)
             };
 
-            const currentList = getStoredTestimonials();
+            const currentList = window.getStoredTestimonials();
             currentList.unshift(newTestimonial); // Add to top
 
             localStorage.setItem('kalaila_user_testimonials', JSON.stringify(currentList));
-            renderTestimonials();
+            window.renderTestimonials();
+            if (typeof window.renderAdminTestimonials === 'function') {
+                window.renderAdminTestimonials();
+            }
 
-            alert('Terima kasih! Ulasan & testimoni Anda telah berhasil diterbitkan dan langsung tampil di halaman ini.');
+            alert('Terima kasih banyak telah memberikan ulasan & testimoni untuk kami. Apresiasi dan kepercayaan Anda sangat berarti bagi tim Kalaila Photography untuk terus mengabadikan momen berharga Anda.');
             this.reset();
             if (document.getElementById('star5')) document.getElementById('star5').checked = true;
         });

@@ -901,12 +901,37 @@ body {
     transition: var(--transition);
 }
 
-.filter-btn:hover,
+.filter-btn:hover {
+    background: rgba(26, 26, 46, 0.08);
+    border-color: var(--gold-accent);
+    transform: translateY(-2px);
+}
+
 .filter-btn.active {
-    background: var(--primary-color);
-    color: var(--white);
-    border-color: var(--primary-color);
-    box-shadow: var(--shadow-sm);
+    background: var(--primary-color) !important;
+    color: var(--white) !important;
+    border-color: var(--gold-accent) !important;
+    box-shadow: 0 8px 24px rgba(18, 20, 32, 0.3), 0 0 16px rgba(212, 175, 55, 0.35);
+    transform: translateY(-3px) scale(1.05);
+}
+
+/* Category Filter Card Switch Animations */
+@keyframes filterCardIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.88) translateY(24px);
+        filter: blur(6px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+        filter: blur(0);
+    }
+}
+
+.portfolio-item.filtering-in {
+    opacity: 0;
+    animation: filterCardIn 0.48s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .portfolio-grid {
@@ -1125,19 +1150,25 @@ body {
 
 .couple-main-photo-holder {
     width: 100%;
-    height: 440px;
+    height: 480px;
     border-radius: var(--radius-md);
     overflow: hidden;
-    background: #07080f;
+    background: radial-gradient(circle, #1a1d2e 0%, #07080f 100%);
     position: relative;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(212, 175, 55, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .couple-main-photo-holder img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
     transition: opacity 0.3s ease;
+    filter: drop-shadow(0 10px 25px rgba(0,0,0,0.7));
 }
 
 .couple-nav-btn {
@@ -3144,4 +3175,537 @@ body {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+/* ==========================================================================
+   KALAILA ELEGANT CUSTOM MODAL & ALERT SYSTEM
+   ========================================================================== */
+.kalaila-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(9, 10, 18, 0.68);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 999999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.kalaila-modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.kalaila-modal-card {
+    background: #ffffff;
+    border-radius: 24px;
+    width: 100%;
+    max-width: 440px;
+    padding: 36px 30px 30px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 24px 60px rgba(18, 20, 32, 0.25), 0 0 0 1px rgba(212, 175, 55, 0.25);
+    transform: scale(0.9) translateY(18px);
+    opacity: 0;
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
+}
+
+.kalaila-modal-overlay.active .kalaila-modal-card {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+}
+
+.kalaila-modal-overlay.closing .kalaila-modal-card {
+    transform: scale(0.94) translateY(10px);
+    opacity: 0;
+    transition: transform 0.22s ease, opacity 0.22s ease;
+}
+
+.kalaila-modal-close {
+    position: absolute;
+    top: 16px;
+    right: 18px;
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    color: #9496a8;
+    cursor: pointer;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+    line-height: 1;
+}
+
+.kalaila-modal-close:hover {
+    background: rgba(18, 20, 32, 0.06);
+    color: var(--primary-color);
+}
+
+.kalaila-modal-header {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.kalaila-modal-icon-wrapper {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.2rem;
+    position: relative;
+}
+
+/* Success Type (Signature Kalaila Warm Gold) */
+.kalaila-modal-type-success .kalaila-modal-icon-wrapper {
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.16), rgba(170, 127, 57, 0.12));
+    border: 1.5px solid rgba(212, 175, 55, 0.45);
+    color: #aa7f39;
+    box-shadow: 0 0 30px rgba(212, 175, 55, 0.25);
+}
+
+/* Warning Type */
+.kalaila-modal-type-warning .kalaila-modal-icon-wrapper {
+    background: rgba(224, 159, 62, 0.14);
+    border: 1.5px solid rgba(224, 159, 62, 0.4);
+    color: #d97706;
+    box-shadow: 0 0 25px rgba(217, 119, 6, 0.2);
+}
+
+/* Error Type */
+.kalaila-modal-type-error .kalaila-modal-icon-wrapper {
+    background: rgba(225, 29, 72, 0.12);
+    border: 1.5px solid rgba(225, 29, 72, 0.35);
+    color: #e11d48;
+    box-shadow: 0 0 25px rgba(225, 29, 72, 0.2);
+}
+
+/* Info Type */
+.kalaila-modal-type-info .kalaila-modal-icon-wrapper {
+    background: rgba(18, 20, 32, 0.08);
+    border: 1.5px solid rgba(18, 20, 32, 0.2);
+    color: var(--primary-color);
+}
+
+.kalaila-modal-title {
+    font-family: var(--font-serif);
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 12px;
+    letter-spacing: -0.3px;
+    line-height: 1.25;
+}
+
+.kalaila-modal-message {
+    font-family: var(--font-body);
+    font-size: 0.96rem;
+    color: var(--light-text);
+    line-height: 1.65;
+    margin-bottom: 26px;
+}
+
+.kalaila-modal-footer {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+}
+
+.kalaila-modal-btn {
+    padding: 13px 36px;
+    border-radius: 50px;
+    font-family: var(--font-body);
+    font-size: 0.94rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    border: none;
+    outline: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 140px;
+}
+
+.kalaila-modal-btn-primary {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
+    color: var(--white);
+    box-shadow: 0 6px 20px rgba(18, 20, 32, 0.22);
+    border: 1px solid rgba(212, 175, 55, 0.35);
+}
+
+.kalaila-modal-type-success .kalaila-modal-btn-primary {
+    background: linear-gradient(135deg, #121420 0%, #aa7f39 100%);
+    box-shadow: 0 6px 22px rgba(170, 127, 57, 0.35);
+}
+
+.kalaila-modal-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 26px rgba(170, 127, 57, 0.45);
+}
+
+.kalaila-modal-btn-primary:active {
+    transform: translateY(0);
+}
+
+@media (max-width: 480px) {
+    .kalaila-modal-card {
+        padding: 28px 20px 24px;
+        border-radius: 18px;
+    }
+
+    .kalaila-modal-icon-wrapper {
+        width: 62px;
+        height: 62px;
+        font-size: 1.9rem;
+    }
+
+    .kalaila-modal-title {
+        font-size: 1.48rem;
+    }
+
+    .kalaila-modal-message {
+        font-size: 0.9rem;
+    }
+
+    .kalaila-modal-btn {
+        width: 100%;
+        padding: 12px 24px;
+    }
+}
+
+/* ========== ADMIN TESTIMONIAL MANAGEMENT STYLES ========== */
+.admin-testimonial-banner {
+    background: linear-gradient(135deg, #121420 0%, #222538 100%);
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    color: var(--white);
+    padding: 14px 24px;
+    border-radius: 16px;
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    box-shadow: var(--shadow-md);
+    grid-column: 1 / -1;
+}
+
+.admin-testimonial-banner span {
+    font-size: 0.92rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.admin-testimonial-banner i {
+    color: var(--gold-accent);
+    font-size: 1.1rem;
+}
+
+.btn-clean-testimonials {
+    background: linear-gradient(135deg, #c0392b 0%, #e74c3c 100%);
+    color: #ffffff;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 50px;
+    font-size: 0.84rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-clean-testimonials:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(231, 76, 60, 0.4);
+}
+
+.testimonial-card {
+    position: relative;
+}
+
+.admin-delete-testimonial-btn {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    background: #fef2f2;
+    color: #dc2626;
+    border: 1px solid #fca5a5;
+    padding: 5px 12px;
+    border-radius: 50px;
+    font-size: 0.76rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    z-index: 10;
+}
+
+.admin-delete-testimonial-btn:hover {
+    background: #dc2626;
+    color: #ffffff;
+    border-color: #dc2626;
+    transform: scale(1.05);
+}
+
+.admin-edit-testimonial-btn {
+    position: absolute;
+    top: 14px;
+    right: 90px;
+    background: #f0f9ff;
+    color: #0284c7;
+    border: 1px solid #bae6fd;
+    padding: 5px 12px;
+    border-radius: 50px;
+    font-size: 0.76rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    z-index: 10;
+}
+
+.admin-edit-testimonial-btn:hover {
+    background: #0284c7;
+    color: #ffffff;
+    border-color: #0284c7;
+    transform: scale(1.05);
+}
+
+.kalaila-modal-btn-secondary {
+    background: #f1f5f9;
+    color: #475569;
+    border: 1px solid #cbd5e1;
+}
+
+.kalaila-modal-btn-secondary:hover {
+    background: #e2e8f0;
+    color: #1e293b;
+}
+
+/* ========== REAL 2026 CALENDAR SYSTEM STYLES ========== */
+.calendar-controls-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    background: var(--bg-warm);
+    padding: 12px 20px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+}
+
+.calendar-month-title {
+    font-family: var(--font-serif);
+    font-size: 1.45rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.calendar-select {
+    background: #ffffff;
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    border-radius: 50px;
+    padding: 6px 14px;
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    cursor: pointer;
+    outline: none;
+    transition: var(--transition);
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23aa7f39' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    padding-right: 28px;
+}
+
+.calendar-select:hover,
+.calendar-select:focus {
+    border-color: var(--gold-accent);
+    background-color: rgba(212, 175, 55, 0.08);
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+}
+
+.calendar-select option {
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    color: var(--primary-color);
+    background: #ffffff;
+}
+
+.calendar-nav-btn {
+    background: var(--white);
+    border: 1px solid var(--border-color);
+    color: var(--primary-color);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.calendar-nav-btn:hover {
+    background: var(--primary-color);
+    color: var(--white);
+    border-color: var(--primary-color);
+}
+
+.calendar-week-headers {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.calendar-week-headers div {
+    font-weight: 700;
+    font-size: 0.78rem;
+    color: var(--gold-accent);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 8px 0;
+    background: rgba(212, 175, 55, 0.08);
+    border-radius: 8px;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.calendar-dates-grid,
+.calendar-dates-grid-admin {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+}
+
+.date-chip-empty {
+    background: transparent;
+    border: 1px dashed rgba(203, 213, 225, 0.4);
+    border-radius: var(--radius-sm);
+    min-height: 70px;
+    opacity: 0.35;
+}
+
+.date-chip.is-today,
+.date-chip-admin.is-today {
+    border: 2px solid var(--gold-accent) !important;
+    box-shadow: 0 0 14px rgba(212, 175, 55, 0.3);
+}
+
+.btn-today-jump {
+    background: rgba(212, 175, 55, 0.12);
+    color: var(--gold-accent);
+    border: 1px solid rgba(212, 175, 55, 0.35);
+    border-radius: 50px;
+    padding: 6px 14px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.btn-today-jump:hover {
+    background: var(--gold-accent);
+    color: var(--white);
+    border-color: var(--gold-accent);
+}
+
+.selected-date-banner {
+    margin-top: 20px;
+    background: linear-gradient(135deg, #FAF7F2 0%, #F5EFE6 100%);
+    border: 1px solid var(--gold-accent);
+    border-radius: var(--radius-md);
+    padding: 16px 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 14px;
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.12);
+    animation: fadeIn 0.3s ease;
+}
+
+.selected-date-banner .date-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.selected-date-banner .date-icon {
+    width: 44px;
+    height: 44px;
+    background: var(--gold-accent);
+    color: var(--white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+}
+
+.selected-date-banner h4 {
+    font-family: var(--font-serif);
+    font-size: 1.15rem;
+    color: var(--primary-color);
+    margin-bottom: 2px;
+}
+
+.selected-date-banner p {
+    font-size: 0.85rem;
+    color: var(--light-text);
+}
+
+.date-chip.selected {
+    border: 2px solid var(--gold-accent) !important;
+    background: rgba(212, 175, 55, 0.1) !important;
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 6px 16px rgba(212, 175, 55, 0.25);
+}
+
+.admin-helper-bar {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: var(--radius-sm);
+    padding: 10px 16px;
+    margin-bottom: 16px;
+    font-size: 0.84rem;
+    color: var(--light-text);
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }

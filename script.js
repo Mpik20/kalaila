@@ -1,3 +1,120 @@
+// ========== ELEGANT CUSTOM MODAL ALERT SYSTEM ==========
+if (!window.showCustomModal) {
+    window.showCustomModal = function(options) {
+        let title = "Pemberitahuan";
+        let message = "";
+        let type = "info";
+        let iconClass = "fas fa-info-circle";
+        let buttonText = "OK";
+        let onConfirm = null;
+
+        if (typeof options === 'string') {
+            message = options;
+            const lower = message.toLowerCase();
+            if (lower.includes('terima kasih') || lower.includes('berhasil') || lower.includes('diterbitkan') || lower.includes('sukses')) {
+                type = 'success';
+                title = 'Terima Kasih Banyak!';
+                iconClass = 'fas fa-check-circle';
+            } else if (lower.includes('mohon') || lower.includes('lengkapi') || lower.includes('isi seluruh') || lower.includes('periksa')) {
+                type = 'warning';
+                title = 'Mohon Lengkapi';
+                iconClass = 'fas fa-exclamation-triangle';
+            } else if (lower.includes('gagal') || lower.includes('error') || lower.includes('salah')) {
+                type = 'error';
+                title = 'Terjadi Kesalahan';
+                iconClass = 'fas fa-times-circle';
+            }
+        } else if (typeof options === 'object' && options !== null) {
+            message = options.message || '';
+            title = options.title || (options.type === 'success' ? 'Berhasil!' : options.type === 'warning' ? 'Perhatian' : 'Pemberitahuan');
+            type = options.type || 'info';
+            buttonText = options.buttonText || 'OK';
+            onConfirm = options.onConfirm || null;
+
+            if (options.icon) {
+                iconClass = options.icon;
+            } else {
+                if (type === 'success') iconClass = 'fas fa-check-circle';
+                else if (type === 'warning') iconClass = 'fas fa-exclamation-triangle';
+                else if (type === 'error') iconClass = 'fas fa-times-circle';
+                else iconClass = 'fas fa-info-circle';
+            }
+        }
+
+        const existingModal = document.getElementById('kalailaCustomModalOverlay');
+        if (existingModal) {
+            existingModal.remove();
+        }
+
+        const overlay = document.createElement('div');
+        overlay.id = 'kalailaCustomModalOverlay';
+        overlay.className = `kalaila-modal-overlay kalaila-modal-type-${type}`;
+
+        overlay.innerHTML = `
+            <div class="kalaila-modal-card">
+                <button class="kalaila-modal-close" aria-label="Tutup">&times;</button>
+                <div class="kalaila-modal-header">
+                    <div class="kalaila-modal-icon-wrapper">
+                        <i class="${iconClass}"></i>
+                    </div>
+                </div>
+                <div class="kalaila-modal-body">
+                    <h3 class="kalaila-modal-title">${title}</h3>
+                    <div class="kalaila-modal-message">${message.replace(/\n/g, '<br>')}</div>
+                </div>
+                <div class="kalaila-modal-footer">
+                    <button class="kalaila-modal-btn kalaila-modal-btn-primary">${buttonText}</button>
+                </div>
+            </div>
+        `;
+
+        document.body.appendChild(overlay);
+
+        requestAnimationFrame(() => {
+            overlay.classList.add('active');
+        });
+
+        const closeModal = () => {
+            overlay.classList.remove('active');
+            overlay.classList.add('closing');
+            setTimeout(() => {
+                overlay.remove();
+                if (typeof onConfirm === 'function') {
+                    onConfirm();
+                }
+            }, 250);
+        };
+
+        const btnPrimary = overlay.querySelector('.kalaila-modal-btn-primary');
+        const btnClose = overlay.querySelector('.kalaila-modal-close');
+
+        if (btnPrimary) btnPrimary.addEventListener('click', closeModal);
+        if (btnClose) btnClose.addEventListener('click', closeModal);
+
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) {
+                closeModal();
+            }
+        });
+
+        const handleKeyDown = (e) => {
+            if (e.key === 'Escape') {
+                document.removeEventListener('keydown', handleKeyDown);
+                closeModal();
+            }
+        };
+        document.addEventListener('keydown', handleKeyDown);
+
+        setTimeout(() => {
+            if (btnPrimary) btnPrimary.focus();
+        }, 50);
+    };
+
+    window.alert = function(message) {
+        window.showCustomModal(message);
+    };
+}
+
 // ========== MOBILE MENU TOGGLE ==========
 const hamburger = document.querySelector('.hamburger');
 const navMenu = document.querySelector('.nav-menu');

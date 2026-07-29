@@ -223,61 +223,7 @@
                 <p class="section-description">Dokumentasi momen manis nan timeless dari pasangan teristimewa yang mempercayai Kalaila Photography.</p>
             </div>
             
-            <div class="portfolio-grid">
-                <!-- Pasangan 1 -->
-                <div class="portfolio-item couple-card" data-category="prewedding"
-                     data-couple-name="Rian & Maya"
-                     data-couple-cat="Pre-Wedding"
-                     data-couple-loc="Pine Forest & Meadow • Bandung"
-                     data-couple-photos='["images/prewed.jpg", "images/profile.jpg", "images/prewed1.jpg", "images/wedding.jpg", "images/wedding1.jpg", "images/wedding2.jpg"]'>
-                    <div class="portfolio-image">
-                        <span class="photo-count-badge"><i class="fas fa-images"></i> 6 Foto Galeri</span>
-                        <img src="images/prewed.jpg" alt="Rian & Maya - Pre Wedding" loading="lazy">
-                        <div class="portfolio-overlay">
-                            <span class="category-tag">Pre-Wedding</span>
-                            <h4>Rian & Maya</h4>
-                            <p>Pine Forest & Meadow • Bandung</p>
-                            <button class="open-couple-btn"><i class="fas fa-search-plus"></i> Lihat Foto Pasangan</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Pasangan 2 -->
-                <div class="portfolio-item couple-card" data-category="wedding"
-                     data-couple-name="Dimas & Nadia"
-                     data-couple-cat="Pernikahan (Wedding)"
-                     data-couple-loc="Grand Ballroom & Garden Akad • Jakarta"
-                     data-couple-photos='["images/wedding1.jpg", "images/wedding.jpg", "images/wedding2.jpg", "images/prewed.jpg", "images/profile.jpg", "images/prewed1.jpg"]'>
-                    <div class="portfolio-image">
-                        <span class="photo-count-badge"><i class="fas fa-images"></i> 6 Foto Galeri</span>
-                        <img src="images/wedding1.jpg" alt="Dimas & Nadia - Wedding Day" loading="lazy">
-                        <div class="portfolio-overlay">
-                            <span class="category-tag">Wedding</span>
-                            <h4>Dimas & Nadia</h4>
-                            <p>Grand Ballroom & Garden Akad • Jakarta</p>
-                            <button class="open-couple-btn"><i class="fas fa-search-plus"></i> Lihat Foto Pasangan</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Pasangan 4 -->
-                <div class="portfolio-item couple-card" data-category="wedding"
-                     data-couple-name="Reza & Kirana"
-                     data-couple-cat="Pernikahan (Wedding)"
-                     data-couple-loc="Glass House Indoor & Intimate Dinner • Bandung"
-                     data-couple-photos='["images/wedding2.jpg", "images/wedding.jpg", "images/wedding1.jpg", "images/prewed1.jpg", "images/prewed.jpg", "images/profile.jpg"]'>
-                    <div class="portfolio-image">
-                        <span class="photo-count-badge"><i class="fas fa-images"></i> 6 Foto Galeri</span>
-                        <img src="images/wedding2.jpg" alt="Reza & Kirana - Wedding Session" loading="lazy">
-                        <div class="portfolio-overlay">
-                            <span class="category-tag">Wedding</span>
-                            <h4>Reza & Kirana</h4>
-                            <p>Glass House & Intimate Dinner • Bandung</p>
-                            <button class="open-couple-btn"><i class="fas fa-search-plus"></i> Lihat Foto Pasangan</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div class="portfolio-grid" id="homePortfolioGrid"></div>
 
             <div class="text-center" style="margin-top: 40px;">
                 <a href="portfolio.html" class="cta-button primary">Lihat Seluruh Portofolio <i class="fas fa-arrow-right"></i></a>
@@ -430,10 +376,14 @@
                 </div>
                 <div class="couple-thumbs-grid" id="coupleThumbsGrid"></div>
                 <div class="couple-modal-footer">
-                    <p id="coupleModalInfo" style="font-size: 0.88rem; color: rgba(255,255,255,0.7);"><i class="fas fa-camera"></i> Gunakan tombol panah / keyboard untuk berpindah foto</p>
-                    <a href="#" id="coupleWaBtn" target="_blank" class="cta-button primary" style="font-size: 0.88rem; padding: 10px 22px;">
-                        <i class="fab fa-whatsapp"></i> Konsultasi Konsep Foto Seperti Pasangan Ini
-                    </a>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: space-between; width: 100%; align-items: center;">
+                        <a href="#" id="coupleDetailLink" class="cta-button secondary" style="font-size: 0.84rem; padding: 10px 18px; text-decoration: none;">
+                            <i class="fas fa-external-link-alt"></i> Buka Halaman Galeri Pasangan Ini
+                        </a>
+                        <a href="#" id="coupleWaBtn" target="_blank" class="cta-button primary" style="font-size: 0.84rem; padding: 10px 22px; text-decoration: none;">
+                            <i class="fab fa-whatsapp"></i> Konsultasi Konsep Foto Seperti Pasangan Ini
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -474,5 +424,20 @@
     </div>
 
     <script src="js/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof window.renderDynamicPortfolios === 'function') {
+                window.renderDynamicPortfolios();
+            }
+        });
+
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'kalaila_portfolios') {
+                if (typeof window.renderDynamicPortfolios === 'function') {
+                    window.renderDynamicPortfolios();
+                }
+            }
+        });
+    </script>
 </body>
 </html>

@@ -102,7 +102,7 @@
 
                 <div class="calendar-status-overview">
                     <div class="calendar-status-header">
-                        <h3><i class="far fa-calendar-alt"></i> Kalender Ketersediaan Sisa Slot Bulan Ini</h3>
+                        <h3><i class="far fa-calendar-alt"></i> Kalender Ketersediaan Sisa Slot Real 2026</h3>
                         <div class="calendar-legend">
                             <span class="legend-item available"><i class="fas fa-circle"></i> Sisa 3 Slot</span>
                             <span class="legend-item limited"><i class="fas fa-circle" style="color: #f1c40f;"></i> Sisa 1-2 Slot</span>
@@ -113,7 +113,55 @@
                         </div>
                     </div>
 
+                    <!-- Calendar Navigation Bar -->
+                    <div class="calendar-controls-bar">
+                        <div style="display: flex; gap: 8px; align-items: center;">
+                            <button class="calendar-nav-btn" id="prevClientMonthBtn" title="Bulan Sebelumnya"><i class="fas fa-chevron-left"></i></button>
+                            <button class="btn-today-jump" id="todayJumpClientBtn" title="Kembali ke Bulan Ini"><i class="fas fa-calendar-day"></i> Bulan Ini</button>
+                        </div>
+                        <div class="calendar-month-title">
+                            <i class="far fa-calendar-alt" style="color: var(--gold-accent);"></i>
+                            <select id="clientMonthSelect" class="calendar-select" aria-label="Pilih Bulan">
+                                <option value="0">Januari</option>
+                                <option value="1">Februari</option>
+                                <option value="2">Maret</option>
+                                <option value="3">April</option>
+                                <option value="4">Mei</option>
+                                <option value="5">Juni</option>
+                                <option value="6" selected>Juli</option>
+                                <option value="7">Agustus</option>
+                                <option value="8">September</option>
+                                <option value="9">Oktober</option>
+                                <option value="10">November</option>
+                                <option value="11">Desember</option>
+                            </select>
+                            <select id="clientYearSelect" class="calendar-select" aria-label="Pilih Tahun">
+                                <option value="2025">2025</option>
+                                <option value="2026" selected>2026</option>
+                                <option value="2027">2027</option>
+                                <option value="2028">2028</option>
+                                <option value="2029">2029</option>
+                                <option value="2030">2030</option>
+                            </select>
+                        </div>
+                        <button class="calendar-nav-btn" id="nextClientMonthBtn" title="Bulan Berikutnya"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+
+                    <!-- Calendar Weekday Headers -->
+                    <div class="calendar-week-headers">
+                        <div>MIN</div>
+                        <div>SEN</div>
+                        <div>SEL</div>
+                        <div>RAB</div>
+                        <div>KAM</div>
+                        <div>JUM</div>
+                        <div>SAB</div>
+                    </div>
+
                     <div class="calendar-dates-grid" id="calendarDatesGrid"></div>
+
+                    <!-- Dynamic Selected Date Booking Banner -->
+                    <div id="selectedDateBannerContainer"></div>
                 </div>
             </div>
         </div>
