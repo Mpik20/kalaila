@@ -40,13 +40,7 @@
                     <li><a href="index.html">Beranda</a></li>
                     <li><a href="about.html">Tentang</a></li>
                     <li><a href="portfolio.html">Portofolio</a></li>
-                    <li class="nav-dropdown">
-                        <a href="#" class="dropdown-toggle">Jadwal & Paket <i class="fas fa-chevron-down"></i></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="availability.html"><i class="far fa-calendar-check"></i> Cek Slot Jadwal</a></li>
-                            <li><a href="packages.html"><i class="fas fa-tags"></i> Paket & Harga</a></li>
-                        </ul>
-                    </li>
+                    <li><a href="availability.html">Jadwal</a></li>
                     <li><a href="stories.html">Cerita Klien</a></li>
                     <li><a href="testimonials.html" class="active">Testimoni</a></li>
                     <li><a href="faq.html">FAQ</a></li>
@@ -72,9 +66,10 @@
     </header>
 
     <!-- Testimonials Section -->
-    <section class="testimonials" style="padding: 96px 0;">
+    <section class="testimonials" style="padding: 80px 0 40px 0;">
         <div class="container">
-            <div class="testimonials-grid">
+            <div class="testimonials-grid" id="testimonialsGrid">
+                <!-- Testimonials will be loaded dynamically by JS -->
                 <div class="testimonial-card">
                     <div class="stars">
                         <i class="fas fa-star"></i>
@@ -132,6 +127,54 @@
         </div>
     </section>
 
+    <!-- Add Testimonial Form Section -->
+    <section class="testimonial-form-section" id="writeTestimonial" style="padding: 40px 0 96px 0;">
+        <div class="container">
+            <div class="testimonial-form-card">
+                <div class="testimonial-form-header">
+                    <span class="sub-heading"><i class="fas fa-pen-nib"></i> Tulis Ulasan Anda</span>
+                    <h3>Bagikan Pengalaman Berkesan Anda</h3>
+                    <p>Ulasan & testimoni Anda sangat berharga untuk calon pasangan pengantin lainnya dan tim Kalaila Photography.</p>
+                </div>
+
+                <form id="userTestimonialForm" class="contact-form" style="display: flex; flex-direction: column; gap: 20px;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div class="form-group">
+                            <label for="clientName">Nama Pasangan / Anda <span style="color: #aa7f39;">*</span></label>
+                            <input type="text" id="clientName" placeholder="Contoh: Rian & Maya" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="clientEvent">Acara & Lokasi <span style="color: #aa7f39;">*</span></label>
+                            <input type="text" id="clientEvent" placeholder="Contoh: Pernikahan Bandung • 2024" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Rating Kepuasan Anda <span style="color: #aa7f39;">*</span></label>
+                        <div class="star-rating-picker" id="starRatingPicker">
+                            <input type="radio" id="star5" name="rating" value="5" checked><label for="star5" title="5 Bintang - Sangat Sempurna"><i class="fas fa-star"></i></label>
+                            <input type="radio" id="star4" name="rating" value="4"><label for="star4" title="4 Bintang - Sangat Bagus"><i class="fas fa-star"></i></label>
+                            <input type="radio" id="star3" name="rating" value="3"><label for="star3" title="3 Bintang - Cukup Bagus"><i class="fas fa-star"></i></label>
+                            <input type="radio" id="star2" name="rating" value="2"><label for="star2" title="2 Bintang - Kurang"><i class="fas fa-star"></i></label>
+                            <input type="radio" id="star1" name="rating" value="1"><label for="star1" title="1 Bintang - Sangat Kurang"><i class="fas fa-star"></i></label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="clientComment">Ulasan & Testimoni Anda <span style="color: #aa7f39;">*</span></label>
+                        <textarea id="clientComment" rows="4" placeholder="Tuliskan pengalaman bahagia Anda selama menggunakan jasa foto & video Kalaila Photography..." required></textarea>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 10px;">
+                        <button type="submit" class="cta-button primary" style="padding: 14px 36px; font-size: 1rem;">
+                            <i class="fas fa-paper-plane"></i> Kirim Testimoni Saya
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
     <!-- Pre-Footer VIP Call to Action Banner -->
     <section class="pre-footer-cta">
         <div class="container">
@@ -173,7 +216,7 @@
                         <li><a href="index.html"><i class="fas fa-chevron-right"></i> Beranda</a></li>
                         <li><a href="about.html"><i class="fas fa-chevron-right"></i> Tentang Kami</a></li>
                         <li><a href="portfolio.html"><i class="fas fa-chevron-right"></i> Portofolio Foto</a></li>
-                        <li><a href="packages.html"><i class="fas fa-chevron-right"></i> Paket & Pricelist</a></li>
+
                         <li><a href="availability.html"><i class="fas fa-chevron-right"></i> Cek Slot Tanggal</a></li>
                         <li><a href="stories.html"><i class="fas fa-chevron-right"></i> Cerita Klien</a></li>
                         <li><a href="testimonials.html"><i class="fas fa-chevron-right"></i> Testimoni</a></li>

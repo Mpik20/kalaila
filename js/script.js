@@ -231,11 +231,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (navbar) {
         window.addEventListener('scroll', () => {
             if (window.scrollY > 80) {
-                navbar.style.boxShadow = '0 10px 25px rgba(0, 0, 0, 0.3)';
-                navbar.style.backgroundColor = 'rgba(22, 16, 13, 0.98)';
+                navbar.style.boxShadow = '0 4px 20px rgba(26, 26, 46, 0.06)';
+                navbar.style.backgroundColor = 'rgba(255, 255, 255, 0.98)';
             } else {
-                navbar.style.boxShadow = 'none';
-                navbar.style.backgroundColor = 'rgba(35, 26, 22, 0.94)';
+                navbar.style.boxShadow = '0 1px 0 rgba(0, 0, 0, 0.04)';
+                navbar.style.backgroundColor = 'rgba(255, 255, 255, 0.96)';
             }
         });
     }
@@ -338,23 +338,144 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // ========== COUPLE GALLERY MODAL HANDLER ==========
+    const coupleModal = document.getElementById('coupleModal');
+    const coupleModalOverlay = document.getElementById('coupleModalOverlay');
+    const coupleModalClose = document.getElementById('coupleModalClose');
+    const coupleModalTitle = document.getElementById('coupleModalTitle');
+    const coupleModalSub = document.getElementById('coupleModalSub');
+    const coupleMainImg = document.getElementById('coupleMainImg');
+    const coupleThumbsGrid = document.getElementById('coupleThumbsGrid');
+    const coupleWaBtn = document.getElementById('coupleWaBtn');
+    const couplePrevBtn = document.getElementById('couplePrevBtn');
+    const coupleNextBtn = document.getElementById('coupleNextBtn');
+
+    let currentCouplePhotos = [];
+    let currentCouplePhotoIndex = 0;
+
+    function switchCouplePhoto(index) {
+        if (!currentCouplePhotos || currentCouplePhotos.length === 0) return;
+        currentCouplePhotoIndex = (index + currentCouplePhotos.length) % currentCouplePhotos.length;
+        const newSrc = currentCouplePhotos[currentCouplePhotoIndex];
+
+        if (coupleMainImg) {
+            coupleMainImg.style.opacity = '0.3';
+            setTimeout(() => {
+                coupleMainImg.src = newSrc;
+                coupleMainImg.style.opacity = '1';
+            }, 150);
+        }
+
+        // Sync active thumb
+        document.querySelectorAll('.couple-thumb-item').forEach((t, i) => {
+            t.classList.toggle('active', i === currentCouplePhotoIndex);
+        });
+    }
+
+    function openCoupleModal(card) {
+        if (!coupleModal) return;
+
+        const coupleName = card.getAttribute('data-couple-name') || 'Galeri Pasangan';
+        const coupleCat = card.getAttribute('data-couple-cat') || '';
+        const coupleLoc = card.getAttribute('data-couple-loc') || '';
+        const rawPhotos = card.getAttribute('data-couple-photos');
+
+        try {
+            currentCouplePhotos = JSON.parse(rawPhotos);
+        } catch (e) {
+            currentCouplePhotos = ['images/profile.jpg', 'images/prewed.jpg', 'images/wedding.jpg'];
+        }
+        currentCouplePhotoIndex = 0;
+
+        if (coupleModalTitle) coupleModalTitle.textContent = `Galeri Foto: ${coupleName}`;
+        if (coupleModalSub) coupleModalSub.textContent = `${coupleCat.toUpperCase()} • ${coupleLoc}`;
+
+        if (coupleMainImg && currentCouplePhotos.length > 0) {
+            coupleMainImg.src = currentCouplePhotos[0];
+            coupleMainImg.alt = `${coupleName} Photo`;
+        }
+
+        if (coupleThumbsGrid) {
+            coupleThumbsGrid.innerHTML = '';
+            currentCouplePhotos.forEach((src, idx) => {
+                const thumb = document.createElement('div');
+                thumb.className = `couple-thumb-item ${idx === 0 ? 'active' : ''}`;
+                thumb.innerHTML = `<img src="${src}" alt="Foto ${idx + 1}">`;
+                thumb.addEventListener('click', () => {
+                    switchCouplePhoto(idx);
+                });
+                coupleThumbsGrid.appendChild(thumb);
+            });
+        }
+
+        if (coupleWaBtn) {
+            coupleWaBtn.href = `https://wa.me/6282318928400?text=${encodeURIComponent(`Halo Kalaila Photography, saya sangat menyukai konsep foto galeri pasangan ${coupleName} (${coupleCat} di ${coupleLoc}). Bisakah konsultasi paket & konsep serupa?`)}`;
+        }
+
+        coupleModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeCoupleModal() {
+        if (coupleModal) {
+            coupleModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+    }
+
+    if (couplePrevBtn) {
+        couplePrevBtn.addEventListener('click', () => {
+            switchCouplePhoto(currentCouplePhotoIndex - 1);
+        });
+    }
+
+    if (coupleNextBtn) {
+        coupleNextBtn.addEventListener('click', () => {
+            switchCouplePhoto(currentCouplePhotoIndex + 1);
+        });
+    }
+
+    document.querySelectorAll('.couple-card').forEach(card => {
+        card.addEventListener('click', (e) => {
+            openCoupleModal(card);
+        });
+    });
+
+    if (coupleModalClose) coupleModalClose.addEventListener('click', closeCoupleModal);
+    if (coupleModalOverlay) coupleModalOverlay.addEventListener('click', closeCoupleModal);
+
+    document.addEventListener('keydown', (e) => {
+        if (coupleModal && coupleModal.classList.contains('active')) {
+            if (e.key === 'Escape') closeCoupleModal();
+            if (e.key === 'ArrowLeft') switchCouplePhoto(currentCouplePhotoIndex - 1);
+            if (e.key === 'ArrowRight') switchCouplePhoto(currentCouplePhotoIndex + 1);
+        }
+    });
+
     // ========== AVAILABILITY DATE CHECKER & CALENDAR OVERVIEW ==========
     const availabilityForm = document.getElementById('availabilityForm');
     const availabilityResult = document.getElementById('availabilityResult');
     const calendarDatesGrid = document.getElementById('calendarDatesGrid');
     const toggleAdminSlotBtn = document.getElementById('toggleAdminSlotMode');
 
-    // =========================================================================
-    // KALAILA PHOTOGRAPHY - PENGATURAN TANGGAL FULL BOOKED (SIMPLE 2 STATUS)
-    // Anda bisa mengubah angka tanggal (1-31) yang Full Booked di bawah ini:
-    // =========================================================================
-    let defaultBooked = [6, 12, 18, 25];  // Angka tanggal yang Full Booked
+    // Default slots per day (Max 3 slots per day)
+    let defaultDaySlots = {
+        6: 0, 12: 0, 18: 0, 25: 0, // Full Booked
+        3: 1, 8: 1, 14: 1, 20: 1, 27: 1, 29: 1, // Sisa 1 Slot
+        2: 2, 5: 2, 9: 2, 15: 2, 22: 2, 28: 2 // Sisa 2 Slot
+    };
 
-    // Ambil data dari penyimpanan browser (jika ada editan dari Admin)
-    let savedBooked = localStorage.getItem('kalaila_booked_days');
-    let bookedDays = savedBooked ? JSON.parse(savedBooked) : defaultBooked;
+    let savedSlots = localStorage.getItem('kalaila_day_slots');
+    let daySlotsMap = savedSlots ? JSON.parse(savedSlots) : defaultDaySlots;
 
     let isAdminSlotMode = false;
+
+    function getRemainingSlots(day) {
+        if (daySlotsMap.hasOwnProperty(day)) {
+            return parseInt(daySlotsMap[day]);
+        }
+        return 3; // Default 3 slots
+    }
 
     function renderCalendarGrid() {
         if (!calendarDatesGrid) return;
@@ -369,13 +490,17 @@ document.addEventListener('DOMContentLoaded', () => {
         for (let day = 1; day <= daysInMonth; day++) {
             const dateObj = new Date(year, month, day);
             const dayName = dayNames[dateObj.getDay()];
+            const slots = getRemainingSlots(day);
 
             let statusClass = 'status-available';
-            let badgeText = 'TERSEDIA';
+            let badgeText = `Sisa ${slots} Slot`;
 
-            if (bookedDays.includes(day)) {
+            if (slots === 0) {
                 statusClass = 'status-booked';
-                badgeText = 'FULL';
+                badgeText = 'Full Booked';
+            } else if (slots <= 2) {
+                statusClass = 'status-limited';
+                badgeText = `Sisa ${slots} Slot`;
             }
 
             const formattedDateISO = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
@@ -397,21 +522,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 const selectedISO = this.getAttribute('data-date');
 
                 if (isAdminSlotMode) {
-                    // Binary toggle: Tersedia <-> Full Booked
-                    if (bookedDays.includes(dayNum)) {
-                        bookedDays = bookedDays.filter(d => d !== dayNum);
-                    } else {
-                        bookedDays.push(dayNum);
-                    }
+                    let curSlots = getRemainingSlots(dayNum);
+                    curSlots = (curSlots > 0) ? curSlots - 1 : 3;
+                    daySlotsMap[dayNum] = curSlots;
 
-                    // Save to localStorage
-                    localStorage.setItem('kalaila_booked_days', JSON.stringify(bookedDays));
-
-                    // Re-render
+                    localStorage.setItem('kalaila_day_slots', JSON.stringify(daySlotsMap));
                     renderCalendarGrid();
 
                     if (typeof window.showBookingToast === 'function') {
-                        window.showBookingToast('Status Slot Diperbarui!', `Tanggal ${dayNum} berhasil diubah statusnya`, 'Disimpan di browser');
+                        const statusDesc = curSlots === 0 ? 'Full Booked' : `Sisa ${curSlots} Slot`;
+                        window.showBookingToast('Status Slot Diperbarui!', `Tanggal ${dayNum}: ${statusDesc}`, 'Disimpan di browser');
                     }
                 } else {
                     // Client Mode: Autofill date input
@@ -435,7 +555,7 @@ document.addEventListener('DOMContentLoaded', () => {
             toggleAdminSlotBtn.classList.toggle('active', isAdminSlotMode);
             if (isAdminSlotMode) {
                 toggleAdminSlotBtn.innerHTML = `<i class="fas fa-check-circle"></i> Mode Edit AKTIF (Klik Tanggal)`;
-                alert('MODE EDIT ADMIN AKTIF!\n\nKlik tanggal mana saja pada kalender untuk mengubah statusnya:\nTERSEDIA -> SISA 1 SLOT -> FULL BOOKED -> TERSEDIA.');
+                alert('MODE EDIT ADMIN AKTIF!\n\nKlik tanggal mana saja pada kalender untuk mengganti jumlah sisa slot:\nSISA 3 SLOT -> SISA 2 SLOT -> SISA 1 SLOT -> FULL BOOKED -> SISA 3 SLOT.');
             } else {
                 toggleAdminSlotBtn.innerHTML = `<i class="fas fa-edit"></i> Edit Status Tanggal`;
             }
@@ -463,10 +583,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 day: 'numeric'
             });
 
-            // Check if date is full booked
-            const isBooked = bookedDays.includes(dayNumber);
+            const slots = getRemainingSlots(dayNumber);
 
-            if (isBooked) {
+            if (slots === 0) {
                 if (typeof window.showBookingToast === 'function') {
                     window.showBookingToast('Pengecekan Slot: FULL BOOKED', `${formattedDate}`, 'Slot Liputan Terisi Penuh');
                 }
@@ -475,9 +594,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 availabilityResult.innerHTML = `
                     <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
                         <div>
-                            <span style="font-size: 1.1rem; color: #e74c3c;"><i class="fas fa-times-circle"></i> Slot Terisi Penuh (Full Booked)!</span>
-                            <p style="font-weight: 400; font-size: 0.92rem; margin-top: 4px; color: #fff;">
-                                Mohon maaf, pada tanggal <strong>${formattedDate}</strong> di <strong>${cityVal}</strong> slot tim liputan Kalaila Photography sudah <strong>TERISI PENUH</strong>.
+                            <span style="font-size: 1.1rem; color: #c0392b; font-weight: 700;"><i class="fas fa-times-circle"></i> Slot Terisi Penuh (Full Booked)!</span>
+                            <p style="font-weight: 400; font-size: 0.92rem; margin-top: 4px; color: var(--text-color);">
+                                Mohon maaf, pada tanggal <strong>${formattedDate}</strong> di <strong>${cityVal}</strong> slot tim liputan Kalaila Photography sudah <strong>TERISI PENUH (0 Slot Sisa)</strong>.
                             </p>
                         </div>
                         <a href="https://wa.me/6282318928400?text=${encodeURIComponent(`Halo Kalaila Photography, saya telah mengecek ketersediaan tanggal ${formattedDate} di ${cityVal} dan hasilnya Full Booked. Bisakah konsultasi tanggal alternatif?`)}" 
@@ -487,21 +606,46 @@ document.addEventListener('DOMContentLoaded', () => {
                         </a>
                     </div>
                 `;
-            } else {
+            } else if (slots === 1) {
                 if (typeof window.showBookingToast === 'function') {
-                    window.showBookingToast('Pengecekan Slot Terverifikasi!', `${typeVal} • ${cityVal}`, 'Slot Tersedia untuk Booking');
+                    window.showBookingToast('Slot Terbatas!', `${formattedDate} • Sisa 1 Slot`, 'Segera amankan slot Anda!');
                 }
 
                 availabilityResult.className = 'availability-result success';
+                availabilityResult.style.borderColor = '#d35400';
+                availabilityResult.style.background = '#fff9f4';
                 availabilityResult.innerHTML = `
                     <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
                         <div>
-                            <span style="font-size: 1.1rem; color: #2ecc71;"><i class="fas fa-check-circle"></i> Slot Masih Tersedia!</span>
-                            <p style="font-weight: 400; font-size: 0.92rem; margin-top: 4px; color: #fff;">
-                                Kabar baik! Tanggal <strong>${formattedDate}</strong> di <strong>${cityVal}</strong> untuk <strong>${typeVal}</strong> masih buka untuk booking.
+                            <span style="font-size: 1.1rem; color: #d35400; font-weight: 700;"><i class="fas fa-exclamation-triangle"></i> SLOT TERBATAS — SISA 1 SLOT KALAILA!</span>
+                            <p style="font-weight: 400; font-size: 0.92rem; margin-top: 4px; color: var(--text-color);">
+                                Perhatian! Tanggal <strong>${formattedDate}</strong> di <strong>${cityVal}</strong> untuk <strong>${typeVal}</strong> hanya menyisakan <strong>1 SLOT TERAKHIR</strong>. Mohon amankan sekarang sebelum terisi penuh.
                             </p>
                         </div>
-                        <a href="https://wa.me/6282318928400?text=${encodeURIComponent(`Halo Kalaila Photography, saya telah mengecek ketersediaan tanggal ${formattedDate} di ${cityVal} untuk ${typeVal} dan statusnya tersedia. Saya ingin mengamankan slot ini!`)}" 
+                        <a href="https://wa.me/6282318928400?text=${encodeURIComponent(`Halo Kalaila Photography, saya mengecek ketersediaan tanggal ${formattedDate} di ${cityVal} untuk ${typeVal} dan sisa 1 slot terakhir! Saya ingin mengamankan slot ini sekarang.`)}" 
+                           target="_blank" 
+                           style="background: #d35400; color: #fff; text-decoration: none; padding: 10px 20px; border-radius: 8px; font-weight: 700; font-size: 0.88rem;">
+                           <i class="fab fa-whatsapp"></i> Amankan 1 Slot Terakhir
+                        </a>
+                    </div>
+                `;
+            } else {
+                if (typeof window.showBookingToast === 'function') {
+                    window.showBookingToast('Pengecekan Slot Terverifikasi!', `${typeVal} • ${cityVal}`, `Sisa ${slots} Slot Tersedia`);
+                }
+
+                availabilityResult.className = 'availability-result success';
+                availabilityResult.style.borderColor = '#2ecc71';
+                availabilityResult.style.background = '#f0faf4';
+                availabilityResult.innerHTML = `
+                    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+                        <div>
+                            <span style="font-size: 1.1rem; color: #27ae60; font-weight: 700;"><i class="fas fa-check-circle"></i> Slot Masih Tersedia (Sisa ${slots} Slot)!</span>
+                            <p style="font-weight: 400; font-size: 0.92rem; margin-top: 4px; color: var(--text-color);">
+                                Kabar baik! Tanggal <strong>${formattedDate}</strong> di <strong>${cityVal}</strong> untuk <strong>${typeVal}</strong> masih tersedia <strong>SISA ${slots} SLOT</strong>.
+                            </p>
+                        </div>
+                        <a href="https://wa.me/6282318928400?text=${encodeURIComponent(`Halo Kalaila Photography, saya mengecek ketersediaan tanggal ${formattedDate} di ${cityVal} untuk ${typeVal} (Sisa ${slots} slot). Saya ingin booking sekarang.`)}" 
                            target="_blank" 
                            style="background: #25d366; color: #fff; text-decoration: none; padding: 10px 20px; border-radius: 8px; font-weight: 700; font-size: 0.88rem;">
                            <i class="fab fa-whatsapp"></i> Amankan Slot Sekarang
@@ -662,6 +806,129 @@ document.addEventListener('DOMContentLoaded', () => {
                 window.open(`https://wa.me/6282318928400?text=${encodeURIComponent(`Halo Kalaila Photography, saya telah mendaftar newsletter dengan email ${email}. Mohon kirimkan Katalog PDF Pricelist & Promo terbaru!`)}`, '_blank');
                 this.reset();
             }
+        });
+    }
+
+    // ========== USER TESTIMONIAL SUBMISSION & DYNAMIC RENDER ==========
+    const testimonialsGrid = document.getElementById('testimonialsGrid');
+    const userTestimonialForm = document.getElementById('userTestimonialForm');
+
+    const defaultTestimonials = [
+        {
+            name: "Budi & Siti",
+            event: "Pernikahan Bandung • 2024",
+            stars: 5,
+            comment: "Tim Kalaila Photography bener-bener ramah dan ceria banget! Kita yang tadinya kaku banget di depan kamera jadi rileks dan ketawa lepas. Hasil fotonya masyaAllah bagus banget, tonalnya hangat sesuai harapan!",
+            avatar: "BS"
+        },
+        {
+            name: "Rina & Andi",
+            event: "Pre-wedding Ciwidey • 2024",
+            stars: 5,
+            comment: "Sangat memuaskan dari awal komunikasi via WA sampai serah terima album foto. Sneak peek fotonya dikirim super cepat dalam 2 hari setelah acara. Sangat direkomendasikan untuk calon pengantin!",
+            avatar: "RA"
+        },
+        {
+            name: "Dika & Maya",
+            event: "Wedding Reception • 2024",
+            stars: 5,
+            comment: "Videografi dan albumnya super mewah! Hasil cetak canvas-nya jernih banget dipajang di ruang tamu. Terima kasih tim Kalaila sudah membuat hari spesial kami abadi selamanya.",
+            avatar: "DM"
+        }
+    ];
+
+    function getStoredTestimonials() {
+        const saved = localStorage.getItem('kalaila_user_testimonials');
+        if (saved) {
+            try {
+                return JSON.parse(saved);
+            } catch (e) {
+                return defaultTestimonials;
+            }
+        }
+        return defaultTestimonials;
+    }
+
+    function renderTestimonials() {
+        if (!testimonialsGrid) return;
+        const list = getStoredTestimonials();
+
+        let html = '';
+        list.forEach(item => {
+            let starsHtml = '';
+            for (let i = 1; i <= 5; i++) {
+                if (i <= item.stars) {
+                    starsHtml += `<i class="fas fa-star"></i> `;
+                } else {
+                    starsHtml += `<i class="far fa-star" style="color: #cbd5e1;"></i> `;
+                }
+            }
+
+            html += `
+                <div class="testimonial-card">
+                    <div class="stars">
+                        ${starsHtml}
+                    </div>
+                    <p>"${item.comment}"</p>
+                    <div class="client-info">
+                        <div class="client-avatar">${item.avatar || 'KL'}</div>
+                        <div>
+                            <h4>${item.name}</h4>
+                            <span>${item.event}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+
+        testimonialsGrid.innerHTML = html;
+    }
+
+    function getInitials(name) {
+        if (!name) return 'KL';
+        const parts = name.trim().split(/\s+/);
+        if (parts.length >= 2) {
+            return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+        }
+        return name.substring(0, 2).toUpperCase();
+    }
+
+    if (testimonialsGrid) {
+        renderTestimonials();
+    }
+
+    if (userTestimonialForm) {
+        userTestimonialForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const clientName = document.getElementById('clientName').value.trim();
+            const clientEvent = document.getElementById('clientEvent').value.trim();
+            const clientComment = document.getElementById('clientComment').value.trim();
+            const selectedRating = document.querySelector('input[name="rating"]:checked');
+            const ratingVal = selectedRating ? parseInt(selectedRating.value) : 5;
+
+            if (!clientName || !clientEvent || !clientComment) {
+                alert('Mohon isi seluruh kolom testimoni!');
+                return;
+            }
+
+            const newTestimonial = {
+                name: clientName,
+                event: clientEvent,
+                stars: ratingVal,
+                comment: clientComment,
+                avatar: getInitials(clientName)
+            };
+
+            const currentList = getStoredTestimonials();
+            currentList.unshift(newTestimonial); // Add to top
+
+            localStorage.setItem('kalaila_user_testimonials', JSON.stringify(currentList));
+            renderTestimonials();
+
+            alert('Terima kasih! Ulasan & testimoni Anda telah berhasil diterbitkan dan langsung tampil di halaman ini.');
+            this.reset();
+            if (document.getElementById('star5')) document.getElementById('star5').checked = true;
         });
     }
 

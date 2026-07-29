@@ -17,7 +17,7 @@ document.querySelectorAll('.nav-menu a').forEach(link => {
 
 // ========== SMOOTH SCROLL ==========
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
+    anchor.addEventListener('click', function (e) {
         e.preventDefault();
         const target = document.querySelector(this.getAttribute('href'));
         if (target) {
@@ -31,28 +31,28 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 // ========== CONTACT FORM SUBMISSION ==========
 const contactForm = document.getElementById('contactForm');
 
-contactForm.addEventListener('submit', function(e) {
+contactForm.addEventListener('submit', function (e) {
     e.preventDefault();
-    
+
     // Get form values
     const name = this.querySelector('input[type="text"]:first-of-type').value;
     const email = this.querySelector('input[type="email"]').value;
     const phone = this.querySelector('input[type="text"]:last-of-type').value;
     const message = this.querySelector('textarea').value;
-    
+
     // Simple validation
     if (!name || !email || !phone || !message) {
         alert('Mohon lengkapi semua field!');
         return;
     }
-    
+
     // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
         alert('Format email tidak valid!');
         return;
     }
-    
+
     // Create WhatsApp message
     const whatsappMessage = `Halo Kalaila, saya ingin menanyakan layanan fotografi.
     
@@ -60,17 +60,17 @@ Nama: ${name}
 Email: ${email}
 Telepon: ${phone}
 Pesan: ${message}`;
-    
+
     // Create WhatsApp link
     const whatsappPhone = '6282318928400';
     const whatsappLink = `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(whatsappMessage)}`;
-    
+
     // Open WhatsApp
     window.open(whatsappLink, '_blank');
-    
+
     // Reset form
     this.reset();
-    
+
     // Show success message
     alert('Terima kasih! Pesan Anda akan dikirim ke WhatsApp.');
 });
@@ -81,7 +81,7 @@ const observerOptions = {
     rootMargin: '0px 0px -100px 0px'
 };
 
-const observer = new IntersectionObserver(function(entries) {
+const observer = new IntersectionObserver(function (entries) {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
             entry.target.style.opacity = '1';
@@ -131,7 +131,7 @@ if ('IntersectionObserver' in window) {
 function animateCounter(element, target, duration = 2000) {
     let start = 0;
     const increment = target / (duration / 16);
-    
+
     const timer = setInterval(() => {
         start += increment;
         if (start >= target) {
@@ -148,13 +148,13 @@ const statsObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting && !entry.target.dataset.animated) {
             entry.target.dataset.animated = 'true';
-            
+
             const stats = entry.target.querySelectorAll('.stat-item h3');
             stats.forEach(stat => {
                 const target = parseInt(stat.textContent);
                 animateCounter(stat, target);
             });
-            
+
             statsObserver.unobserve(entry.target);
         }
     });
@@ -168,16 +168,16 @@ if (aboutSection) {
 // ========== ACTIVE NAV LINK ON SCROLL ==========
 window.addEventListener('scroll', () => {
     let current = '';
-    
+
     document.querySelectorAll('section').forEach(section => {
         const sectionTop = section.offsetTop;
         const sectionHeight = section.clientHeight;
-        
+
         if (scrollY >= sectionTop - 200) {
             current = section.getAttribute('id');
         }
     });
-    
+
     document.querySelectorAll('.nav-menu a').forEach(link => {
         link.classList.remove('active');
         if (link.getAttribute('href').slice(1) === current) {

@@ -41,13 +41,7 @@
                     <li><a href="index.html" class="active">Beranda</a></li>
                     <li><a href="about.html">Tentang</a></li>
                     <li><a href="portfolio.html">Portofolio</a></li>
-                    <li class="nav-dropdown">
-                        <a href="#" class="dropdown-toggle">Jadwal & Paket <i class="fas fa-chevron-down"></i></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="availability.html"><i class="far fa-calendar-check"></i> Cek Slot Jadwal</a></li>
-                            <li><a href="packages.html"><i class="fas fa-tags"></i> Paket & Harga</a></li>
-                        </ul>
-                    </li>
+                    <li><a href="availability.html">Jadwal</a></li>
                     <li><a href="stories.html">Cerita Klien</a></li>
                     <li><a href="testimonials.html">Testimoni</a></li>
                     <li><a href="faq.html">FAQ</a></li>
@@ -219,28 +213,6 @@
         </div>
     </section>
 
-    <!-- Before/After Color Grading Slider Section -->
-    <section class="before-after-section" id="color-grading">
-        <div class="container">
-            <div class="section-header text-center">
-                <span class="sub-heading">Kualitas Olah Warna</span>
-                <h2 class="section-title">Sentuhan Tone Warna Warm & Timeless</h2>
-                <p class="section-description">Geser slider di bawah ini untuk melihat perbedaan foto mentah (*Original Camera*) vs pengolahan warna khas Kalaila Photography (*Edited Color Grading*).</p>
-            </div>
-
-            <div class="ba-container">
-                <img src="images/profile.jpg" alt="Foto Mentah Camera" class="ba-img ba-img-before">
-                <img src="images/prewed.jpg" alt="Hasil Color Grading Kalaila" class="ba-img ba-img-after">
-
-                <div class="ba-slider-line">
-                    <div class="ba-slider-button"><i class="fas fa-arrows-alt-h"></i></div>
-                </div>
-
-                <span class="ba-label before">Sebelum (RAW)</span>
-                <span class="ba-label after">Sesudah (Edited Warm Tone)</span>
-            </div>
-        </div>
-    </section>
 
     <!-- Portfolio Featured Preview -->
     <section class="portfolio" style="padding: 96px 0;">
@@ -252,36 +224,56 @@
             </div>
             
             <div class="portfolio-grid">
-                <div class="portfolio-item" data-category="prewedding">
+                <!-- Pasangan 1 -->
+                <div class="portfolio-item couple-card" data-category="prewedding"
+                     data-couple-name="Rian & Maya"
+                     data-couple-cat="Pre-Wedding"
+                     data-couple-loc="Pine Forest & Meadow • Bandung"
+                     data-couple-photos='["images/prewed.jpg", "images/profile.jpg", "images/prewed1.jpg", "images/wedding.jpg", "images/wedding1.jpg", "images/wedding2.jpg"]'>
                     <div class="portfolio-image">
-                        <img src="images/profile.jpg" alt="Pre Wedding Romantis">
+                        <span class="photo-count-badge"><i class="fas fa-images"></i> 6 Foto Galeri</span>
+                        <img src="images/prewed.jpg" alt="Rian & Maya - Pre Wedding" loading="lazy">
                         <div class="portfolio-overlay">
                             <span class="category-tag">Pre-Wedding</span>
-                            <h4>Romantisme Pasangan di Bandung</h4>
-                            <p>Outdoor Session • Bandung</p>
-                            <button class="lightbox-trigger" data-fullsrc="images/profile.jpg" data-title="Romantisme Pasangan di Bandung" data-sub="Outdoor Prewedding Session"><i class="fas fa-search-plus"></i> Lihat Foto</button>
+                            <h4>Rian & Maya</h4>
+                            <p>Pine Forest & Meadow • Bandung</p>
+                            <button class="open-couple-btn"><i class="fas fa-search-plus"></i> Lihat Foto Pasangan</button>
                         </div>
                     </div>
                 </div>
-                <div class="portfolio-item" data-category="wedding">
+
+                <!-- Pasangan 2 -->
+                <div class="portfolio-item couple-card" data-category="wedding"
+                     data-couple-name="Dimas & Nadia"
+                     data-couple-cat="Pernikahan (Wedding)"
+                     data-couple-loc="Grand Ballroom & Garden Akad • Jakarta"
+                     data-couple-photos='["images/wedding1.jpg", "images/wedding.jpg", "images/wedding2.jpg", "images/prewed.jpg", "images/profile.jpg", "images/prewed1.jpg"]'>
                     <div class="portfolio-image">
-                        <img src="images/wedding.jpg" alt="Akad Nikah Sakral">
+                        <span class="photo-count-badge"><i class="fas fa-images"></i> 6 Foto Galeri</span>
+                        <img src="images/wedding1.jpg" alt="Dimas & Nadia - Wedding Day" loading="lazy">
                         <div class="portfolio-overlay">
                             <span class="category-tag">Wedding</span>
-                            <h4>Prosesi Sakral Akad Nikah</h4>
-                            <p>Holy Matrimony & Resepsi</p>
-                            <button class="lightbox-trigger" data-fullsrc="images/wedding.jpg" data-title="Prosesi Sakral Akad Nikah" data-sub="Holy Matrimony & Resepsi"><i class="fas fa-search-plus"></i> Lihat Foto</button>
+                            <h4>Dimas & Nadia</h4>
+                            <p>Grand Ballroom & Garden Akad • Jakarta</p>
+                            <button class="open-couple-btn"><i class="fas fa-search-plus"></i> Lihat Foto Pasangan</button>
                         </div>
                     </div>
                 </div>
-                <div class="portfolio-item" data-category="wedding">
+
+                <!-- Pasangan 4 -->
+                <div class="portfolio-item couple-card" data-category="wedding"
+                     data-couple-name="Reza & Kirana"
+                     data-couple-cat="Pernikahan (Wedding)"
+                     data-couple-loc="Glass House Indoor & Intimate Dinner • Bandung"
+                     data-couple-photos='["images/wedding2.jpg", "images/wedding.jpg", "images/wedding1.jpg", "images/prewed1.jpg", "images/prewed.jpg", "images/profile.jpg"]'>
                     <div class="portfolio-image">
-                        <img src="images/wedding1.jpg" alt="Resepsi Pernikahan">
+                        <span class="photo-count-badge"><i class="fas fa-images"></i> 6 Foto Galeri</span>
+                        <img src="images/wedding2.jpg" alt="Reza & Kirana - Wedding Session" loading="lazy">
                         <div class="portfolio-overlay">
                             <span class="category-tag">Wedding</span>
-                            <h4>Senyum Bahagia Di Pelaminan</h4>
-                            <p>Traditional & Modern Wedding</p>
-                            <button class="lightbox-trigger" data-fullsrc="images/wedding1.jpg" data-title="Senyum Bahagia Di Pelaminan" data-sub="Traditional & Modern Wedding"><i class="fas fa-search-plus"></i> Lihat Foto</button>
+                            <h4>Reza & Kirana</h4>
+                            <p>Glass House & Intimate Dinner • Bandung</p>
+                            <button class="open-couple-btn"><i class="fas fa-search-plus"></i> Lihat Foto Pasangan</button>
                         </div>
                     </div>
                 </div>
@@ -295,48 +287,7 @@
 
 
 
-    <!-- Virtual Photobook Album Showcase Section -->
-    <section class="album-showcase-section" id="albums">
-        <div class="container">
-            <div class="section-header text-center">
-                <span class="sub-heading">Produk Cetak Fisik</span>
-                <h2 class="section-title">Kualitas Album & Wooden Box Mewah</h2>
-                <p class="section-description">Setiap paket Kalaila dilengkapi produk fisik berkualitas tinggi untuk menyimpan memori Anda selamanya.</p>
-            </div>
 
-            <div class="album-grid">
-                <div class="album-card">
-                    <div class="album-img-holder">
-                        <img src="images/wedding.jpg" alt="Premium Photobook Album">
-                    </div>
-                    <div class="album-body">
-                        <h3>Premium Photobook Album</h3>
-                        <p>Cetak kertas foto tebal premium anti-luntur dengan cover kulit / velvet elegan ukuran 20x30cm.</p>
-                    </div>
-                </div>
-
-                <div class="album-card">
-                    <div class="album-img-holder">
-                        <img src="images/prewed.jpg" alt="Printed Canvas & Frame Emas">
-                    </div>
-                    <div class="album-body">
-                        <h3>Canvas 40x60cm + Frame Emas</h3>
-                        <p>Cetak kanvas bertekstur artistik resolusi tinggi lengkap dengan bingkai frame kayu ukir modern.</p>
-                    </div>
-                </div>
-
-                <div class="album-card">
-                    <div class="album-img-holder">
-                        <img src="images/wedding1.jpg" alt="Custom Engraved Wooden USB Box">
-                    </div>
-                    <div class="album-body">
-                        <h3>Engraved Wooden USB Drive</h3>
-                        <p>Flashdisk kayu eksklusif 32GB dengan grafir ukiran nama pasangan dalam kotak kayu estetik.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <!-- Pre-Footer VIP Call to Action Banner -->
     <section class="pre-footer-cta">
@@ -381,7 +332,7 @@
                         <li><a href="index.html"><i class="fas fa-chevron-right"></i> Beranda</a></li>
                         <li><a href="about.html"><i class="fas fa-chevron-right"></i> Tentang Kami</a></li>
                         <li><a href="portfolio.html"><i class="fas fa-chevron-right"></i> Portofolio Foto</a></li>
-                        <li><a href="packages.html"><i class="fas fa-chevron-right"></i> Paket & Pricelist</a></li>
+
                         <li><a href="availability.html"><i class="fas fa-chevron-right"></i> Cek Slot Tanggal</a></li>
                         <li><a href="stories.html"><i class="fas fa-chevron-right"></i> Cerita Klien</a></li>
                         <li><a href="testimonials.html"><i class="fas fa-chevron-right"></i> Testimoni</a></li>
@@ -458,6 +409,33 @@
                 </div>
             </div>
             <button class="lightbox-next" id="lightboxNext"><i class="fas fa-chevron-right"></i></button>
+        </div>
+    </div>
+    <!-- Couple Gallery Popup Modal -->
+    <div class="couple-modal" id="coupleModal">
+        <div class="couple-modal-overlay" id="coupleModalOverlay"></div>
+        <div class="couple-modal-container">
+            <div class="couple-modal-header">
+                <div>
+                    <h3 id="coupleModalTitle">Galeri Foto Pasangan</h3>
+                    <span class="subtitle" id="coupleModalSub">Koleksi Momen Spesial</span>
+                </div>
+                <button class="couple-modal-close" id="coupleModalClose">&times;</button>
+            </div>
+            <div class="couple-modal-body">
+                <div class="couple-main-photo-holder">
+                    <button class="couple-nav-btn prev" id="couplePrevBtn" title="Foto Sebelumnya"><i class="fas fa-chevron-left"></i></button>
+                    <img src="" alt="Foto Utama Pasangan" id="coupleMainImg">
+                    <button class="couple-nav-btn next" id="coupleNextBtn" title="Foto Berikutnya"><i class="fas fa-chevron-right"></i></button>
+                </div>
+                <div class="couple-thumbs-grid" id="coupleThumbsGrid"></div>
+                <div class="couple-modal-footer">
+                    <p id="coupleModalInfo" style="font-size: 0.88rem; color: rgba(255,255,255,0.7);"><i class="fas fa-camera"></i> Gunakan tombol panah / keyboard untuk berpindah foto</p>
+                    <a href="#" id="coupleWaBtn" target="_blank" class="cta-button primary" style="font-size: 0.88rem; padding: 10px 22px;">
+                        <i class="fab fa-whatsapp"></i> Konsultasi Konsep Foto Seperti Pasangan Ini
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 
