@@ -251,6 +251,48 @@
             color: var(--white);
             border-color: var(--primary-color);
         }
+
+        @media (max-width: 768px) {
+            .admin-grid-stats {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+                margin-bottom: 24px;
+            }
+            .stat-card-admin {
+                padding: 14px 10px;
+                gap: 10px;
+                flex-direction: column;
+                text-align: center;
+            }
+            .stat-card-admin i {
+                width: 44px;
+                height: 44px;
+                font-size: 1.4rem;
+            }
+            .stat-info h4 {
+                font-size: 1.3rem;
+            }
+            .stat-info p {
+                font-size: 0.75rem;
+            }
+            .admin-slot-card {
+                padding: 16px 12px;
+                border-radius: var(--radius-md);
+            }
+            .admin-card-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+            .admin-card-header h3 {
+                font-size: 1.2rem;
+            }
+            .btn-reset-slots {
+                width: 100%;
+                font-size: 0.8rem;
+                padding: 8px 14px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -360,6 +402,26 @@
                             <option value="2028">2028</option>
                             <option value="2029">2029</option>
                             <option value="2030">2030</option>
+                            <option value="2031">2031</option>
+                            <option value="2032">2032</option>
+                            <option value="2033">2033</option>
+                            <option value="2034">2034</option>
+                            <option value="2035">2035</option>
+                            <option value="2036">2036</option>
+                            <option value="2037">2037</option>
+                            <option value="2038">2038</option>
+                            <option value="2039">2039</option>
+                            <option value="2040">2040</option>
+                            <option value="2041">2041</option>
+                            <option value="2042">2042</option>
+                            <option value="2043">2043</option>
+                            <option value="2044">2044</option>
+                            <option value="2045">2045</option>
+                            <option value="2046">2046</option>
+                            <option value="2047">2047</option>
+                            <option value="2048">2048</option>
+                            <option value="2049">2049</option>
+                            <option value="2050">2050</option>
                         </select>
                     </div>
                     <button class="calendar-nav-btn" onclick="nextAdminMonth()" title="Bulan Berikutnya"><i class="fas fa-chevron-right"></i></button>
@@ -459,8 +521,14 @@
         function updateAdminCalendarHeader() {
             const mSelect = document.getElementById('adminMonthSelect');
             const ySelect = document.getElementById('adminYearSelect');
-            if (mSelect) mSelect.value = adminMonth;
-            if (ySelect) ySelect.value = adminYear;
+            if (mSelect) {
+                mSelect.value = adminMonth;
+                if (typeof mSelect._syncCustomSelect === 'function') mSelect._syncCustomSelect();
+            }
+            if (ySelect) {
+                ySelect.value = adminYear;
+                if (typeof ySelect._syncCustomSelect === 'function') ySelect._syncCustomSelect();
+            }
         }
 
         function setupAdminSelectListeners() {
@@ -496,6 +564,9 @@
         window.updateAdminStats = updateAdminStats;
 
         function renderAdminGrid() {
+            if (typeof window.initCustomCalendarSelects === 'function') {
+                window.initCustomCalendarSelects();
+            }
             updateAdminCalendarHeader();
             setupAdminSelectListeners();
             if (typeof window.renderRealCalendar === 'function') {

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+
 <body>
 
     <!-- Fullscreen Page Transition Loader -->
@@ -14,7 +16,9 @@
         <div class="loader-content">
             <div class="loader-icon"><i class="fas fa-camera-retro"></i></div>
             <h2 class="loader-logo">kalaila.photography</h2>
-            <div class="loader-bar"><div class="loader-progress"></div></div>
+            <div class="loader-bar">
+                <div class="loader-progress"></div>
+            </div>
         </div>
     </div>
 
@@ -22,8 +26,8 @@
     <div class="top-bar">
         <div class="container">
             <div class="top-bar-content">
-                <span><i class="fas fa-sparkles"></i> <strong>Promo Musim Nikah:</strong> Free Printed Canvas 40x60cm + Frame & Wooden USB untuk Booking Bulan Ini!</span>
-                <span class="top-bar-timer"><i class="far fa-clock"></i> Berakhir dalam: <span id="promoTimer">02j 45m 12d</span></span>
+                <span><i class="fas fa-sparkles"></i> <strong>Promo Musim Nikah:</strong> Free Printed Canvas 40x60cm +
+                    Frame & Wooden USB untuk Booking Bulan Ini!</span>
             </div>
         </div>
     </div>
@@ -72,9 +76,10 @@
                 <div class="availability-text">
                     <span class="badge-accent"><i class="far fa-clock"></i> Cek Slot Langsung</span>
                     <h2>Apakah Tanggal Acara Anda Masih Tersedia?</h2>
-                    <p>Kami membatasi tim liputan per harinya untuk memastikan hasil foto maksimal. Silakan periksa slot acara Anda di bawah ini.</p>
+                    <p>Kami membatasi tim liputan per harinya untuk memastikan hasil foto maksimal. Silakan periksa slot
+                        acara Anda di bawah ini.</p>
                 </div>
-                
+
                 <form class="availability-form" id="availabilityForm">
                     <div class="form-group">
                         <label for="eventDate"><i class="far fa-calendar-alt"></i> Tanggal Acara</label>
@@ -95,7 +100,8 @@
                         <label for="eventCity"><i class="fas fa-map-marker-alt"></i> Kota / Lokasi Acara</label>
                         <input type="text" id="eventCity" placeholder="Contoh: Bandung, Jakarta, Bali" required>
                     </div>
-                    <button type="submit" class="btn-check-availability"><i class="fas fa-search"></i> Cek Slot Tanggal</button>
+                    <button type="submit" class="btn-check-availability"><i class="fas fa-search"></i> Cek Slot
+                        Tanggal</button>
                 </form>
 
                 <div class="availability-result" id="availabilityResult"></div>
@@ -105,10 +111,11 @@
                         <h3><i class="far fa-calendar-alt"></i> Kalender Ketersediaan Sisa Slot Real 2026</h3>
                         <div class="calendar-legend">
                             <span class="legend-item available"><i class="fas fa-circle"></i> Sisa 3 Slot</span>
-                            <span class="legend-item limited"><i class="fas fa-circle" style="color: #f1c40f;"></i> Sisa 1-2 Slot</span>
+                            <span class="legend-item limited"><i class="fas fa-circle" style="color: #f1c40f;"></i> Sisa
+                                1-2 Slot</span>
                             <span class="legend-item booked"><i class="fas fa-circle"></i> Full Booked</span>
                             <a href="admin.html" class="btn-admin-slot">
-                                <i class="fas fa-user-shield"></i> Portal Admin Slot
+                                <i class="fas fa-user-shield"></i> Portal Admin
                             </a>
                         </div>
                     </div>
@@ -116,8 +123,10 @@
                     <!-- Calendar Navigation Bar -->
                     <div class="calendar-controls-bar">
                         <div style="display: flex; gap: 8px; align-items: center;">
-                            <button class="calendar-nav-btn" id="prevClientMonthBtn" title="Bulan Sebelumnya"><i class="fas fa-chevron-left"></i></button>
-                            <button class="btn-today-jump" id="todayJumpClientBtn" title="Kembali ke Bulan Ini"><i class="fas fa-calendar-day"></i> Bulan Ini</button>
+                            <button class="calendar-nav-btn" id="prevClientMonthBtn" title="Bulan Sebelumnya"><i
+                                    class="fas fa-chevron-left"></i></button>
+                            <button class="btn-today-jump" id="todayJumpClientBtn" title="Kembali ke Bulan Ini"><i
+                                    class="fas fa-calendar-day"></i> Bulan Ini</button>
                         </div>
                         <div class="calendar-month-title">
                             <i class="far fa-calendar-alt" style="color: var(--gold-accent);"></i>
@@ -142,9 +151,30 @@
                                 <option value="2028">2028</option>
                                 <option value="2029">2029</option>
                                 <option value="2030">2030</option>
+                                <option value="2031">2031</option>
+                                <option value="2032">2032</option>
+                                <option value="2033">2033</option>
+                                <option value="2034">2034</option>
+                                <option value="2035">2035</option>
+                                <option value="2036">2036</option>
+                                <option value="2037">2037</option>
+                                <option value="2038">2038</option>
+                                <option value="2039">2039</option>
+                                <option value="2040">2040</option>
+                                <option value="2041">2041</option>
+                                <option value="2042">2042</option>
+                                <option value="2043">2043</option>
+                                <option value="2044">2044</option>
+                                <option value="2045">2045</option>
+                                <option value="2046">2046</option>
+                                <option value="2047">2047</option>
+                                <option value="2048">2048</option>
+                                <option value="2049">2049</option>
+                                <option value="2050">2050</option>
                             </select>
                         </div>
-                        <button class="calendar-nav-btn" id="nextClientMonthBtn" title="Bulan Berikutnya"><i class="fas fa-chevron-right"></i></button>
+                        <button class="calendar-nav-btn" id="nextClientMonthBtn" title="Bulan Berikutnya"><i
+                                class="fas fa-chevron-right"></i></button>
                     </div>
 
                     <!-- Calendar Weekday Headers -->
@@ -173,9 +203,11 @@
             <div class="pre-footer-card">
                 <div class="pre-footer-badge"><i class="fas fa-crown"></i> Amankan Slot Anda</div>
                 <h2>Siap Mengabadikan Hari Istimewa Anda Bersama Kalaila Photography?</h2>
-                <p>Slot booking harian sangat terbatas untuk menjaga kualitas foto terbaik. Dapatkan konsultasi gratis, moodboard kustom, & promo khusus hari ini!</p>
+                <p>Slot booking harian sangat terbatas untuk menjaga kualitas foto terbaik. Dapatkan konsultasi gratis,
+                    moodboard kustom, & promo khusus hari ini!</p>
                 <div class="pre-footer-buttons">
-                    <a href="https://wa.me/6282318928400?text=Halo%20Kalaila%20Photography,%20saya%20tertarik%20berkonsultasi%20mengenai%20paket%20foto%20dan%20promo%20terbaru." target="_blank" class="cta-button primary">
+                    <a href="https://wa.me/6282318928400?text=Halo%20Kalaila%20Photography,%20saya%20tertarik%20berkonsultasi%20mengenai%20paket%20foto%20dan%20promo%20terbaru."
+                        target="_blank" class="cta-button primary">
                         <i class="fab fa-whatsapp"></i> Konsultasi Gratis via WhatsApp
                     </a>
                     <a href="availability.html" class="cta-button secondary">
@@ -195,7 +227,8 @@
                         <h2>KALAILA</h2>
                         <span>PHOTOGRAPHY STUDIO</span>
                     </a>
-                    <p class="footer-bio">Studio fotografi profesional berbasis di Bandung. Mendedikasikan kehangatan, keanggunan estetik, dan emosi jujur di setiap momen hari pernikahan & acara spesial Anda.</p>
+                    <p class="footer-bio">Studio fotografi profesional berbasis di Bandung. Mendedikasikan kehangatan,
+                        keanggunan estetik, dan emosi jujur di setiap momen hari pernikahan & acara spesial Anda.</p>
                     <div class="footer-trust-pills">
                         <span><i class="fas fa-star"></i> 4.9/5 Client Rating</span>
                         <span><i class="fas fa-heart"></i> 500+ Happy Couples</span>
@@ -233,7 +266,8 @@
                     <h4 class="footer-col-title">Hubungi Studio</h4>
                     <div class="footer-contact-list">
                         <p><i class="fas fa-map-marker-alt"></i> Bandung, Jawa Barat, Indonesia</p>
-                        <p><i class="fab fa-whatsapp"></i> <a href="https://wa.me/6282318928400" target="_blank">+62 823 1892 8400</a></p>
+                        <p><i class="fab fa-whatsapp"></i> <a href="https://wa.me/6282318928400" target="_blank">+62 823
+                                1892 8400</a></p>
                         <p><i class="fas fa-envelope"></i> kalaila.photography@gmail.com</p>
                         <p><i class="fas fa-clock"></i> Senin - Minggu (24/7 Fast Response)</p>
                     </div>
@@ -255,14 +289,18 @@
                     <span><i class="fas fa-cloud-download-alt"></i> All High-Res Master Files</span>
                 </div>
                 <div class="footer-social-links">
-                    <a href="https://www.instagram.com/kalaila.photography/" title="Instagram" target="_blank"><i class="fab fa-instagram"></i></a>
-                    <a href="https://www.tiktok.com/@kalaila.photo?is_from_webapp=1&sender_device=pc" title="TikTok" target="_blank"><i class="fab fa-tiktok"></i></a>
-                    <a href="https://wa.me/6282318928400" title="WhatsApp" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                    <a href="https://www.instagram.com/kalaila.photography/" title="Instagram" target="_blank"><i
+                            class="fab fa-instagram"></i></a>
+                    <a href="https://www.tiktok.com/@kalaila.photo?is_from_webapp=1&sender_device=pc" title="TikTok"
+                        target="_blank"><i class="fab fa-tiktok"></i></a>
+                    <a href="https://wa.me/6282318928400" title="WhatsApp" target="_blank"><i
+                            class="fab fa-whatsapp"></i></a>
                 </div>
             </div>
 
             <div class="footer-bottom">
-                <p>&copy; 2024 Kalaila Photography Studio. All Rights Reserved. Crafted with passion for timeless romantic moments.</p>
+                <p>&copy; 2024 Kalaila Photography Studio. All Rights Reserved. Crafted with passion for timeless
+                    romantic moments.</p>
             </div>
         </div>
     </footer>
@@ -279,4 +317,5 @@
 
     <script src="js/script.js"></script>
 </body>
+
 </html>

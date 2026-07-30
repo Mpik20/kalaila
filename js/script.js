@@ -1417,14 +1417,147 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
+    // Custom Calendar Select Dropdown Component
+    window.initCustomCalendarSelects = function() {
+        const selects = document.querySelectorAll('.calendar-select');
+        selects.forEach(select => {
+            if (select.dataset.customized === 'true') return;
+            select.dataset.customized = 'true';
+
+            const wrapper = document.createElement('div');
+            wrapper.className = 'custom-calendar-select-wrapper';
+
+            const trigger = document.createElement('button');
+            trigger.type = 'button';
+            trigger.className = 'custom-calendar-select-trigger';
+            trigger.setAttribute('aria-haspopup', 'listbox');
+            
+            const label = document.createElement('span');
+            label.className = 'custom-select-label';
+            
+            const arrow = document.createElement('i');
+            arrow.className = 'fas fa-chevron-down custom-select-arrow';
+            
+            trigger.appendChild(label);
+            trigger.appendChild(arrow);
+
+            const menu = document.createElement('div');
+            menu.className = 'custom-calendar-select-menu';
+
+            function buildMenu() {
+                menu.innerHTML = '';
+                Array.from(select.options).forEach(opt => {
+                    const item = document.createElement('div');
+                    item.className = 'custom-calendar-select-option';
+                    if (String(opt.value) === String(select.value)) {
+                        item.classList.add('selected');
+                    }
+                    item.textContent = opt.textContent;
+                    item.dataset.value = opt.value;
+
+                    item.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        if (String(select.value) !== String(opt.value)) {
+                            select.value = opt.value;
+                            select.dispatchEvent(new Event('change', { bubbles: true }));
+                        }
+                        closeMenu();
+                    });
+                    menu.appendChild(item);
+                });
+                updateLabel();
+            }
+
+            function updateLabel() {
+                const selectedOpt = select.options[select.selectedIndex];
+                if (selectedOpt) {
+                    label.textContent = selectedOpt.textContent;
+                }
+                menu.querySelectorAll('.custom-calendar-select-option').forEach(item => {
+                    if (String(item.dataset.value) === String(select.value)) {
+                        item.classList.add('selected');
+                    } else {
+                        item.classList.remove('selected');
+                    }
+                });
+            }
+
+            function openMenu() {
+                document.querySelectorAll('.custom-calendar-select-wrapper.open').forEach(w => {
+                    if (w !== wrapper) w.classList.remove('open');
+                });
+                wrapper.classList.add('open');
+                const selectedItem = menu.querySelector('.custom-calendar-select-option.selected');
+                if (selectedItem) {
+                    selectedItem.scrollIntoView({ block: 'nearest' });
+                }
+            }
+
+            function closeMenu() {
+                wrapper.classList.remove('open');
+            }
+
+            trigger.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (wrapper.classList.contains('open')) {
+                    closeMenu();
+                } else {
+                    openMenu();
+                }
+            });
+
+            select._syncCustomSelect = updateLabel;
+
+            select.addEventListener('change', () => {
+                updateLabel();
+            });
+
+            select.parentNode.insertBefore(wrapper, select);
+            wrapper.appendChild(select);
+            wrapper.appendChild(trigger);
+            wrapper.appendChild(menu);
+
+            buildMenu();
+        });
+    };
+
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.custom-calendar-select-wrapper')) {
+            document.querySelectorAll('.custom-calendar-select-wrapper.open').forEach(w => {
+                w.classList.remove('open');
+            });
+        }
+    });
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof window.initCustomCalendarSelects === 'function') {
+                window.initCustomCalendarSelects();
+            }
+        });
+    } else {
+        if (typeof window.initCustomCalendarSelects === 'function') {
+            window.initCustomCalendarSelects();
+        }
+    }
+
     function updateClientCalendarHeader() {
         const mSelect = document.getElementById('clientMonthSelect');
         const ySelect = document.getElementById('clientYearSelect');
-        if (mSelect) mSelect.value = clientCalMonth;
-        if (ySelect) ySelect.value = clientCalYear;
+        if (mSelect) {
+            mSelect.value = clientCalMonth;
+            if (typeof mSelect._syncCustomSelect === 'function') mSelect._syncCustomSelect();
+        }
+        if (ySelect) {
+            ySelect.value = clientCalYear;
+            if (typeof ySelect._syncCustomSelect === 'function') ySelect._syncCustomSelect();
+        }
     }
 
     function renderClientCalendar() {
+        if (typeof window.initCustomCalendarSelects === 'function') {
+            window.initCustomCalendarSelects();
+        }
         updateClientCalendarHeader();
         window.renderRealCalendar('calendarDatesGrid', clientCalYear, clientCalMonth, false);
     }

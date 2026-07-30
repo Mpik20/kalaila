@@ -225,15 +225,7 @@ body {
 }
 
 .top-bar-timer {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: rgba(201, 169, 110, 0.15);
-    border: 1px solid rgba(201, 169, 110, 0.5);
-    padding: 2px 12px;
-    border-radius: 50px;
-    font-weight: 700;
-    color: var(--gold-accent);
+    display: none !important;
 }
 
 /* ========== NAVIGATION BAR ========== */
@@ -3529,6 +3521,10 @@ body {
     justify-content: center;
 }
 
+select.calendar-select[data-customized="true"] {
+    display: none !important;
+}
+
 .calendar-select {
     background: #ffffff;
     border: 1px solid rgba(212, 175, 55, 0.4);
@@ -3561,6 +3557,119 @@ body {
     font-size: 0.95rem;
     color: var(--primary-color);
     background: #ffffff;
+}
+
+/* Custom Styled Dropdown for Month & Year Select */
+.custom-calendar-select-wrapper {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.custom-calendar-select-trigger {
+    background: #ffffff;
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    border-radius: 50px;
+    padding: 6px 16px;
+    font-family: var(--font-serif);
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    cursor: pointer;
+    outline: none;
+    transition: all 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.custom-calendar-select-trigger:hover,
+.custom-calendar-select-wrapper.open .custom-calendar-select-trigger {
+    border-color: var(--gold-accent);
+    background-color: rgba(212, 175, 55, 0.08);
+    box-shadow: 0 0 12px rgba(212, 175, 55, 0.25);
+}
+
+.custom-select-arrow {
+    font-size: 0.75rem;
+    color: var(--gold-accent);
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.custom-calendar-select-wrapper.open .custom-select-arrow {
+    transform: rotate(180deg);
+}
+
+.custom-calendar-select-menu {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 50%;
+    transform: translateX(-50%) translateY(-8px);
+    min-width: 130px;
+    max-height: 210px;
+    overflow-y: auto;
+    background: #ffffff;
+    border: 1px solid rgba(212, 175, 55, 0.35);
+    border-radius: 16px;
+    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.16);
+    z-index: 9999;
+    padding: 6px;
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+}
+
+.custom-calendar-select-wrapper.open .custom-calendar-select-menu {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(-50%) translateY(0);
+}
+
+.custom-calendar-select-menu::-webkit-scrollbar {
+    width: 5px;
+}
+
+.custom-calendar-select-menu::-webkit-scrollbar-track {
+    background: rgba(212, 175, 55, 0.05);
+    border-radius: 10px;
+    margin: 6px 0;
+}
+
+.custom-calendar-select-menu::-webkit-scrollbar-thumb {
+    background: rgba(212, 175, 55, 0.35);
+    border-radius: 10px;
+}
+
+.custom-calendar-select-menu::-webkit-scrollbar-thumb:hover {
+    background: var(--gold-accent);
+}
+
+.custom-calendar-select-option {
+    padding: 7px 12px;
+    border-radius: 10px;
+    font-family: var(--font-body);
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: var(--primary-color);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.custom-calendar-select-option:hover {
+    background: rgba(212, 175, 55, 0.12);
+    color: #8c6721;
+    font-weight: 600;
+}
+
+.custom-calendar-select-option.selected {
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.22), rgba(170, 127, 57, 0.12));
+    color: var(--primary-color);
+    font-weight: 700;
 }
 
 .calendar-nav-btn {
@@ -3708,4 +3817,323 @@ body {
     display: flex;
     align-items: center;
     gap: 10px;
+}
+
+/* ========== COMPLETE MOBILE RESPONSIVE OPTIMIZATIONS ========== */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 10px !important;
+    }
+
+    .availability-card,
+    .admin-slot-card {
+        padding: 16px 8px !important;
+        border-radius: 14px !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        margin: 0 auto !important;
+        overflow: hidden !important;
+    }
+
+    /* Calendar Controls Bar & Headers on Mobile */
+    .calendar-controls-bar {
+        flex-direction: column;
+        gap: 12px;
+        padding: 10px 8px;
+        text-align: center;
+        align-items: center;
+    }
+
+    .calendar-month-title {
+        font-size: 1.1rem;
+        gap: 6px;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .custom-calendar-select-trigger {
+        font-size: 1rem;
+        padding: 5px 12px;
+        gap: 6px;
+    }
+
+    .btn-today-jump {
+        font-size: 0.76rem;
+        padding: 5px 12px;
+    }
+
+    .calendar-nav-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 0.85rem;
+    }
+
+    /* Calendar Grid 7-Column Responsive Layout */
+    .calendar-week-headers {
+        display: grid !important;
+        grid-template-columns: repeat(7, minmax(0, 1fr)) !important;
+        gap: 4px !important;
+        margin-bottom: 6px !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    .calendar-week-headers div {
+        font-size: 0.64rem !important;
+        padding: 5px 1px !important;
+        letter-spacing: 0 !important;
+        border-radius: 5px !important;
+        text-align: center !important;
+        min-width: 0 !important;
+        overflow: hidden !important;
+    }
+
+    .calendar-dates-grid,
+    .calendar-dates-grid-admin {
+        display: grid !important;
+        grid-template-columns: repeat(7, minmax(0, 1fr)) !important;
+        gap: 4px !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    .date-chip,
+    .date-chip-admin,
+    .date-chip-empty {
+        padding: 6px 1px !important;
+        min-height: 44px !important;
+        border-radius: 6px !important;
+        min-width: 0 !important;
+        box-sizing: border-box !important;
+        width: 100% !important;
+        overflow: hidden !important;
+    }
+
+    .date-chip .day-num,
+    .date-chip-admin .day-num {
+        font-size: 0.88rem !important;
+        font-weight: 700 !important;
+        margin: 0 0 1px 0 !important;
+        line-height: 1.1 !important;
+    }
+
+    .date-chip .status-badge,
+    .date-chip-admin .status-badge-admin {
+        font-size: 0.52rem !important;
+        padding: 1px 2px !important;
+        line-height: 1.05 !important;
+        display: block !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        text-align: center !important;
+        white-space: normal !important;
+        word-break: break-word !important;
+        letter-spacing: -0.2px !important;
+        border-radius: 3px !important;
+    }
+
+    /* Selected Date Banner on Mobile */
+    .selected-date-banner {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+        padding: 14px 10px;
+        gap: 12px;
+    }
+
+    .selected-date-banner .date-info {
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        text-align: center;
+    }
+
+    .selected-date-banner .date-icon {
+        width: 38px;
+        height: 38px;
+        font-size: 1rem;
+    }
+
+    .selected-date-banner h4 {
+        font-size: 1.02rem;
+    }
+
+    .selected-date-banner div[style*="display: flex; gap: 10px;"] {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .selected-date-banner .cta-button {
+        width: 100%;
+        justify-content: center;
+        text-align: center;
+        box-sizing: border-box;
+    }
+
+    /* Admin Navbar & Banners on Mobile */
+    .admin-nav-container {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+
+    .admin-user-info {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+        font-size: 0.82rem;
+    }
+
+    .admin-testimonial-banner {
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+        gap: 10px;
+        padding: 12px;
+    }
+
+    .admin-testimonial-banner span {
+        justify-content: center;
+        text-align: center;
+    }
+
+    .admin-helper-bar {
+        flex-direction: column;
+        text-align: center;
+        gap: 6px;
+        font-size: 0.8rem;
+    }
+
+    /* Testimonials Responsive Layout on Mobile */
+    .testimonials-grid {
+        grid-template-columns: 1fr !important;
+        gap: 20px !important;
+    }
+
+    .testimonial-card {
+        padding: 22px 18px !important;
+        border-radius: 14px !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    .testimonial-card p {
+        font-size: 0.9rem !important;
+        margin-bottom: 18px !important;
+        line-height: 1.6 !important;
+    }
+
+    .testimonial-form-card {
+        padding: 22px 14px !important;
+        border-radius: 16px !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        margin: 0 auto !important;
+    }
+
+    .testimonial-form-card div[style*="grid-template-columns"] {
+        grid-template-columns: 1fr !important;
+        gap: 14px !important;
+    }
+
+    .testimonial-form-header h3 {
+        font-size: 1.4rem !important;
+    }
+
+    .testimonial-form-header p {
+        font-size: 0.88rem !important;
+    }
+
+    .star-rating-picker {
+        font-size: 1.8rem !important;
+        gap: 12px !important;
+        justify-content: center !important;
+        width: 100% !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0 6px !important;
+    }
+
+    .availability-card,
+    .admin-slot-card {
+        padding: 12px 5px !important;
+        border-radius: 12px !important;
+    }
+
+    .testimonial-form-card {
+        padding: 16px 10px !important;
+        border-radius: 12px !important;
+    }
+
+    .testimonial-card {
+        padding: 18px 14px !important;
+        border-radius: 12px !important;
+    }
+
+    .star-rating-picker {
+        font-size: 1.5rem !important;
+        gap: 8px !important;
+    }
+
+    .calendar-controls-bar {
+        padding: 8px 4px;
+    }
+
+    .calendar-month-title {
+        font-size: 0.98rem;
+        gap: 4px;
+    }
+
+    .custom-calendar-select-trigger {
+        font-size: 0.92rem;
+        padding: 4px 8px;
+    }
+
+    .calendar-week-headers {
+        gap: 2px !important;
+    }
+
+    .calendar-week-headers div {
+        font-size: 0.58rem !important;
+        padding: 4px 0 !important;
+        font-weight: 700 !important;
+    }
+
+    .calendar-dates-grid,
+    .calendar-dates-grid-admin {
+        gap: 2px !important;
+    }
+
+    .date-chip,
+    .date-chip-admin,
+    .date-chip-empty {
+        padding: 4px 1px !important;
+        min-height: 42px !important;
+        border-radius: 5px !important;
+    }
+
+    .date-chip .day-num,
+    .date-chip-admin .day-num {
+        font-size: 0.82rem !important;
+    }
+
+    .date-chip .status-badge,
+    .date-chip-admin .status-badge-admin {
+        font-size: 0.48rem !important;
+        padding: 1px 1px !important;
+        letter-spacing: -0.3px !important;
+    }
+
+    .custom-calendar-select-menu {
+        min-width: 110px;
+        max-height: 170px;
+    }
+
+    .custom-calendar-select-option {
+        padding: 5px 6px;
+        font-size: 0.84rem;
+    }
 }
