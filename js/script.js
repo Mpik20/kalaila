@@ -1013,16 +1013,32 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // ========== ADMIN LINK IN NAVBAR SYNC ==========
+    const isAdminLoggedIn = sessionStorage.getItem('kalaila_admin_logged_in') === 'true';
+    document.querySelectorAll('.nav-admin-link').forEach(link => {
+        if (isAdminLoggedIn) {
+            link.href = 'admin.html';
+            link.innerHTML = '<i class="fas fa-user-shield"></i> Panel Admin <span class="admin-badge-online" title="Mode Admin Aktif"></span>';
+            link.classList.add('logged-in');
+            link.title = 'Buka Dashboard Admin (Sedang Login)';
+        } else {
+            link.href = 'admin-login.html';
+            link.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
+            link.classList.remove('logged-in');
+            link.title = 'Login Admin';
+        }
+    });
+
     // ========== NAVBAR BACKGROUND ON SCROLL ==========
     const navbar = document.querySelector('.navbar');
     if (navbar) {
         window.addEventListener('scroll', () => {
             if (window.scrollY > 80) {
-                navbar.style.boxShadow = '0 4px 20px rgba(26, 26, 46, 0.06)';
-                navbar.style.backgroundColor = 'rgba(255, 255, 255, 0.98)';
+                navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.05)';
+                navbar.style.backgroundColor = '#ffffff';
             } else {
                 navbar.style.boxShadow = '0 1px 0 rgba(0, 0, 0, 0.04)';
-                navbar.style.backgroundColor = 'rgba(255, 255, 255, 0.96)';
+                navbar.style.backgroundColor = '#ffffff';
             }
         });
     }
